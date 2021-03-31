@@ -21,7 +21,9 @@ ion-select{
     color: #1f1f1f;
     --placeholder-opacity: 1 !important;
 }
-
+ion-img{
+    height: 150px;
+}
 p {
     width: 100%;
     white-space: nowrap;
@@ -35,12 +37,13 @@ p {
     position: absolute;
     width: 120px;
     height: 120px;
+    top: 0;
     right: 0;
-    z-index: 100;
     display: flex;
     justify-content: right;
     align-items: flex-start;
     transform: rotate(45deg);
+
 }
 .ribbon-bar{
     background-color: #26a69a;
@@ -52,7 +55,10 @@ p {
     color: white;
     font-size: 12px;
     font-weight: 600;
+
 }
+
+
 .new-ribbon{
     background-color: #26a69a;
 }
@@ -62,7 +68,9 @@ p {
 .product-image{
     background-size: cover;
     background-position: center;
-    height: 150px;
+    width: 100%;
+    height: 120px;
+    z-index: 0;
 }
 .product-name{
     font-weight: bold;

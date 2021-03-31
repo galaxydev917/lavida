@@ -27,7 +27,13 @@ export class NewArrivalPage implements OnInit {
   cartProductList = [];
   selectedQty = 0;
   cartBadgeCount = 0;
-  
+  isLoading = false;
+  slideOpts = {
+    initialSlide: 0,
+    speed: 400,
+    slidesPerView: 1,
+    freeMode: false
+  };
   constructor(
     public storageService: StorageService,
     public menuCtrl: MenuController,
@@ -45,6 +51,7 @@ export class NewArrivalPage implements OnInit {
   async ionViewWillEnter(){
     this.loginedUser = await this.storageService.getObject('loginedUser');
     this.cartProductList = await this.storageService.getObject(config.cart_products);
+    this.isLoading = true;
 
     if(this.cartProductList == null){
       this.cartProductList = [];
@@ -70,14 +77,15 @@ export class NewArrivalPage implements OnInit {
           this.loadMore_productList[i].qty_dropdownList = this.getQtyList(this.loadMore_productList[i]);
           this.loadMore_productList[i].placeholder_qty = this.placeholder_qty;
           this.loadMore_productList[i].bulkPrice = this.loadMore_productList[i].productPrice;
-
+          this.loadMore_productList[i].image = await this.db.getProductImagesById(this.loadMore_productList[i].productId);
           
           this.productList.push(this.loadMore_productList[i]);
+          
         }
-        console.log(this.productList);
+        this.isLoading = false;
         if (isFirstLoad)
           event.target.complete();
-
+          
         this.from_limitVal = this.from_limitVal + 60;  
       }
     });  
