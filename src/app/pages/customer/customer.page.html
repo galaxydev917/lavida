@@ -1,0 +1,24 @@
+<ion-header mode="ios">
+  <ion-toolbar style="height: 80px; align-items: center; justify-content: center; display: flex;">
+    <ion-title>My Customers</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="openMenu()" slot="start">
+        <ion-icon name="menu" style="font-size: 38px;"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-list >
+    <ion-item *ngFor="let item of customer_sectionlist">
+      <ion-label>{{item.company}}</ion-label>
+      <ion-button *ngIf="this.loginedUser.id != item.customerId" slot="end" (click)="login(item.customerId)">Login</ion-button>
+    </ion-item>
+  </ion-list>
+  <ion-button *ngIf="customerlist.length > 0" class="loadmore-btn" mode="ios" fill="solid" size="default" shape="round" expand="block" (click)="loadMore()">
+    Load More
+  </ion-button>
+
+</ion-content>

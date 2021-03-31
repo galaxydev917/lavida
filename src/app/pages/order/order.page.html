@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Order</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row class="ion-justify-content-center ion-align-items-center">
+      <ion-col size="8" class="ion-text-center">
+        <ion-segment (ionChange)="segmentChanged($event)" value="savedorder" >
+          <ion-segment-button value="savedorder" class="segment">
+            <ion-label>Saved Orders</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="ordermaster" class="segment">
+            <ion-label>Order History</ion-label>
+          </ion-segment-button>
+        </ion-segment>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="order_type == 'ordermaster'" class="ion-justify-content-center ion-align-items-center">
+      <ion-col size="11" class="ion-text-center">
+        <ion-item *ngFor="let item of orderMasterList">
+          <ion-label> Order ID : {{item.orderId}}</ion-label>
+          <ion-label> {{item.orderDate}}, Dispatched</ion-label>          
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="order_type == 'savedorder'" class="ion-justify-content-center ion-align-items-center">
+      <ion-col size="11" class="ion-text-center">
+        <ion-item *ngFor="let item of savedOrderList">
+          <ion-label> {{item.orderDate}}</ion-label>          
+        </ion-item>
+      </ion-col>
+    </ion-row>    
+  </ion-grid>
+</ion-content>

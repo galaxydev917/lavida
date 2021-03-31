@@ -1,0 +1,51 @@
+ion-title{
+    letter-spacing: 0.1em; 
+    font-size: larger;
+}
+.line-input {
+    margin-bottom: 0!important;
+    margin-top: 0!important;
+    background: transparent;
+    border-radius: 10px;
+    p {
+        margin: 0;
+        padding: 0;
+    }
+    ion-item {
+        --border-color: grey !important;
+        --background-activated: transparent;
+        --background-focused: transparent;
+        --background-hover: transparent;
+        --highlight-height: 0;
+        --background: transparent;
+        border: 1px solid #807e7e;
+        border-radius: 10px;
+
+        &.item-has-focus {
+            border: 1px solid rgb(34, 34, 34);
+        }
+        ion-input {
+            --placeholder-color: white;     /* placeholder text color */
+            color: rgb(34, 34, 34); /* input text color to primary */
+            
+        }
+
+        ion-label {
+            color: #ffffff!important;
+            font-weight: 300;
+            font-size: 14px!important;
+        }
+
+        ion-icon{
+            color: #ffffff !important;
+            margin-right: 8px !important;
+        }
+    }
+}
+.ship-profile{
+    background: rgb(223, 223, 223);
+    
+    ion-row{
+        background: white;
+    }
+}

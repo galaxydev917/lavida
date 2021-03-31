@@ -1,0 +1,39 @@
+
+<ion-content>
+  <ion-grid fixed>
+    <ion-row class="ion-justify-content-center ion-align-items-center" style="height: 250px;">
+      <ion-col size="12" class="ion-text-center">
+        <img src="../assets/imgs/logo.png" class="logo-img"/>
+      </ion-col>
+    </ion-row>
+    <ion-row class="ion-justify-content-center ion-align-items-center">
+      <ion-col size="10" class="ion-text-center">
+        <form class="form" [formGroup]="validationsform" (ngSubmit)="trySignin(validationsform.value)">
+
+        <ion-list class="line-input" mode="md"> 
+          <ion-item mode="md">
+            <ion-icon name="mail-outline" size="small" slot="start"></ion-icon>
+            <ion-input class="ion-text-left" placeholder="Email address" type="email" formControlName="email"></ion-input>
+          </ion-item> 
+        </ion-list>
+        <ion-list class="line-input" mode="md"> 
+          <ion-item mode="md">
+            <ion-icon name="lock-closed-outline" size="small" slot="start"></ion-icon>
+            <ion-input class="ion-text-left" placeholder="Password" type="password" formControlName="password"></ion-input>
+          </ion-item> 
+        </ion-list>   
+        <app-loading *ngIf="isSigning"></app-loading>       
+        <ion-button  class="button-login" mode="ios" type="submit" fill="solid"  [disabled]="!validationsform.valid || isSigning"  size="default" shape="round" expand="block">
+          LOG IN
+        </ion-button>
+        </form>
+        <!-- <p style="color: #cc0000; font-size: 11pt; margin-top: 40px; margin-bottom: 40px;">Skip for Now</p> -->
+      </ion-col>
+    </ion-row>   
+    <!-- <ion-row class="ion-justify-content-center ion-align-items-center" style="height: 90px;">
+      <ion-col size="12" class="ion-text-center">
+        <span class="footer-label" [routerLink]="['/signup']">Need an Account </span> <span class="footer-label"> &nbsp;&nbsp;| &nbsp;&nbsp;</span> <span class="footer-label" [routerLink]="['/forgotpwd']">Forgot Password</span>
+      </ion-col>
+    </ion-row>      -->
+  </ion-grid>
+</ion-content>

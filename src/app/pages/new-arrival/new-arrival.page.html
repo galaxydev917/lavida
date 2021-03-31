@@ -1,0 +1,64 @@
+<ion-header mode="ios">
+  <app-header
+    [pageTitle]="pageTitle"
+    [cartBadgeCount]="cartBadgeCount"
+    [isLoggedIn]=true>
+  </app-header>
+</ion-header>
+
+<ion-content>
+  <ion-grid *ngIf="!isLoggedIn" >
+    <ion-row class="ion-justify-content-center ion-align-items-center">
+      <ion-col size="12" class="ion-text-center">
+        This content only available to logged in, approved members.
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-grid *ngIf="img_dir != '' && isLoggedIn">
+    <ion-row>
+      <ion-col *ngFor="let item of productList; let productIndex = index" size="4">
+        <ion-card class="product-container">
+          <div class="ribbon-bar-div" *ngIf="item.productPreOrder != 1">
+            <div class="ribbon-bar new-ribbon"><span style="padding: 5px 5px 5px 5px;">NEW</span></div>
+          </div>
+          <div class="ribbon-bar-div" *ngIf="item.productPreOrder == 1">
+            <div class="ribbon-bar preorder-ribbon"><span style="padding: 5px 5px 5px 5px;">PRE ORDER</span></div>
+          </div>          
+          <ion-card-header>
+            <!-- <div class="product-image" [ngStyle]="{'background-image':'url('+ img_dir + item.productImg +')'}" (click)="gotoDetail(item)">
+            </div> -->
+          </ion-card-header>
+
+          <ion-card-content>
+            <p><span class="product-name">{{item.productName}}</span></p>
+            <div class="product-info-div">
+              <div style="width: 60%;">
+                <p>{{item.productCode}}</p>
+                <p>{{item.productDimension}}</p>
+                <div class="bulk-div" *ngIf="item.productPriceSlab > 0 && item.productQtySlab > 0">Buy {{item.productQtySlab}} @ ${{item.productPriceSlab}}</div>
+              </div>
+              <div style="width: 40%; margin-left: 5px;">
+                <p class="product-price">${{item.bulkPrice | number:'1.2-2'}}</p>
+                <ion-select placeholder={{item.placeholder_qty}} interface="popover" mode="ios" [interfaceOptions]="{'cssClass': 'price-popover'}" (ionChange)="changePrice($event, productIndex)">
+                  <ion-select-option *ngFor="let qty of item.qty_dropdownList" [value]="qty">{{qty}}</ion-select-option>
+                </ion-select>  
+              </div>
+            </div>
+          </ion-card-content>
+          <ion-button  class="button-login" mode="ios" fill="solid" expand="full" (click)="addToCart(item)">
+            <span *ngIf="item.productPreOrder != 1">Add To Cart</span>
+            <span *ngIf="item.productPreOrder == 1">Pre Order</span>
+          </ion-button>
+
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-infinite-scroll (ionInfinite)="loadMore($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+  <!-- <ion-button *ngIf="productList.length > 5" class="loadmore-btn" mode="ios" fill="solid" size="default" shape="round" expand="block" (click)="loadMore()">
+    Load More
+  </ion-button> -->
+</ion-content>

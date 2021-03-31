@@ -1,0 +1,30 @@
+ion-title{
+    letter-spacing: 0.1em; 
+    font-size: larger;
+}
+ion-img{
+    height: 400px;
+}
+p{
+    font-size: larger;
+    padding-top: 10px;
+    margin: 0;
+}
+.price-text{
+    font-size: 36px;
+    color: gray;
+    
+}
+.description{
+    font-size:medium;
+    color: gray;
+}
+.button-addcart{
+    height: 50px;
+    font-size: 14px;
+    font-weight: bold !important;
+    text-transform: uppercase !important;
+    --background: #70a1b6;
+    --color: white;
+    margin-top: 20px;
+}

@@ -1,0 +1,33 @@
+<ion-header mode="ios">
+  <app-header
+    [pageTitle]="pageTitle"
+    [cartBadgeCount]="cartBadgeCount"
+    [isLoggedIn]=true>
+  </app-header>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row class="ion-justify-content-center ion-align-items-center" *ngFor="let item of savedOrderList">
+      <ion-col size="11" class="ion-text-center">
+        <ion-item >
+          <ion-label> {{item.orderDate}}</ion-label>  
+          <ion-button slot="end" class="button-plus" (click)="getSavedOrderDetails(item)"><ion-icon name="add-outline" style="font-size: 32px;"></ion-icon></ion-button>        
+        </ion-item>
+        <ion-item *ngFor="let details_Item of savedOrderDetails"> 
+          <ion-label>{{item.orderDate}}</ion-label>
+          <ion-label>
+            <h3>{{details_Item.productName}}</h3>
+            <p>Code: {{details_Item.productCode}}, Price: ${{details_Item.productPrice}}</p>
+          </ion-label>
+          <ion-label>{{item.productQty}}</ion-label>
+
+        </ion-item>
+      </ion-col>
+    </ion-row>    
+  </ion-grid>
+  <ion-infinite-scroll (ionInfinite)="loadMore($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

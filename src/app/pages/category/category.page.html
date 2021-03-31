@@ -1,0 +1,31 @@
+<ion-header mode="ios">
+  <ion-toolbar style="height: 80px; align-items: center; justify-content: center; display: flex;">
+    <ion-title>Categories</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="openMenu()" slot="start">
+        <ion-icon name="menu" style="font-size: 38px;"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  
+</ion-header>
+
+<ion-content>
+  <ion-grid *ngIf="img_dir != ''">
+    <ion-row>
+      <ion-col *ngFor="let item of categorylist" size="6" [routerLink]="['/product', item.category_id]">
+        <ion-card>
+          <div class="card-center-image" [ngStyle]="{'background-image':'url('+ img_dir + item.categoryimg +')'}">
+            <div class="card-center-bg">
+              <div class="card-center-text">
+                <p class="title">{{item.display_title}}</p>
+              </div>
+            </div>
+            
+          </div>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>
