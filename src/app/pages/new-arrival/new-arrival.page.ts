@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {StorageService} from '../../services/storage/storage.service';
-import { MenuController, ToastController } from '@ionic/angular';
+import {  ToastController } from '@ionic/angular';
 import { DbService } from '../../services/sqlite/db.service';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
 import { File } from '@ionic-native/file/ngx';
@@ -38,7 +38,6 @@ export class NewArrivalPage implements OnInit {
   };
   constructor(
     public storageService: StorageService,
-    public menuCtrl: MenuController,
     public webview: WebView,
     public file: File,
     public db: DbService,
@@ -135,18 +134,6 @@ export class NewArrivalPage implements OnInit {
     this.showToast();
   }
 
-  async openMenu() {
-    this.loginedUser = await this.storageService.getObject("loginedUser");
-
-    if(this.loginedUser){
-      this.menuCtrl.enable(true, 'loggedin_customMenu');
-      this.menuCtrl.open('loggedin_customMenu');
-    }else{
-      this.menuCtrl.enable(true, 'customMenu');
-      this.menuCtrl.open('customMenu');
-  
-    }
-  }
   changePrice(e, productIndex){
     this.selectedQty = e.detail.value;
     if(this.selectedQty >= this.productList[productIndex].productQtySlab && this.productList[productIndex].productQtySlab > 0)

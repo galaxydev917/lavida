@@ -21,6 +21,10 @@ ion-select{
     color: #1f1f1f;
     --placeholder-opacity: 1 !important;
 }
+ion-slides{
+    --bullet-background:  #7f7f7f;
+    --bullet-background-active: #333f;
+  }
 p {
     width: 100%;
     white-space: nowrap;
