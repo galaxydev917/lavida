@@ -66,7 +66,6 @@ export class CartPage implements OnInit {
 
   getAmountInfo(){
     this.globalSetting = this.cartSettingService.globalSetting;
-
     var objOrderAmount = this.getOrderAllAmount();
 
     this.order_all_amount = objOrderAmount.all_amount;
@@ -74,7 +73,6 @@ export class CartPage implements OnInit {
     this.global_minimum_amount = this.globalSetting.minimum_order;
 
     var order_without_preorder = this.order_all_amount - this.preorder_amount;
-
     if(this.global_minimum_amount > order_without_preorder){
       this.minimum_order_amount = this.global_minimum_amount - order_without_preorder;
       this.isShowCartMinimum = true;

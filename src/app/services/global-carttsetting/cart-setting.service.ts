@@ -13,6 +13,7 @@ export class CartSettingService {
   ) { }
 
   async setGlobalInfo(cartSettingList){
+    console.log("setGlobalInfo");
     this.loggedInUser = await this.storageService.getObject('loginedUser');
     this.globalSetting = this.getGlobalCarttSetting(cartSettingList);
   }
@@ -22,6 +23,7 @@ export class CartSettingService {
 
     for( var i=0; i<cartSettingList.length; i++){
       if(cartSettingList[i].variable_name == 'minimum_order_state'){
+        console.log(cartSettingList[i])
         minimum_order_state = JSON.parse(cartSettingList[i].variable_value);
       }
       if(cartSettingList[i].variable_name == 'minimum_order'){

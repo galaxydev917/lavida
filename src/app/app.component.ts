@@ -124,17 +124,17 @@ export class AppComponent {
   async initialLocalDatabase() {
     this.db.getDatabaseState().subscribe(async res => {
       if (res) {
-        // this.bannerImageList = await this.db.loadHomeSlider();
-        // await this.downloadBannerImages(this.bannerImageList);
+        this.bannerImageList = await this.db.loadHomeSlider();
+        await this.downloadBannerImages(this.bannerImageList);
 
         this.productImageList = await this.db.loadProductImages();
         await this.downloadProductImages(this.productImageList);
 
-        // this.categoryImageList = await this.db.loadCategoryImages();
-        // await this.downloadCategoryImages(this.categoryImageList);
+        this.categoryImageList = await this.db.loadCategoryImages();
+        await this.downloadCategoryImages(this.categoryImageList);
 
-        // this.cartSettingList = await this.db.getAllGlobalCartSetting();
-        // this.cartSettingService.setGlobalInfo(this.cartSettingList);
+        this.cartSettingList = await this.db.getAllGlobalCartSetting();
+        this.cartSettingService.setGlobalInfo(this.cartSettingList);
 
         this.loginedUser = await this.storageService.getObject("loginedUser");
 
@@ -160,10 +160,13 @@ export class AppComponent {
 
     for (var i = 0; i < imageData.length; i++) {
       let url = siteurl + "/upload/flash_banner_img/" + imageData[i].name;
-      await fileTransfer.download(
-        url,
-        this.file.documentsDirectory + "banner_img/" + imageData[i].name
-      );
+
+      await this.file.checkFile(this.file.documentsDirectory + "banner_img/", imageData[i].name + "/").then(async result => {
+           console.log("already downloaded image", imageData[i].name);
+      }).catch(async err => {
+        console.log("downloading banner images", imageData[i].name);
+        await fileTransfer.download(url, this.file.documentsDirectory + "banner_img/" + imageData[i].name).catch(async err => {console.log(err)});;
+      });
     }
     this.storageService.setObject("bannerimg_initialized", true);
     loading.dismiss();
@@ -183,18 +186,10 @@ export class AppComponent {
     for (var i = 0; i < imageData.length; i++) {
       let url = siteurl + "/upload/product_img/resized/" + imageData[i].name;
 
-      await this.file
-        .checkFile(
-          this.file.documentsDirectory + "product_img/",
-          imageData[i].name + "/"
-        )
-        .then(async result => {
-           console.log("111111111", imageData[i].name);
-        })
-        .catch(async err => {
-          console.log("22222222222222", imageData[i].name);
-          await fileTransfer.download(url, this.file.documentsDirectory + 'product_img/' + imageData[i].name).catch(async err => {console.log(err)});
-        });
+      await this.file.checkFile(this.file.documentsDirectory + "product_img/", imageData[i].name + "/").then(async result => {
+      }).catch(async err => {
+        await fileTransfer.download(url, this.file.documentsDirectory + 'product_img/' + imageData[i].name).catch(async err => {console.log(err)});
+      });
     }
     this.storageService.setObject("prodimg_initialized", true);
     loading.dismiss();
@@ -215,10 +210,13 @@ export class AppComponent {
     for (var i = 0; i < imageData.length; i++) {
       if (imageData[i].name != "NULL") {
         let url = siteurl + "/upload/prod_cat_img/" + imageData[i].name;
-        await fileTransfer.download(
-          url,
-          this.file.documentsDirectory + "prod_cat_img/" + imageData[i].name
-        );
+
+        await this.file.checkFile(this.file.documentsDirectory + "prod_cat_img/", imageData[i].name + "/").then(async result => {
+          console.log("already downloaded image", imageData[i].name);
+        }).catch(async err => {
+          console.log("downloading category images", imageData[i].name);
+          await fileTransfer.download(url, this.file.documentsDirectory + "prod_cat_img/" + imageData[i].name).catch(async err => {console.log(err)});;
+        });        
       }
     }
     this.storageService.setObject("catimg_initialized", true);

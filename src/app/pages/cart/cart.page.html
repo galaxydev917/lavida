@@ -35,13 +35,16 @@
   <ion-grid *ngIf="!isEmptyCart">
     <ion-row *ngFor="let item of cartProductList; let productIndex = index" class="ion-justify-content-center ion-align-items-center">
       <ion-col size="2" class="ion-text-center">
-        <div class="product-image" [ngStyle]="{'background-image':'url('+ img_dir + item.productImg +')'}">
+        <div class="product-image" [ngStyle]="{'background-image':'url('+ img_dir + item.image[0].name +')'}">
         </div>
       </ion-col>
-      <ion-col size="4" >
+      <ion-col size="3" >
         <div class="product-name">{{item.productCode}}: {{item.productName}}</div>
-        <div class="product-content">Code: {{item.productCode}}, Price: ${{item.bulkPrice | number:'1.2-2'}}</div>
+        <div class="product-content">Code: {{item.productCode}}</div>
       </ion-col>
+      <ion-col size="2" >
+        <div class="product-content">${{item.bulkPrice | number:'1.2-2'}}</div>
+      </ion-col>      
       <ion-col size="2" class="ion-text-center">
         <ion-select placeholder={{item.qty}} interface="popover" mode="ios" [interfaceOptions]="{'cssClass': 'price-popover'}" (ionChange)="changeQty($event, productIndex)">
           <ion-select-option *ngFor="let qty of item.qty_dropdownList" [value]="qty">{{qty}}</ion-select-option>
@@ -50,7 +53,7 @@
       <ion-col size="2" class="ion-text-center">
         <div class="product-name">${{item.amount | number:'1.2-2'}}</div>
       </ion-col>
-      <ion-col size="2" class="ion-text-center">
+      <ion-col size="1" class="ion-text-center">
         <ion-button color="danger" (click)="removeProduct(productIndex)"><ion-icon name="trash-outline"></ion-icon></ion-button>
       </ion-col>      
     </ion-row>
