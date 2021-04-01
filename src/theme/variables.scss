@@ -297,6 +297,12 @@
   text-transform: uppercase;
   margin-bottom: 5px;
 }
+.loading-div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
 // .swiper-pagination {
 //   top: -10px
 //   //bottom: 50px !important;

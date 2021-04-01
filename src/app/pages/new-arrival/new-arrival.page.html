@@ -8,6 +8,9 @@
 </ion-header>
 
 <ion-content>
+  <div *ngIf="isLoading" class="loading-div">
+    <ion-spinner name="bubbles"></ion-spinner>
+  </div>
   <ion-grid *ngIf="!isLoggedIn">
     <ion-row class="ion-justify-content-center ion-align-items-center">
       <ion-col size="12" class="ion-text-center">
