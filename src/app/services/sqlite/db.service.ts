@@ -337,7 +337,7 @@ export class DbService {
   }
   async loadNewProducts(group_id, from){
 
-    let query = "SELECT DISTINCT `Product`.`id` AS `dis_id`, `Product`.*, Product.group" + group_id + "_price as productPrice FROM `Product`, `ProdCat`,`ProductCategory` WHERE `ProductCategory`.`product_id` = `Product`.`id` AND `ProductCategory`.`category_id` = `ProdCat`.`id` AND Product.web_ready='1' AND Product.parent_id <= '0' AND ProdCat.portal1='1' AND  Product.new_product=1 ORDER BY datetime(due_date) DESC, new_product DESC, datetime(new_date) DESC, id DESC, code LIMIT " + from + ", 3";
+    let query = "SELECT DISTINCT `Product`.`id` AS `dis_id`, `Product`.*, Product.group" + group_id + "_price as productPrice FROM `Product`, `ProdCat`,`ProductCategory` WHERE `ProductCategory`.`product_id` = `Product`.`id` AND `ProductCategory`.`category_id` = `ProdCat`.`id` AND Product.web_ready='1' AND Product.parent_id <= '0' AND ProdCat.portal1='1' AND  Product.new_product=1 ORDER BY datetime(due_date) DESC, new_product DESC, datetime(new_date) DESC, id DESC, code LIMIT " + from + ", 30";
     
     return this.storage.executeSql(query, []).then(data => {
       let result = [];

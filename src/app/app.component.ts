@@ -189,10 +189,11 @@ export class AppComponent {
           imageData[i].name + "/"
         )
         .then(async result => {
-          // console.log("111111111", imageData[i].name);
+           console.log("111111111", imageData[i].name);
         })
         .catch(async err => {
-          await fileTransfer.download(url, this.file.documentsDirectory + 'product_img/' + imageData[i].name);
+          console.log("22222222222222", imageData[i].name);
+          await fileTransfer.download(url, this.file.documentsDirectory + 'product_img/' + imageData[i].name).catch(async err => {console.log(err)});
         });
     }
     this.storageService.setObject("prodimg_initialized", true);

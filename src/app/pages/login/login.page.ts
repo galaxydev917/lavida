@@ -63,15 +63,19 @@ export class LoginPage implements OnInit {
 
   async trySignin(value){
     this.isSigning = true;
-    this.db.getAgentByEmailAndPwd(value).then(async (agentInfo) => {
-      this.isSigning = false;
-      this.storageService.setObject("loginedUser", agentInfo);
-      await this.modalController.dismiss();
-    },
-    (err) => {
-      console.log(err);
-      this.isSigning = false;
-      this.presentAlert("Invalid login info.");
+    this.db.getDatabaseState().subscribe(async (res) => {
+      if(res){
+        this.db.getAgentByEmailAndPwd(value).then(async (agentInfo) => {
+          this.isSigning = false;
+          this.storageService.setObject("loginedUser", agentInfo);
+          await this.modalController.dismiss();
+        },
+        (err) => {
+          console.log(err);
+          this.isSigning = false;
+          this.presentAlert("Invalid login info.");
+        });
+      }
     });
   }
   async presentAlert(value) {

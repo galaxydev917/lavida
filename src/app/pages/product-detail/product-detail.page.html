@@ -18,8 +18,20 @@
 <ion-content *ngIf="product">
   <ion-grid>
     <ion-row>
-      <ion-col>
-        <ion-img [src]="img_dir + product.productImg"></ion-img>
+      <ion-col *ngIf="product.image.length > 1">
+        <ion-slides pager="true" [options]="slideOpts" mode="ios">
+          <ion-slide *ngFor="let productImage of product.image; let i = index">
+            <div
+              class="product-image"
+              [ngStyle]="{'background-image':'url('+ img_dir + productImage.name +')'}"
+              (click)="gotoDetail(item)">
+
+          </div>
+          </ion-slide>
+        </ion-slides>        
+      </ion-col>
+      <ion-col *ngIf="product.image.length == 1">
+        <ion-img [src]="img_dir + product.image[0].name"></ion-img>
       </ion-col>
     </ion-row>
     <ion-row >

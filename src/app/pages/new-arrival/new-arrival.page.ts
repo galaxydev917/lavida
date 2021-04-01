@@ -30,8 +30,10 @@ export class NewArrivalPage implements OnInit {
   isLoading = false;
   slideOpts = {
     initialSlide: 0,
-    speed: 400,
+    speed: 300,
     slidesPerView: 1,
+    //autoplay: true,
+
     freeMode: false
   };
   constructor(

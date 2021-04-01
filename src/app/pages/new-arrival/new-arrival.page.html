@@ -22,18 +22,27 @@
         size="4"
       >
         <ion-card >
-            <ion-slides pager="true" [options]="slideOpts" mode="ios" *ngFor="let productImage of item.image; let i = index">
-              <ion-slide>
-                <div
-                  class="product-image"
-                  [ngStyle]="{'background-image':'url('+ img_dir + productImage.name +')'}"
-                  (click)="gotoDetail(item)"
-                >
-                <img src="../assets/imgs/logo.png" style="width: 50px; height: 50px; position: absolute; top: 0; right: 0; z-index: 2;"/>
-
-              </div>
-              </ion-slide>
-            </ion-slides>
+          <div *ngIf="item.image.length == 1" >
+            <div class="product-image"
+            [ngStyle]="{'background-image':'url('+ img_dir + item.image[0].name +')'}"
+            (click)="gotoDetail(item)">
+              <img *ngIf="item.productPreOrder != 1" src="../assets/imgs/new.png" class="ribbon-img" />
+              <img *ngIf="item.productPreOrder == 1" src="../assets/imgs/preorder.png" class="ribbon-preorderimg" />
+            </div>   
+          </div>
+       
+          <ion-slides pager="true" [options]="slideOpts" mode="ios" *ngIf="item.image.length > 1">
+            <ion-slide *ngFor="let productImage of item.image; let i = index">
+              <div
+                class="product-image"
+                [ngStyle]="{'background-image':'url('+ img_dir + productImage.name +')'}"
+                (click)="gotoDetail(item)">
+                <img *ngIf="item.productPreOrder != 1" src="../assets/imgs/new.png" class="ribbon-img" />
+                <img *ngIf="item.productPreOrder == 1" src="../assets/imgs/preorder.png" class="ribbon-preorderimg" />
+  
+            </div>
+            </ion-slide>
+          </ion-slides>
 
 
           <!-- <div class="ribbon-bar-div" *ngIf="item.productPreOrder != 1">

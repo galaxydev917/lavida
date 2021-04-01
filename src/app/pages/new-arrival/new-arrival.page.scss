@@ -21,49 +21,31 @@ ion-select{
     color: #1f1f1f;
     --placeholder-opacity: 1 !important;
 }
-ion-img{
-    height: 150px;
+ion-slides{
+    --bullet-background:  #7f7f7f;
+    --bullet-background-active: #333f;
 }
+
 p {
     width: 100%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
-.product-container{
-    position: relative;
-}
-.ribbon-bar-div{
-    position: absolute;
-    width: 120px;
-    height: 120px;
-    top: 0;
+
+.ribbon-img{
+    width: 60px; 
+    height: 60px; 
+    position: absolute; 
+    top: 0; 
     right: 0;
-    display: flex;
-    justify-content: right;
-    align-items: flex-start;
-    transform: rotate(45deg);
-
 }
-.ribbon-bar{
-    background-color: #26a69a;
-    width: 120px;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    font-size: 12px;
-    font-weight: 600;
-
-}
-
-
-.new-ribbon{
-    background-color: #26a69a;
-}
-.preorder-ribbon{
-    background-color: #9ca9b3;
+.ribbon-preorderimg{
+    width: 60px; 
+    height: 60px; 
+    position: absolute; 
+    top: 0; 
+    right: 0;
 }
 .product-image{
     background-size: cover;

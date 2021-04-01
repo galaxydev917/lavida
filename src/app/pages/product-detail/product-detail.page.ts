@@ -13,6 +13,14 @@ import * as JsBarcode from "JsBarcode";
 export class ProductDetailPage implements OnInit {
   product : any;
   img_dir = '';
+  slideOpts = {
+    initialSlide: 0,
+    speed: 300,
+    slidesPerView: 1,
+    autoplay: true,
+    freeMode: false
+  };
+
   @ViewChild('barCode') barCode: ElementRef;
 
   constructor(
