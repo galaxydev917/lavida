@@ -371,7 +371,7 @@ export class DbService {
   }
   async loadClearanceProducts(group_id, from){
 
-    let query = "SELECT DISTINCT `Product`.`id` AS `dis_id`, `Product`.*, Product.group" + group_id + "_price as productPrice, images.name as productImg FROM `Product`, `ProdCat`, `ProductCategory`, `images` WHERE `ProductCategory`.`product_id` = `Product`.`id` AND `ProductCategory`.`category_id` = `ProdCat`.`id` AND Product.parent_id <= 0 AND Product.web_ready = '1' AND ProductCategory.category_id = 47 AND Product.group2_price > 0 AND images.ref_id = Product.id ORDER BY due_date desc, new_product desc, new_date desc, id desc, code limit " + from + ", 60";
+    let query = "SELECT DISTINCT `Product`.`id` AS `dis_id`, `Product`.*, Product.group" + group_id + "_price as productPrice FROM `Product`, `ProdCat`, `ProductCategory` WHERE `ProductCategory`.`product_id` = `Product`.`id` AND `ProductCategory`.`category_id` = `ProdCat`.`id` AND Product.parent_id <= 0 AND Product.web_ready = '1' AND ProductCategory.category_id = 47 AND Product.group2_price > 0 ORDER BY datetime(due_date) DESC, new_product desc, datetime(new_date) DESC, id desc, code limit " + from + ", 30";
     return this.storage.executeSql(query, []).then(data => {
       let result = [];
       if (data.rows.length > 0) {
@@ -380,7 +380,6 @@ export class DbService {
             productId: data.rows.item(i).dis_id,
             productPrice: data.rows.item(i).productPrice,
             productName: data.rows.item(i).name,
-            productImg: data.rows.item(i).productImg,
             productDimension: data.rows.item(i).dimension,
             productBarCode: data.rows.item(i).barcode,
             productMaterials: data.rows.item(i).materials,

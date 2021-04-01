@@ -40,39 +40,6 @@ p {
     top: 0; 
     right: 0;
 }
-.ribbon-preorderimg{
-    width: 60px; 
-    height: 60px; 
-    position: absolute; 
-    top: 0; 
-    right: 0;
-}
-.product-image{
-    background-size: cover;
-    background-position: center;
-    width: 100%;
-    height: 120px;
-    z-index: 0;
-}
-.product-name{
-    font-weight: bold;
-    font-size: 20px;
-}
-.product-price{
-    text-align: right;
-
-    font-weight:700;
-    font-size: 18px;
-}
-.product-info-div{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-}
-.product-info-space{
-    margin-top: 10px;
-}
 
 .button-login{
     height: 50px;
@@ -100,11 +67,4 @@ p {
     --color-activated: white;
     --background-activated : #e76b6b;
 }
-.bulk-div{
-    margin-top: 5px;
-    text-align: center;
-    border: 1px dashed #de8913;
-    font-weight: 600;
-    border-radius: 2px;
-    background-color: #f0f391;
-}
+

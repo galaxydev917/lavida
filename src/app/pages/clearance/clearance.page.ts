@@ -21,7 +21,7 @@ export class ClearancePage implements OnInit {
   placeholder_qty = "";
   qty_dropdownList = [];
   qty_dropdown = "";
-
+  selectedQty = 0;
   constructor(
     public storageService: StorageService,
     public menuCtrl: MenuController,
@@ -54,14 +54,16 @@ export class ClearancePage implements OnInit {
         for(var i=0; i<this.loadMore_productList.length; i++){
           this.loadMore_productList[i].qty_dropdownList = this.getQtyList(this.loadMore_productList[i]);
           this.loadMore_productList[i].placeholder_qty = this.placeholder_qty;
+          this.loadMore_productList[i].bulkPrice = this.loadMore_productList[i].productPrice;
+          this.loadMore_productList[i].image = await this.db.getProductImagesById(this.loadMore_productList[i].productId);
         }
         for(var i=0; i<this.loadMore_productList.length; i++){
           this.productList.push(this.loadMore_productList[i]);
         }
         if (isFirstLoad)
           event.target.complete();
-
-        this.from_limitVal = this.from_limitVal + 60;  
+        console.log(this.productList);
+        this.from_limitVal = this.from_limitVal + 30;  
       }
     });  
   }
@@ -72,10 +74,11 @@ export class ClearancePage implements OnInit {
   }
 
   changePrice(e, productIndex){
-    console.log(productIndex);
-    var selectedQty = e.detail.value;
-    if(selectedQty >= this.productList[productIndex].productQtySlab)
-      this.productList[productIndex].productPrice = this.productList[productIndex].productPriceSlab;
+    this.selectedQty = e.detail.value;
+    if(this.selectedQty >= this.productList[productIndex].productQtySlab && this.productList[productIndex].productQtySlab > 0)
+      this.productList[productIndex].bulkPrice = this.productList[productIndex].productPriceSlab;
+    else
+      this.productList[productIndex].bulkPrice = this.productList[productIndex].productPrice;      
   }
   
   gotoDetail(product){

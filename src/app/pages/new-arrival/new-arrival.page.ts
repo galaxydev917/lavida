@@ -88,7 +88,7 @@ export class NewArrivalPage implements OnInit {
         if (isFirstLoad)
           event.target.complete();
           
-        this.from_limitVal = this.from_limitVal + 60;  
+        this.from_limitVal = this.from_limitVal + 30;  
       }
     });  
   }
