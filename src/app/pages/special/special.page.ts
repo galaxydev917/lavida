@@ -5,6 +5,8 @@ import { DbService } from '../../services/sqlite/db.service';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
 import { File } from '@ionic-native/file/ngx';
 import { Router, NavigationExtras } from '@angular/router';
+import { config } from 'src/app/config/config';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-special',
@@ -21,6 +23,10 @@ export class SpecialPage implements OnInit {
   qty_dropdown = "";
   placeholder_qty = "";
   qty_dropdownList = [];
+  pageTitle = 'Sale Products';
+  selectedQty = 0;
+  cartProductList = [];
+  cartBadgeCount = 0;
 
   constructor(
     public storageService: StorageService,
@@ -28,6 +34,7 @@ export class SpecialPage implements OnInit {
     public webview: WebView,
     public file: File,
     public db: DbService,
+    public toastController: ToastController,
     private router: Router,
 
   ) { }
@@ -55,14 +62,27 @@ export class SpecialPage implements OnInit {
         for(var i=0; i<this.loadMore_productList.length; i++){
           this.loadMore_productList[i].qty_dropdownList = this.getQtyList(this.loadMore_productList[i]);
           this.loadMore_productList[i].placeholder_qty = this.placeholder_qty;
-        }
-        for(var i=0; i<this.loadMore_productList.length; i++){
+          this.loadMore_productList[i].bulkPrice = this.loadMore_productList[i].productPrice;
+          this.loadMore_productList[i].image = await this.db.getProductImagesById(this.loadMore_productList[i].productId);
+
+          var ribbonData = await this.db.getDataForRibbon(this.loadMore_productList[i].productId);
+          
+          if(ribbonData[0].new_product == 1)
+            this.loadMore_productList[i].ribbonStatus = "new";
+          else if(ribbonData[0].group2_special_price > 0 || ribbonData[0].group2_special_discount > 0)
+            this.loadMore_productList[i].ribbonStatus = "sale";
+          else if(ribbonData[0].pre_order > 0 || ribbonData[0].pre_order > 0)
+            this.loadMore_productList[i].ribbonStatus = "pre_order";
+          else
+            this.loadMore_productList[i].ribbonStatus = "";
+
           this.productList.push(this.loadMore_productList[i]);
         }
+
         if (isFirstLoad)
           event.target.complete();
 
-        this.from_limitVal = this.from_limitVal + 60;  
+        this.from_limitVal = this.from_limitVal + 30;  
       }
 
     });  
@@ -73,11 +93,31 @@ export class SpecialPage implements OnInit {
 
   }
 
+  async addToCart(product){
+    if(this.selectedQty == 0)
+      this.selectedQty = product.productMinQty;
+
+    product.qty = this.selectedQty;
+
+    if(product.bulkPrice)
+      product.bulkPrice = product.bulkPrice;
+    else
+      product.bulkPrice = product.productPrice;
+
+    product.amount = product.bulkPrice * product.qty;
+    this.cartProductList.push(product);
+    await this.storageService.setObject(config.cart_products, this.cartProductList);
+    this.cartBadgeCount = this.cartProductList.length;  
+
+    this.showToast();
+  }
+
   changePrice(e, productIndex){
-    console.log(productIndex);
-    var selectedQty = e.detail.value;
-    if(selectedQty >= this.productList[productIndex].productQtySlab)
-      this.productList[productIndex].productPrice = this.productList[productIndex].productPriceSlab;
+    this.selectedQty = e.detail.value;
+    if(this.selectedQty >= this.productList[productIndex].productQtySlab && this.productList[productIndex].productQtySlab > 0)
+      this.productList[productIndex].bulkPrice = this.productList[productIndex].productPriceSlab;
+    else
+      this.productList[productIndex].bulkPrice = this.productList[productIndex].productPrice;      
   }
 
   getQtyList(product){
@@ -125,5 +165,16 @@ export class SpecialPage implements OnInit {
       let converted = this.webview.convertFileSrc(img);
       return converted;
     }
+  }
+  showToast() {
+    this.toastController.create({
+      header: '',
+      message: 'Added to Cart sucessfully!',
+      position: 'top',
+      color: 'dark',
+      duration: 1500
+    }).then((obj) => {
+      obj.present();
+    });
   }
 }

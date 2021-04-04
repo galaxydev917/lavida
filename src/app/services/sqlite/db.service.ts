@@ -428,7 +428,7 @@ export class DbService {
   }  
   async loadSpecialProducts(group_id, from){
 
-    let query = "SELECT DISTINCT `Product`.`id` AS `dis_id`, `Product`.*, Product.group" + group_id + "_price as productPrice, images.name as productImg FROM `Product`, `ProdCat`, `ProductCategory`, `images` WHERE `ProductCategory`.`product_id` = `Product`.`id` AND `ProductCategory`.`category_id` = `ProdCat`.`id` AND Product.web_ready='1' AND Product.parent_id <= '0' AND ProdCat.portal1='1' AND (Product.group" + group_id + "_special_price > 0 || Product.group"+ group_id +"_special_discount > 0) AND ProdCat.id!='47' AND images.ref_id = Product.id order by due_date desc, new_product desc, new_date desc, id desc, code limit " + from + ", 60";
+    let query = "SELECT DISTINCT `Product`.`id` AS `dis_id`, `Product`.*, Product.group" + group_id + "_price as productPrice FROM `Product`, `ProdCat`, `ProductCategory` WHERE `ProductCategory`.`product_id` = `Product`.`id` AND `ProductCategory`.`category_id` = `ProdCat`.`id` AND Product.web_ready='1' AND Product.parent_id <= '0' AND ProdCat.portal1='1' AND (Product.group" + group_id + "_special_price > 0 || Product.group"+ group_id +"_special_discount > 0) AND ProdCat.id!='47' ORDER BY datetime(due_date) DESC, new_product DESC, datetime(new_date) DESC, id DESC, code LIMIT " + from + ", 30";
     return this.storage.executeSql(query, []).then(data => {
       let result = [];
       if (data.rows.length > 0) {
@@ -437,7 +437,6 @@ export class DbService {
             productId: data.rows.item(i).dis_id,
             productPrice: data.rows.item(i).productPrice,
             productName: data.rows.item(i).name,
-            productImg: data.rows.item(i).productImg,
             productDimension: data.rows.item(i).dimension,
             productBarCode: data.rows.item(i).barcode,
             productMaterials: data.rows.item(i).materials,

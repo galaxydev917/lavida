@@ -7,12 +7,14 @@ import { IonicModule } from '@ionic/angular';
 import { SpecialPageRoutingModule } from './special-routing.module';
 
 import { SpecialPage } from './special.page';
+import { ComponentsModule } from '../../components/components.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    ComponentsModule,
     SpecialPageRoutingModule
   ],
   declarations: [SpecialPage]
