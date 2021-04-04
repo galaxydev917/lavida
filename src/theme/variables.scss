@@ -337,8 +337,8 @@
 .product-info-space{
   margin-top: 10px;
 }
-// .swiper-pagination {
-//   top: -10px
-//   //bottom: 50px !important;
-//   //bottom: calc(env(safe-area-inset-bottom) + 20px) !important;
-//   }
+.swiper-pagination {
+  bottom: 5px!important;
+    //bottom: 50px !important;
+    //bottom: calc(env(safe-area-inset-bottom) + 20px) !important;
+  }

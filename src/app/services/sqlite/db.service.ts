@@ -265,6 +265,36 @@ export class DbService {
       return result;
     });
   }
+  getProdCatId(productId){
+    let query = "SELECT ProdCat.id FROM ProdCat, ProductCategory WHERE ProdCat.id = ProductCategory.category_id AND ProductCategory.product_id = " +  productId + " AND ProductCategory.category_id > 0 AND ProdCat.portal1 = 1 ORDER BY ProdCat.display_order asc, ProdCat.name asc";
+    return this.storage.executeSql(query, []).then(data => {
+      let result = [];
+      if (data.rows.length > 0) {
+        for (var i = 0; i < data.rows.length; i++) {
+          result.push(data.rows.item(i).id);
+        }
+      }
+      return result;
+    });
+  }  
+
+  getDataForRibbon(productId){
+    let query = "SELECT DISTINCT `Product`.`id` AS `dis_id`, `Product`.* FROM `Product`, `ProdCat`, `ProductCategory` WHERE `ProductCategory`.`product_id` = `Product`.`id` AND `ProductCategory`.`category_id` = `ProdCat`.`id` AND `Product`.`id` = " + productId;
+    return this.storage.executeSql(query, []).then(data => {
+      let result = [];
+      if (data.rows.length > 0) {
+        for (var i = 0; i < data.rows.length; i++) {
+          result.push({ 
+            group2_special_price: data.rows.item(i).group2_special_price,
+            group2_special_discount: data.rows.item(i).group2_special_discount,
+            new_product: data.rows.item(i).new_product,
+            pre_order: data.rows.item(i).pre_order,
+          
+          });        }
+      }
+      return result;
+    });
+  }   
   //Home page start---------
   loadHomeSlider(){
     let query = "SELECT * FROM images WHERE type = 14 AND ref_id = 1 AND curr_page='index'";

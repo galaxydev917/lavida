@@ -27,7 +27,6 @@ export class ClearancePage implements OnInit {
   cartBadgeCount = 0;
   pageTitle = 'Clearance Products';
   isLoading = false;
-
   constructor(
     public storageService: StorageService,
     public toastController: ToastController,
@@ -69,14 +68,24 @@ export class ClearancePage implements OnInit {
           this.loadMore_productList[i].placeholder_qty = this.placeholder_qty;
           this.loadMore_productList[i].bulkPrice = this.loadMore_productList[i].productPrice;
           this.loadMore_productList[i].image = await this.db.getProductImagesById(this.loadMore_productList[i].productId);
-        }
-        for(var i=0; i<this.loadMore_productList.length; i++){
+
+          var ribbonData = await this.db.getDataForRibbon(this.loadMore_productList[i].productId);
+          
+          if(ribbonData[0].new_product == 1)
+            this.loadMore_productList[i].ribbonStatus = "new";
+          else if(ribbonData[0].group2_special_price > 0 || ribbonData[0].group2_special_discount > 0)
+            this.loadMore_productList[i].ribbonStatus = "sale";
+          else if(ribbonData[0].pre_order > 0 || ribbonData[0].pre_order > 0)
+            this.loadMore_productList[i].ribbonStatus = "pre_order";
+          else
+            this.loadMore_productList[i].ribbonStatus = "";
+
           this.productList.push(this.loadMore_productList[i]);
         }
+
         this.isLoading = false;
         if (isFirstLoad)
           event.target.complete();
-        console.log(this.productList);
         this.from_limitVal = this.from_limitVal + 30;  
       }
     });  
