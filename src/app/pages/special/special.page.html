@@ -1,12 +1,10 @@
 <ion-header mode="ios">
-  <ion-toolbar style="height: 80px; align-items: center; justify-content: center; display: flex;">
-    <ion-title>Sale Products</ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="openMenu()" slot="start">
-        <ion-icon name="menu" style="font-size: 38px;"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
+  <app-header
+    [pageTitle]="pageTitle"
+    [cartBadgeCount]="cartBadgeCount"
+    [isLoggedIn]="true"
+  >
+  </app-header>
   
 </ion-header>
 
