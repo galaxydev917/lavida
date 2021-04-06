@@ -76,3 +76,19 @@ p{
     padding: 0px;
     margin: 0px;
 }
+.checkout-div{
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.button-checkout{
+    height: 60px;
+    font-size: 1.8em;
+    margin: 0 !important;
+    margin-top: 10px !important;
+    --background: #7dcf85;
+    --background-activated : #e2f1e4;
+    --color: white;
+    --border-color : white;
+    --border-style: solid;
+    --border-width: 1px;
+}

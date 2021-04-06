@@ -56,7 +56,7 @@ export class CartPage implements OnInit {
     this.cartProductList = await this.storageService.getObject(
       config.cart_products
     );
-    console.log(this.cartProductList);
+
     if (this.cartProductList == null) {
       this.cartProductList = [];
       this.isEmptyCart = true;
@@ -133,9 +133,8 @@ export class CartPage implements OnInit {
     if (index > -1) {
       this.cartProductList.splice(index, 1);
     }
-    console.log(this.cartProductList);
+
     if (this.cartProductList == null || this.cartProductList.length == 0) {
-      console.log("1212121");
       this.isEmptyCart = true;
       this.cartBadgeCount = 0;
     } else this.cartBadgeCount = this.cartProductList.length;
@@ -203,12 +202,63 @@ export class CartPage implements OnInit {
 
     var insertedMasterId = await this.saveOrderMaster(order_date);
     await this.saveOrderDetails(insertedMasterId);
-    this.showToast();
-    this.exportToOnline(order_date);
-
-
+    this.showToast("Your Order saved successfully.");
+    this.exportSaveOrdersToOnline(order_date);
   }
 
+  async checkoutOrder() {
+    var dt = new Date();
+    var order_date = `${dt.getFullYear().toString().padStart(4, "0")}-${(
+      dt.getMonth() + 1
+    )
+      .toString()
+      .padStart(2, "0")}-${dt
+      .getDate()
+      .toString()
+      .padStart(2, "0")} ${dt
+      .getHours()
+      .toString()
+      .padStart(2, "0")}:${dt
+      .getMinutes()
+      .toString()
+      .padStart(2, "0")}:${dt.getSeconds().toString().padStart(2, "0")}`;
+
+    var insertedMasterId = await this.checkoutOrderMaster(order_date);
+    await this.checkoutOrderDetails(insertedMasterId);
+    this.showToast("Your Order checkout successfully");
+    this.exportCheckoutOrdersToOnline(order_date);
+  }
+
+  checkoutOrderMaster(order_date) {
+    var str_query =
+      "INSERT INTO OrderMaster ( order_date, user_id, order_amount) VALUES ";
+
+    var rowArgs = [];
+    var data = [];
+    rowArgs.push("(?, ?, ?)");
+    data = [order_date, this.loginedUserInfo.id, this.order_all_amount];
+
+    str_query += rowArgs.join(", ");
+    return this.db.addToSqlite(str_query, data);
+  } 
+
+  async checkoutOrderDetails(insertedMasterId) {
+    var str_query =
+      "INSERT INTO OrderDetails (order_id, product_id, qty, price, product_code, product_name) VALUES ";
+    var rowArgs = [];
+    var data = [];
+    this.cartProductList.forEach(function (cartproduct) {
+      rowArgs.push("(?, ?, ?, ?, ?, ?)");
+      data.push(insertedMasterId);
+      data.push(cartproduct.productId);
+      data.push(cartproduct.qty);
+      data.push(cartproduct.bulkPrice);
+      data.push(cartproduct.productCode);
+      data.push(cartproduct.productName);
+    });
+    str_query += rowArgs.join(", ");
+    return await this.db.addToSqlite(str_query, data);
+  }   
   clearCart() {
     if (this.isEmptyCart) return;
     this.alertController
@@ -241,11 +291,11 @@ export class CartPage implements OnInit {
   keepShopping() {
     this.location.back();
   }
-  showToast() {
+  showToast(msg) {
     this.toastController
       .create({
         header: "",
-        message: "Your order has been saved!",
+        message: msg,
         position: "top",
         color: "dark",
         duration: 1500
@@ -255,7 +305,7 @@ export class CartPage implements OnInit {
       });
   }
 
-  async exportToOnline(order_date){
+  async exportSaveOrdersToOnline(order_date){
     await this.wait(1000); 
 
     const loading = await this.loadingController.create({
@@ -281,6 +331,32 @@ export class CartPage implements OnInit {
       alert("Error: Export save order master data.");
     });
   }
+  async exportCheckoutOrdersToOnline(order_date){
+    await this.wait(1000); 
+
+    const loading = await this.loadingController.create({
+      message: "Exporting to Online..."
+    });
+    await loading.present();
+    var orderMasterInfo = {
+      order_date: order_date,
+      user_id: this.loginedUserInfo.id,
+      order_amount: this.order_all_amount
+    };
+    this.exportService.checkoutOrderMaster({ orderMasterInfo: orderMasterInfo }).subscribe(async result => {
+      this.exportService.checkoutOrderDetail({ orderMasterId: result.insertedId, orderDetailInfo: this.cartProductList }).subscribe(async result => {
+        console.log(result);
+        loading.dismiss();
+      },err => {
+        loading.dismiss();
+        alert("Error: Export save order detail data.");
+
+      });
+    },err => {
+      loading.dismiss();
+      alert("Error: Export save order master data.");
+    });
+  }  
    wait(timeout) {
     return new Promise(resolve => {
         setTimeout(resolve, timeout);

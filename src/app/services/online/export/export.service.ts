@@ -50,4 +50,20 @@ export class ExportService {
         catchError(this.handleError)
       )
   }  
+  checkoutOrderMaster(param: any){
+    return this.http
+      .post<any>(api_baseUrl + '/addcheckoutordermaster', JSON.stringify(param))
+      .pipe(
+        retry(2),
+        catchError(this.handleError)
+      )
+  }
+  checkoutOrderDetail(param: any){
+    return this.http
+      .post<any>(api_baseUrl + '/addcheckoutorderdetail', JSON.stringify(param))
+      .pipe(
+        retry(2),
+        catchError(this.handleError)
+      )
+  }    
 }

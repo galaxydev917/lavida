@@ -5,7 +5,12 @@
     [isLoggedIn]=true>
   </app-header>
 </ion-header>
-<div class="total-amount-div" >
+<div *ngIf="!isEmptyCart && !isShowCartMinimum && !isShowCartAlert" class="checkout-div">
+  <ion-button  class="button-checkout" mode="ios" fill="solid"  expand="full" (click)="keepShopping()">
+    Checkout ${{order_all_amount | number:'1.2-2'}} <ion-icon name="caret-forward-outline"></ion-icon>
+  </ion-button>
+</div>
+<div class="total-amount-div" *ngIf="isShowCartMinimum || isShowCartAlert">
   Total ${{order_all_amount | number:'1.2-2'}}
 </div>
 <div class="minimum-amount-div" *ngIf="!isEmptyCart && isShowCartMinimum">
