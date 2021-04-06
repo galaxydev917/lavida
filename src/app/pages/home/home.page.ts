@@ -7,6 +7,7 @@ import { WebView } from '@ionic-native/ionic-webview/ngx';
 import { File } from '@ionic-native/file/ngx';
 import {StorageService} from '../../services/storage/storage.service';
 import { config } from 'src/app/config/config';
+import { OrderService } from '../../services/online/order/order.service';
 
 @Component({
   selector: 'app-home',
@@ -46,6 +47,7 @@ export class HomePage implements OnInit {
     public file: File,
     public storageService: StorageService,
     public customerService: CustomerService,
+    public orderService: OrderService,
   ) { }
 
   ngOnInit() {
@@ -103,9 +105,10 @@ export class HomePage implements OnInit {
       if(result.productCategories.length > 0)
         await this.addProductCategoriesToSqlite(result.productCategories);
 
+      
       this.getSliders();
 
-      
+
       this.loginedUserInfo =  await this.storageService.getObject("loginedUser"); 
 
       if(this.loginedUserInfo){
@@ -226,6 +229,20 @@ export class HomePage implements OnInit {
     return this.db.addToSqlite(str_query, data);  
   }
 
+  async updateOrderDataFromServer(){
+    var query_saveOrderLastRegdate = "SELECT order_date as reg_date FROM saveordermaster ORDER BY order_date DESC LIMIT 1";
+    var query_orderLastRegdate = "SELECT order_date as reg_date FROM OrderMaster ORDER BY order_date DESC LIMIT 1";
+
+    var saveOrderLastRegDate = await this.db.getLastRegDate(query_saveOrderLastRegdate);
+    var OrderLastRegDate = await this.db.getLastRegDate(query_orderLastRegdate);
+
+    
+    this.orderService.getSaveOrderData(saveOrderLastRegDate.reg_date, OrderLastRegDate.reg_date, this.loginedUserInfo.id).subscribe( async (result) => {
+      console.log(result);
+    },(err) => {
+    });    
+
+  }
   syncConfirmAlert() {
     this.alertController.create({
       header: 'Sync Data',
