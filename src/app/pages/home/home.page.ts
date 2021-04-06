@@ -107,16 +107,7 @@ export class HomePage implements OnInit {
 
       
       this.getSliders();
-
-
-      this.loginedUserInfo =  await this.storageService.getObject("loginedUser"); 
-
-      if(this.loginedUserInfo){
-        this.checkCustomerOfAgent();
-      }else{
-        this.loadingCtrl.dismiss();  
-        this.isUpdating = false;
-      }
+      this.updateOrderDataFromServer();
 
     },(err) => {
       this.loadingCtrl.dismiss();
@@ -170,6 +161,119 @@ export class HomePage implements OnInit {
 
   }
 
+
+
+  async updateOrderDataFromServer(){
+    var query_saveOrderLastRegdate = "SELECT order_date as reg_date FROM saveordermaster ORDER BY order_date DESC LIMIT 1";
+    var query_orderLastRegdate = "SELECT order_date as reg_date FROM OrderMaster ORDER BY order_date DESC LIMIT 1";
+
+    var saveOrderLastRegDate = await this.db.getLastRegDate(query_saveOrderLastRegdate);
+    var OrderLastRegDate = await this.db.getLastRegDate(query_orderLastRegdate);
+
+    
+    this.orderService.getSaveOrderData(saveOrderLastRegDate.reg_date, OrderLastRegDate.reg_date, this.loginedUserInfo.id).subscribe( async (result) => {
+      if(result.orderlist.length > 0){
+        await this.addOrderMaster(result.orderlist);
+
+        if(result.order_details.length > 0)
+          await this.addOrderMasterDetail(result.order_details);
+      }
+
+      if(result.saveorderlist.length > 0){
+        await this.addSaveOrder(result.saveorderlist);
+
+        if(result.saveorder_details.length > 0)
+          await this.addSaveOrderDetail(result.saveorder_details);
+      }
+
+      this.loginedUserInfo =  await this.storageService.getObject("loginedUser"); 
+
+      if(this.loginedUserInfo){
+        this.checkCustomerOfAgent();
+      }else{
+        this.loadingCtrl.dismiss();  
+        this.isUpdating = false;
+      }
+    },(err) => {
+    });    
+
+  }
+  addSaveOrder(save_orderlist){
+    var str_query = "INSERT INTO saveordermaster (id, order_date, user_id, order_amount, status) VALUES ";
+
+    var rowArgs = [];
+    var data = [];
+    save_orderlist.forEach(function (save_order) {
+      rowArgs.push("(?, ?, ?, ?, ?)");
+      data.push(save_order.id);
+      data.push(save_order.order_date);
+      data.push(save_order.user_id);
+      data.push(save_order.order_amount);
+      data.push(save_order.status);
+    });
+    str_query += rowArgs.join(", ");
+    return this.db.addToSqlite(str_query, data);
+  }
+
+  addSaveOrderDetail(save_orderdetails){
+    var str_query = "INSERT INTO saveorderdetails (id, order_id, product_id, qty, price, product_code, product_name) VALUES ";
+
+    var rowArgs = [];
+    var data = [];
+    save_orderdetails.forEach(function (save_orderdetail) {
+      rowArgs.push("(?, ?, ?, ?, ?, ?, ?)");
+      data.push(save_orderdetail.id);
+      data.push(save_orderdetail.order_id);
+      data.push(save_orderdetail.product_id);
+      data.push(save_orderdetail.qty);
+      data.push(save_orderdetail.price);
+      data.push(save_orderdetail.product_code);
+      data.push(save_orderdetail.product_name);
+  
+    });
+    str_query += rowArgs.join(", ");
+    return this.db.addToSqlite(str_query, data);
+  }
+  addOrderMaster(orderlist){
+    var str_query = "INSERT INTO OrderMaster (id, order_date, user_id, order_amount, status, txn_id, responseText_securepay, distributor_businessName, customer_id) VALUES ";
+
+    var rowArgs = [];
+    var data = [];
+    orderlist.forEach(function (order) {
+      rowArgs.push("(?, ?, ?, ?, ?, ?, ?, ?, ?)");
+      data.push(order.id);
+      data.push(order.order_amount);
+      data.push(order.order_date);
+      data.push(order.user_id);
+      data.push(order.status);
+      data.push(order.txn_id);
+      data.push(order.responseText_securepay);
+      data.push(order.distributor_businessName);   
+      data.push(order.customer_id);      
+    });
+    str_query += rowArgs.join(", ");
+    return this.db.addToSqlite(str_query, data);
+  }
+
+  addOrderMasterDetail(order_details){
+    var str_query = "INSERT INTO OrderDetails (id, order_id, product_id, qty, price, product_code, product_name) VALUES ";
+
+    var rowArgs = [];
+    var data = [];
+    order_details.forEach(function (order_detail) {
+      rowArgs.push("(?, ?, ?, ?, ?, ?, ?)");
+      data.push(order_detail.id);
+      data.push(order_detail.order_id);
+      data.push(order_detail.product_id);
+      data.push(order_detail.qty);
+      data.push(order_detail.price);
+      data.push(order_detail.product_code);
+      data.push(order_detail.product_name);
+  
+    });
+    str_query += rowArgs.join(", ");
+    return this.db.addToSqlite(str_query, data);
+  }
   async checkCustomerOfAgent(){  
 
     this.db.getDatabaseState().subscribe(async (res) => {
@@ -227,21 +331,6 @@ export class HomePage implements OnInit {
     });
     str_query += rowArgs.join(", ");
     return this.db.addToSqlite(str_query, data);  
-  }
-
-  async updateOrderDataFromServer(){
-    var query_saveOrderLastRegdate = "SELECT order_date as reg_date FROM saveordermaster ORDER BY order_date DESC LIMIT 1";
-    var query_orderLastRegdate = "SELECT order_date as reg_date FROM OrderMaster ORDER BY order_date DESC LIMIT 1";
-
-    var saveOrderLastRegDate = await this.db.getLastRegDate(query_saveOrderLastRegdate);
-    var OrderLastRegDate = await this.db.getLastRegDate(query_orderLastRegdate);
-
-    
-    this.orderService.getSaveOrderData(saveOrderLastRegDate.reg_date, OrderLastRegDate.reg_date, this.loginedUserInfo.id).subscribe( async (result) => {
-      console.log(result);
-    },(err) => {
-    });    
-
   }
   syncConfirmAlert() {
     this.alertController.create({

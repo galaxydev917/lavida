@@ -63,7 +63,6 @@ export class SavedordersPage implements OnInit {
   }
 
   async loadMore(event){
-    console.log("aaaaaaa");
     this.getSavedOrders(true, event);
   }
 

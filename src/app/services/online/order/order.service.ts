@@ -12,6 +12,6 @@ export class OrderService {
   constructor(private http: HttpClient) { }
 
   getSaveOrderData(saveorder_regdate, order_regdate, user_id){
-    return this.http.get<any>(api_baseUrl + `/getsaveorderdata?saveorder_regdate=${saveorder_regdate}&order_regdate=${order_regdate}&user_id=${user_id}`);
+    return this.http.get<any>(api_baseUrl + `/getorderdata?saveorder_regdate=${saveorder_regdate}&order_regdate=${order_regdate}&user_id=${user_id}`);
   }
 }
