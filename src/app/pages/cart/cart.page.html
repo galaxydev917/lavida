@@ -6,8 +6,8 @@
   </app-header>
 </ion-header>
 <div *ngIf="!isEmptyCart && !isShowCartMinimum && !isShowCartAlert" class="checkout-div">
-  <ion-button  class="button-checkout" mode="ios" fill="solid"  expand="full" (click)="keepShopping()">
-    Checkout ${{order_all_amount | number:'1.2-2'}} <ion-icon name="caret-forward-outline"></ion-icon>
+  <ion-button  class="button-checkout" mode="ios" fill="solid"  expand="full" (click)="checkoutOrder()">
+    Checkout ${{order_all_amount | number:'1.2-2'}}&nbsp;&nbsp; <ion-icon name="chevron-forward-circle-outline"></ion-icon>
   </ion-button>
 </div>
 <div class="total-amount-div" *ngIf="isShowCartMinimum || isShowCartAlert">

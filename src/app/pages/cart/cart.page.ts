@@ -345,7 +345,10 @@ export class CartPage implements OnInit {
     };
     this.exportService.checkoutOrderMaster({ orderMasterInfo: orderMasterInfo }).subscribe(async result => {
       this.exportService.checkoutOrderDetail({ orderMasterId: result.insertedId, orderDetailInfo: this.cartProductList }).subscribe(async result => {
-        console.log(result);
+        this.storageService.removeItem(config.cart_products);
+        this.cartProductList = [];
+        this.cartBadgeCount = 0;
+        this.isEmptyCart = true;
         loading.dismiss();
       },err => {
         loading.dismiss();
