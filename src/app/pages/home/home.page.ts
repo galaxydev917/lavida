@@ -105,6 +105,7 @@ export class HomePage implements OnInit {
 
       this.getSliders();
 
+      
       this.loginedUserInfo =  await this.storageService.getObject("loginedUser"); 
 
       if(this.loginedUserInfo){
@@ -161,7 +162,6 @@ export class HomePage implements OnInit {
     this.db.getDatabaseState().subscribe(async (res) => {
       if(res){
         this.homeSliders = await this.db.loadHomeSlider();
-
       }
     });  
 

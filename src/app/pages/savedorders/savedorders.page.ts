@@ -30,7 +30,8 @@ export class SavedordersPage implements OnInit {
   }
   async ionViewWillEnter(){
 
-    this.loginedUser = await this.storageService.getObject("loginedInfo");
+    this.loginedUser = await this.storageService.getObject("loginedUser");
+    console.log(this.loginedUser);
     this.from_limitVal = 0;
     this.savedOrderList = [];
 
