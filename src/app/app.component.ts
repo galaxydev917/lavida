@@ -94,6 +94,11 @@ export class AppComponent {
       title: "Saved Orders",
       icon: "save",
       url: "/savedorders"
+    },
+    {
+      title: "Order History",
+      icon: "alarm",
+      url: "/checkoutlist"
     }
   ];
   constructor(

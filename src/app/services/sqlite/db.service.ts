@@ -474,8 +474,8 @@ export class DbService {
   }
 
   //Order page start-----------
-    loadOrderMaster(userId){
-      let query = "SELECT * FROM OrderMaster WHERE user_id = " + userId + " AND date(order_date) > date('now','-1 years') ORDER BY order_date DESC LIMIT 20";
+    loadCheckoutOrders(userId, from){
+      let query = "SELECT * FROM OrderMaster WHERE user_id = " + userId + " AND date(order_date) > date('now','-1 years') ORDER BY order_date DESC LIMIT " + from +  ", 30";
       console.log(query);
       return this.storage.executeSql(query, []).then(data => {
         let result = [];
@@ -491,8 +491,28 @@ export class DbService {
         return result;
       });
     }
+    loadCheckoutOrderDetails(orderId){
+      let query = "SELECT * FROM OrderDetails WHERE order_id = " + orderId ;
+      return this.storage.executeSql(query, []).then(data => {
+        let result = [];
+        if (data.rows.length > 0) {
+          for (var i = 0; i < data.rows.length; i++) {
+            result.push({ 
+              orderId: data.rows.item(i).order_id,
+              productId: data.rows.item(i).product_id,
+              productCode: data.rows.item(i).product_code,
+              productQty: data.rows.item(i).qty,
+              productPrice: data.rows.item(i).price,
+              productName: data.rows.item(i).product_name,
+              id: data.rows.item(i).id
+            });
+          }
+        }
+        return result;
+      });
+    }      
     loadSavedOrders(userId, from){
-      let query = "SELECT * FROM saveordermaster WHERE user_id = " + userId + " AND date(order_date) >= date('now','-1 years') ORDER BY datetime(order_date) DESC LIMIT " + from +  ", 20";
+      let query = "SELECT * FROM saveordermaster WHERE user_id = " + userId + " AND date(order_date) >= date('now','-1 years') ORDER BY datetime(order_date) DESC LIMIT " + from +  ", 30";
       return this.storage.executeSql(query, []).then(data => {
         let result = [];
         if (data.rows.length > 0) {

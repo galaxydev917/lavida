@@ -4,37 +4,35 @@ import { DbService } from '../../services/sqlite/db.service'
 import { config } from 'src/app/config/config';
 
 @Component({
-  selector: 'app-savedorders',
-  templateUrl: './savedorders.page.html',
-  styleUrls: ['./savedorders.page.scss'],
+  selector: 'app-checkoutlist',
+  templateUrl: './checkoutlist.page.html',
+  styleUrls: ['./checkoutlist.page.scss'],
 })
-export class SavedordersPage implements OnInit {
+export class CheckoutlistPage implements OnInit {
   loginedUser : any;
-  savedOrderList = [];
-  savedOrderDetails = [];
-  pageTitle = 'Saved Orders';
-  isLoggedIn = false;
+  checkoutOrderList = [];
+  from_limitVal = 0;
   cartProductList = [];
   cartBadgeCount = 0;
   loadMore_OrderList = [];
-  from_limitVal = 0;
+  checkoutOrderDetails = [];
+  pageTitle = 'Order History';
 
   constructor(
-    public storageService: StorageService,
+    private storageService: StorageService,
     public db: DbService,
 
   ) { }
 
   ngOnInit() {
-
   }
   async ionViewWillEnter(){
 
     this.loginedUser = await this.storageService.getObject("loginedUser");
     this.from_limitVal = 0;
-    this.savedOrderList = [];
+    this.checkoutOrderList = [];
 
-    this.getSavedOrders(false, "");
+    this.getCheckoutOrders(false, "");
 
     this.cartProductList = await this.storageService.getObject(config.cart_products);
 
@@ -45,28 +43,28 @@ export class SavedordersPage implements OnInit {
       this.cartBadgeCount = this.cartProductList.length;  
   }
 
-  async getSavedOrders(isFirstLoad, event){
+  async getCheckoutOrders(isFirstLoad, event){
     this.db.getDatabaseState().subscribe(async (res) => {
       if(res){
 
-        this.loadMore_OrderList = await this.db.loadSavedOrders(this.loginedUser.id, this.from_limitVal);
+        this.loadMore_OrderList = await this.db.loadCheckoutOrders(this.loginedUser.id, this.from_limitVal);
         for(var i=0; i<this.loadMore_OrderList.length; i++){
-          this.savedOrderList.push(this.loadMore_OrderList[i]);
+          this.checkoutOrderList.push(this.loadMore_OrderList[i]);
         }
         if (isFirstLoad)
           event.target.complete();
 
         this.from_limitVal = this.from_limitVal + 30;  
+        console.log(this.checkoutOrderList);
       }
     });  
   }
-
   async loadMore(event){
-    this.getSavedOrders(true, event);
+    this.getCheckoutOrders(true, event);
   }
 
-  async getSavedOrderDetails(order){
-    this.savedOrderDetails = await this.db.loadSavedOrderDetails(order.orderId);
-    console.log(this.savedOrderDetails);
+  async getCheckoutOrderDetails(order){
+    this.checkoutOrderDetails = await this.db.loadCheckoutOrderDetails(order.orderId);
+    console.log(this.checkoutOrderDetails);
   }
 }

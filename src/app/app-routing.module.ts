@@ -60,6 +60,10 @@ const routes: Routes = [
   {
     path: 'savedorders',
     loadChildren: () => import('./pages/savedorders/savedorders.module').then( m => m.SavedordersPageModule)
+  },
+  {
+    path: 'checkoutlist',
+    loadChildren: () => import('./pages/checkoutlist/checkoutlist.module').then( m => m.CheckoutlistPageModule)
   }
 ];
 

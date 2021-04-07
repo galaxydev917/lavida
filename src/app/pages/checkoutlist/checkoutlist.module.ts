@@ -4,9 +4,9 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { OrderPageRoutingModule } from './order-routing.module';
+import { CheckoutlistPageRoutingModule } from './checkoutlist-routing.module';
 
-import { OrderPage } from './order.page';
+import { CheckoutlistPage } from './checkoutlist.page';
 import { ComponentsModule } from '../../components/components.module';
 
 @NgModule({
@@ -14,9 +14,9 @@ import { ComponentsModule } from '../../components/components.module';
     CommonModule,
     FormsModule,
     IonicModule,
-    ComponentsModule,
-    OrderPageRoutingModule
+    CheckoutlistPageRoutingModule,
+    ComponentsModule
   ],
-  declarations: [OrderPage]
+  declarations: [CheckoutlistPage]
 })
-export class OrderPageModule {}
+export class CheckoutlistPageModule {}

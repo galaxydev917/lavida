@@ -1,15 +1,13 @@
-<ion-header>
-  <ion-header mode="ios">
-    <app-header
-      [pageTitle]="pageTitle"
-      [cartBadgeCount]="cartBadgeCount"
-      [isLoggedIn]=true>
-    </app-header>
-  </ion-header>
+<ion-header mode="ios">
+  <app-header
+    [pageTitle]="pageTitle"
+    [cartBadgeCount]="cartBadgeCount"
+    [isLoggedIn]=true>
+  </app-header>
+</ion-header>
 
 <ion-content>
-  <div style="height: 300px; display: flex; justify-content: center; align-items: center;">checkoutOrderList.length</div>
-  <!-- <ion-grid>
+  <ion-grid>
     <ion-row  class="ion-justify-content-center ion-align-items-center" *ngFor="let item of checkoutOrderList">
       <ion-col size="11" class="ion-text-center">
         <ion-item >
@@ -19,9 +17,9 @@
         </ion-item>
       </ion-col>
     </ion-row>
-  </ion-grid> -->
-  <!-- <ion-infinite-scroll (ionInfinite)="loadMore($event)">
+  </ion-grid>
+  <ion-infinite-scroll (ionInfinite)="loadMore($event)">
     <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
     </ion-infinite-scroll-content>
-  </ion-infinite-scroll> -->
+  </ion-infinite-scroll>
 </ion-content>
