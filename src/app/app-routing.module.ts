@@ -64,6 +64,10 @@ const routes: Routes = [
   {
     path: 'checkoutlist',
     loadChildren: () => import('./pages/checkoutlist/checkoutlist.module').then( m => m.CheckoutlistPageModule)
+  },
+  {
+    path: 'shipping-address',
+    loadChildren: () => import('./pages/shipping-address/shipping-address.module').then( m => m.ShippingAddressPageModule)
   }
 ];
 

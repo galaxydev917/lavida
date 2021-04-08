@@ -9,6 +9,9 @@
 </ion-header>
 
 <ion-content>
+  <div *ngIf="isLoading" class="loading-div">
+    <ion-spinner name="bubbles"></ion-spinner>
+  </div>
   <ion-grid *ngIf="!isLogined" class="ion-padding">
     <ion-row class="ion-justify-content-center ion-align-items-center">
       <ion-col size="12" class="ion-text-center">
@@ -16,7 +19,7 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-  <ion-grid *ngIf="img_dir != '' && isLogined">
+  <ion-grid *ngIf="img_dir != '' && isLogined && !isLoading">
     <ion-row>
       <ion-col *ngFor="let item of productList; let productIndex = index" size="4">
         <ion-card>
@@ -24,9 +27,9 @@
           </div> -->
 
           <div *ngIf="item.image.length == 1" >
-            <div class="product-image"
-            [ngStyle]="{'background-image':'url('+ img_dir + item.image[0].name +')'}"
+            <div class="product-image-div"
             (click)="gotoDetail(item)">
+               <ion-img  [src]="img_dir + item.image[0].name" class="product-image"></ion-img>
               <img *ngIf="item.ribbonStatus == 'new'" src="../assets/imgs/new.png" class="ribbon-img" />
               <img *ngIf="item.ribbonStatus == 'sale'" src="../assets/imgs/sale.png" class="ribbon-img" />
               <img *ngIf="item.ribbonStatus == 'pre_order'" src="../assets/imgs/preorder.png" class="ribbon-img" />
@@ -36,9 +39,9 @@
           <ion-slides pager="true" [options]="slideOpts" mode="ios" *ngIf="item.image.length > 1">
             <ion-slide *ngFor="let productImage of item.image; let i = index">
               <div
-                class="product-image"
-                [ngStyle]="{'background-image':'url('+ img_dir + productImage.name +')'}"
+                class="product-image-div"
                 (click)="gotoDetail(item)">
+                <ion-img  [src]="img_dir + item.image[0].name" class="product-image"></ion-img>
                 <div *ngIf="i == 0">
                   <img *ngIf="item.ribbonStatus == 'new'" src="../assets/imgs/new.png" class="ribbon-img" />
                   <img *ngIf="item.ribbonStatus == 'sale'" src="../assets/imgs/sale.png" class="ribbon-img" />

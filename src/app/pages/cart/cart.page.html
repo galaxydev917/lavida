@@ -6,7 +6,7 @@
   </app-header>
 </ion-header>
 <div *ngIf="!isEmptyCart && !isShowCartMinimum && !isShowCartAlert" class="checkout-div">
-  <ion-button  class="button-checkout" mode="ios" fill="solid"  expand="full" (click)="checkoutOrder()">
+  <ion-button  class="button-checkout" mode="ios" fill="solid"  expand="full" (click)="gotoShippingAddress()">
     Checkout ${{order_all_amount | number:'1.2-2'}}&nbsp;&nbsp; <ion-icon name="chevron-forward-circle-outline"></ion-icon>
   </ion-button>
 </div>
@@ -40,8 +40,7 @@
   <ion-grid *ngIf="!isEmptyCart">
     <ion-row *ngFor="let item of cartProductList; let productIndex = index" class="ion-justify-content-center ion-align-items-center">
       <ion-col size="2" class="ion-text-center">
-        <div class="product-image" [ngStyle]="{'background-image':'url('+ img_dir + item.image[0].name +')'}">
-        </div>
+        <ion-img  [src]="img_dir + item.image[0].name" class="product-left-image"></ion-img>
       </ion-col>
       <ion-col size="3" >
         <div class="product-name">{{item.productCode}}: {{item.productName}}</div>

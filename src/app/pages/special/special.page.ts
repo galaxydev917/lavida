@@ -27,6 +27,7 @@ export class SpecialPage implements OnInit {
   selectedQty = 0;
   cartProductList = [];
   cartBadgeCount = 0;
+  isLoading = false;
 
   constructor(
     public storageService: StorageService,
@@ -46,6 +47,15 @@ export class SpecialPage implements OnInit {
   async ionViewWillEnter(){
     this.loginedUser = await this.storageService.getObject('loginedUser');
     this.img_dir = this.pathForImage(this.file.documentsDirectory + 'product_img/');
+    this.cartProductList = await this.storageService.getObject(config.cart_products);
+
+    this.isLoading = true;
+
+    if(this.cartProductList == null){
+      this.cartProductList = [];
+      this.cartBadgeCount = 0;
+    }else
+      this.cartBadgeCount = this.cartProductList.length;  
 
     if(!this.loginedUser){
       this.isLogined = false;
@@ -78,7 +88,7 @@ export class SpecialPage implements OnInit {
 
           this.productList.push(this.loadMore_productList[i]);
         }
-
+        this.isLoading = false;
         if (isFirstLoad)
           event.target.complete();
 

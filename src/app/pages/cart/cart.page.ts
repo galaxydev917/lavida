@@ -9,6 +9,7 @@ import { ToastController } from "@ionic/angular";
 import { Location } from "@angular/common";
 import { config } from "src/app/config/config";
 import { ExportService } from "../../services/online/export/export.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-cart",
@@ -40,7 +41,8 @@ export class CartPage implements OnInit {
     public toastController: ToastController,
     public location: Location,
     public exportService: ExportService,
-    public loadingController: LoadingController
+    public loadingController: LoadingController,
+    private router: Router,
   ) {}
 
   ngOnInit() {
@@ -205,6 +207,11 @@ export class CartPage implements OnInit {
     this.showToast("Your Order saved successfully.");
     this.exportSaveOrdersToOnline(order_date);
   }
+
+  gotoShippingAddress(){
+    this.router.navigate(["/shipping-address"]);
+  }
+  
 
   async checkoutOrder() {
     var dt = new Date();
