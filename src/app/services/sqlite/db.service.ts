@@ -174,21 +174,23 @@ export class DbService {
     });
   }
   getProfileInfo(param): Promise<any> {
-    console.log(param.id);
-    const query = "SELECT * FROM Customer  WHERE id = ? ";
-    return this.storage.executeSql(query, [param.id]).then(res => { 
+    const query = "SELECT Customer.*, CountryMaster.name as countryname FROM Customer LEFT JOIN CountryMaster ON Customer.country = CountryMaster.id WHERE Customer.id = " + param.id;
+    return this.storage.executeSql(query, []).then(res => { 
       return {
         id: res.rows.item(0).id,
         first_name: res.rows.item(0).first_name,
         last_name: res.rows.item(0).last_name,
         email: res.rows.item(0).email,
+        phone: res.rows.item(0).phone,
         unit: res.rows.item(0).unit,
         address1: res.rows.item(0).address1,
         address2: res.rows.item(0).address2,
         city: res.rows.item(0).city,
+        country: res.rows.item(0).countryname,
         tel_phone: res.rows.item(0).phone,
         mobile_phone: res.rows.item(0).mobile,
         state: res.rows.item(0).state,
+        zip: res.rows.item(0).zip,
         password: res.rows.item(0).password,
         post_code: res.rows.item(0).zip,
         company: res.rows.item(0).company,
