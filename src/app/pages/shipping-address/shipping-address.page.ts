@@ -102,6 +102,7 @@ export class ShippingAddressPage implements OnInit {
   }
 
   gotoPayment(value){
+    console.log(value);
     this.storageService.setObject(config.delivery_addressInfo, value);
     this.router.navigate(["/payment"]);
   }
