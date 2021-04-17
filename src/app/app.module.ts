@@ -18,7 +18,10 @@ import { FileTransfer } from '@ionic-native/file-transfer/ngx';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
 import { LoginPageModule } from './pages/login/login.module';
 import { CartSettingService } from './services/global-carttsetting/cart-setting.service'
-
+import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
+import { fas } from '@fortawesome/free-solid-svg-icons'
+import { far } from '@fortawesome/free-regular-svg-icons'
+import { fab } from '@fortawesome/free-brands-svg-icons'
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -28,7 +31,8 @@ import { CartSettingService } from './services/global-carttsetting/cart-setting.
     IonicStorageModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
-    LoginPageModule
+    LoginPageModule,
+    FontAwesomeModule
   ],
   providers: [
     StatusBar,
@@ -44,4 +48,8 @@ import { CartSettingService } from './services/global-carttsetting/cart-setting.
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule {
+  constructor(library: FaIconLibrary) { 
+		library.addIconPacks(fas, fab, far);
+	}
+}
