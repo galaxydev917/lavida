@@ -76,7 +76,9 @@ ion-title{
 .button-div{
     width: '100%';
     display: flex;
-    justify-content: flex-end;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 20px;
 }
 .button-proceed{
    // width: '60%';

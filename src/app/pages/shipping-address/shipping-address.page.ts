@@ -29,7 +29,7 @@ export class ShippingAddressPage implements OnInit {
   ngOnInit() {
     this.validationsform = this.formBuilder.group({
       order_comment: new FormControl('', Validators.compose([
-        Validators.required
+        //Validators.required
       ])),
       email: new FormControl('', Validators.compose([
         Validators.required

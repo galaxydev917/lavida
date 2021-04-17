@@ -66,14 +66,15 @@ export class PaymentPage implements OnInit {
   }
 
   onCheckboxChange(e){
-    if(e.detail.checked)
+    if(e.detail.checked){
       this.isShowForm = false;
+      this.setInitialValue();
+    }
     else
       this.isShowForm = true;
   }
 
   setInitialValue(){
-    console.log(this.deliveryAddressInfo);
     this.validationsform.setValue({
       first_name: this.deliveryAddressInfo.first_name,
       last_name: this.deliveryAddressInfo.last_name,
