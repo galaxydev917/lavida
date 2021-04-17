@@ -7,11 +7,13 @@ import { ShippingAddressPageRoutingModule } from './shipping-address-routing.mod
 
 import { ShippingAddressPage } from './shipping-address.page';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
+    FontAwesomeModule,
     ReactiveFormsModule,
     IonicModule,
     ShippingAddressPageRoutingModule

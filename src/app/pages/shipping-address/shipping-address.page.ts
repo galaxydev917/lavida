@@ -17,7 +17,8 @@ export class ShippingAddressPage implements OnInit {
   all_addressText = "";
   cartProductList = [];
   validationsform: FormGroup;
-
+  isShowForm = false;
+  totalAmount = 0;
   constructor(
     public storageService: StorageService,
     public location: Location,
@@ -72,7 +73,11 @@ export class ShippingAddressPage implements OnInit {
 
   async ionViewWillEnter(){
     this.loginedUser = await this.storageService.getObject("loginedUser");
+    this.cartProductList = await this.storageService.getObject(config.cart_products);
 
+    for (var i = 0; i < this.cartProductList.length; i++) {
+      this.totalAmount += this.cartProductList[i].amount;
+    }
     this.db.getDatabaseState().subscribe(async (res) => {
       if(res){
         this.currentUserProfile = await this.db.getProfileInfo(this.loginedUser);
@@ -100,7 +105,14 @@ export class ShippingAddressPage implements OnInit {
       company: this.currentUserProfile.company,
    });
   }
-
+  onCheckboxChange(e){
+    if(e.detail.checked){
+      this.isShowForm = false;
+      this.setInitialValue();
+    }
+    else
+      this.isShowForm = true;
+  }
   gotoPayment(value){
     console.log(value);
     this.storageService.setObject(config.delivery_addressInfo, value);

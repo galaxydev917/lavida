@@ -2,6 +2,9 @@ ion-title{
     letter-spacing: 0.1em; 
     font-size: larger;
 }
+ion-item{
+    --padding-start: 5px;
+}
 .toolbar{
     height: 90px; 
     align-items: center; 
@@ -68,17 +71,16 @@ ion-title{
 }
 .button-div{
     width: '100%';
-    display: flex;
-    justify-content: flex-end;
+    justify-content: center;
+    margin-top: 10px;
 }
 .button-proceed{
    // width: '60%';
     height: 60px;
-    font-size: 1.2em;
-    font-weight: 500;
+    font-size: 27px;
+    font-weight: 600;
     margin: 0 !important;
-    margin-top: 10px !important;
-    --background: hsl(198, 35%, 58%);
+    --background: #4bb716;
     --background-activated : #e2f1e4;
     --color: white;
     --border-color : white;
@@ -88,4 +90,11 @@ ion-title{
     ion-icon{
         font-size: 1.2em;
     }
+}
+.clipboardIcon{
+    color: #66bb6a; 
+    padding-right: 10px; 
+    margin-right: 10px; 
+    font-size: 3em; 
+    float: left
 }
