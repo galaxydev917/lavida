@@ -19,7 +19,7 @@ export class CartSettingService {
   }
 
   getGlobalCarttSetting(cartSettingList){
-    var minimum_order_state, minimum_order_state_value, minimum_order, amount_alert_threshold, amount_alert_ceiling,amount_alert_pre_text, amount_alert_text, amount_alert_post_text;
+    var minimum_order_state, minimum_order_state_value, minimum_order, amount_alert_threshold, amount_alert_ceiling,amount_alert_pre_text, amount_alert_text, amount_alert_post_text, terms_conditions;
 
     for( var i=0; i<cartSettingList.length; i++){
       if(cartSettingList[i].variable_name == 'minimum_order_state'){
@@ -43,7 +43,10 @@ export class CartSettingService {
       }     
       if(cartSettingList[i].variable_name == 'cart_amount_alert_post_text'){
         amount_alert_post_text = cartSettingList[i].variable_value;
-      }                         
+      }   
+      if(cartSettingList[i].variable_name == 'terms_conditions'){
+        terms_conditions = cartSettingList[i].variable_value;
+      }                             
     }
     var state = this.loggedInUser.ship_state ? this.loggedInUser.ship_state : this.loggedInUser.state;
     for(var k in minimum_order_state){
@@ -60,7 +63,8 @@ export class CartSettingService {
       amount_alert_ceiling: amount_alert_ceiling,
       amount_alert_pre_text: amount_alert_pre_text,
       amount_alert_text: amount_alert_text,
-      amount_alert_post_text: amount_alert_post_text
+      amount_alert_post_text: amount_alert_post_text,
+      terms_conditions: terms_conditions
     }
   }
 }

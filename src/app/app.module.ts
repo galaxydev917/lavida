@@ -17,7 +17,9 @@ import { SqliteDbCopy } from '@ionic-native/sqlite-db-copy/ngx';
 import { FileTransfer } from '@ionic-native/file-transfer/ngx';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
 import { LoginPageModule } from './pages/login/login.module';
-import { CartSettingService } from './services/global-carttsetting/cart-setting.service'
+import { CartSettingService } from './services/global-carttsetting/cart-setting.service';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import { far } from '@fortawesome/free-regular-svg-icons'
@@ -41,6 +43,7 @@ import { fab } from '@fortawesome/free-brands-svg-icons'
     SQLitePorter,
     SqliteDbCopy,
     CartSettingService,
+    InAppBrowser,
     WebView,
     File,
     FileTransfer,

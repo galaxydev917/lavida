@@ -151,12 +151,19 @@
   </ion-grid>
   <div class="button-div">
     <ion-item lines="none">
-      <ion-label style="font-size: 14px;">I accepted the <a>terms & conditions</a> and if paying by credit, authorise payment for back ordered items.</ion-label>
-      <ion-checkbox color="dark" slot="start" mode="md" style="margin-right: 10px; margin-left: 10px;"></ion-checkbox>
-    </ion-item>   
-    <ion-button  class="button-proceed" type="submit" mode="ios" fill="solid"  expand="block"  [disabled]="!validationsform.valid">
-      Submit this order for AU ${{totalAmount | number:'1.2-2'}}
-    </ion-button>
+      <ion-label style="font-size: 14px;">I accepted the <a (click)="openWithSystemBrowser()">terms & conditions</a> and if paying by credit, authorise payment for back ordered items.</ion-label>
+      <ion-checkbox color="dark" slot="start" mode="md" style="margin-right: 10px; margin-left: 10px;" (ionChange)="onCheckTermsAccept($event)"></ion-checkbox>
+    </ion-item>  
+    <div *ngIf="!isAcceptedTerms">
+      <ion-button  class="button-proceed" type="submit" mode="ios" fill="solid"  expand="block" [disabled]="true">
+        Submit this order for AU ${{totalAmount | number:'1.2-2'}}
+      </ion-button>
+    </div> 
+    <div *ngIf="isAcceptedTerms">
+      <ion-button  class="button-proceed" type="submit" mode="ios" fill="solid"  expand="block" [disabled]="!validationsform.valid">
+        Submit this order for AU ${{totalAmount | number:'1.2-2'}}
+      </ion-button>
+    </div> 
   </div>
   </form>
 </ion-content>
