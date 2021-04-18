@@ -18,7 +18,7 @@
           <p>Do you have anything you need to tell us about this order?</p>
         </ion-label>
         <ion-item mode="md" lines="none"  style="margin-top: 10px;">
-          <ion-textarea rows="6" cols="20" placeholder="Enter any notes here..."></ion-textarea>
+          <ion-textarea rows="6" cols="20" placeholder="Enter any notes here..." [(ngModel)]="comments"></ion-textarea>
         </ion-item> 
       </ion-list>  
     </ion-col>
@@ -32,7 +32,7 @@
     <ion-checkbox color="primary" checked slot="start" mode="md" style="margin-right: 10px; margin-left: 10px;" (ionChange)="onCheckboxChange($event)"></ion-checkbox>
   </ion-item>
 
-  <form class="form" [formGroup]="validationsform" (ngSubmit)="gotoPayment(validationsform.value)">
+  <form class="form" [formGroup]="validationsform" (ngSubmit)="submit(validationsform.value)">
   <ion-grid *ngIf="isShowForm">
     <ion-row class="ion-no-padding">
       <ion-col>

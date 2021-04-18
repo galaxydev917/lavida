@@ -174,7 +174,7 @@ export class DbService {
     });
   }
   getProfileInfo(param): Promise<any> {
-    const query = "SELECT Customer.*, CountryMaster.name as countryname FROM Customer LEFT JOIN CountryMaster ON Customer.country = CountryMaster.id WHERE Customer.id = " + param.id;
+    const query = "SELECT Customer.*, CountryMaster.name as countryname, CountryMaster.id as countrykey FROM Customer LEFT JOIN CountryMaster ON Customer.country = CountryMaster.id WHERE Customer.id = " + param.id;
     return this.storage.executeSql(query, []).then(res => { 
       return {
         id: res.rows.item(0).id,
@@ -187,6 +187,7 @@ export class DbService {
         address2: res.rows.item(0).address2,
         city: res.rows.item(0).city,
         country: res.rows.item(0).countryname,
+        countrykey: res.rows.item(0).countrykey,
         tel_phone: res.rows.item(0).phone,
         mobile_phone: res.rows.item(0).mobile,
         state: res.rows.item(0).state,
