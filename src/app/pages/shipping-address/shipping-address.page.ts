@@ -147,6 +147,7 @@ export class ShippingAddressPage implements OnInit {
   }
 
   async submit(value){
+
     var dt = new Date();
     var order_date = `${dt.getFullYear().toString().padStart(4, "0")}-${(
       dt.getMonth() + 1
@@ -212,13 +213,14 @@ export class ShippingAddressPage implements OnInit {
     value.order_amount = this.totalAmount;
     value.countrykey = this.currentUserProfile.countrykey;
     value.comments = this.comments;
+    
     this.exportService.checkoutOrderMaster({ orderMasterInfo: value }).subscribe(async result => {
       this.exportService.checkoutOrderDetail({ orderMasterId: result.insertedId, orderDetailInfo: this.cartProductList }).subscribe(async result => {
         this.storageService.removeItem(config.cart_products);
         this.cartProductList = [];
-        // this.cartBadgeCount = 0;
-        // this.isEmptyCart = true;
         loading.dismiss();
+        this.router.navigate(["/thankyou"]);
+        
       },err => {
         loading.dismiss();
         alert("Error: Export save order detail data.");
@@ -235,7 +237,6 @@ export class ShippingAddressPage implements OnInit {
     });
 }
   gotoPayment(value){
-    console.log(value);
     this.storageService.setObject(config.delivery_addressInfo, value);
     this.router.navigate(["/payment"]);
   }

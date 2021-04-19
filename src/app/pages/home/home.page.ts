@@ -165,26 +165,27 @@ export class HomePage implements OnInit {
 
   async updateOrderDataFromServer(){
     var query_saveOrderLastRegdate = "SELECT order_date as reg_date FROM saveordermaster ORDER BY order_date DESC LIMIT 1";
-    var query_orderLastRegdate = "SELECT order_date as reg_date FROM OrderMaster ORDER BY order_date DESC LIMIT 1";
+    var query_orderLastRegdate = "SELECT order_date as reg_date FROM OrderMaster ORDER BY datetime(order_date) DESC LIMIT 1";
 
     var saveOrderLastRegDate = await this.db.getLastRegDate(query_saveOrderLastRegdate);
     var OrderLastRegDate = await this.db.getLastRegDate(query_orderLastRegdate);
 
-    
+    console.log("OrderLastRegDate====", OrderLastRegDate);
     this.orderService.getSaveOrderData(saveOrderLastRegDate.reg_date, OrderLastRegDate.reg_date, this.loginedUserInfo.id).subscribe( async (result) => {
+
       if(result.orderlist.length > 0){
         await this.addOrderMaster(result.orderlist);
 
+        console.log("222222222222", result.order_details)
         if(result.order_details.length > 0)
           await this.addOrderMasterDetail(result.order_details);
-      }
+      }  
 
-      if(result.saveorderlist.length > 0){
+      if(result.saveorderlist.length > 0)
         await this.addSaveOrder(result.saveorderlist);
 
-        if(result.saveorder_details.length > 0)
-          await this.addSaveOrderDetail(result.saveorder_details);
-      }
+      if(result.saveorder_details.length > 0)
+        await this.addSaveOrderDetail(result.saveorder_details);
 
       this.loginedUserInfo =  await this.storageService.getObject("loginedUser"); 
 
@@ -198,7 +199,8 @@ export class HomePage implements OnInit {
     });    
 
   }
-  addSaveOrder(save_orderlist){
+  async addSaveOrder(save_orderlist){
+
     var str_query = "INSERT INTO saveordermaster (id, order_date, user_id, order_amount, status) VALUES ";
 
     var rowArgs = [];
@@ -215,7 +217,8 @@ export class HomePage implements OnInit {
     return this.db.addToSqlite(str_query, data);
   }
 
-  addSaveOrderDetail(save_orderdetails){
+  async addSaveOrderDetail(save_orderdetails){
+
     var str_query = "INSERT INTO saveorderdetails (id, order_id, product_id, qty, price, product_code, product_name) VALUES ";
 
     var rowArgs = [];
@@ -235,16 +238,17 @@ export class HomePage implements OnInit {
     return this.db.addToSqlite(str_query, data);
   }
   addOrderMaster(orderlist){
-    var str_query = "INSERT INTO OrderMaster (id, order_date, user_id, order_amount, status, txn_id, responseText_securepay, distributor_businessName, customer_id) VALUES ";
+
+    var str_query = "INSERT INTO OrderMaster ( id, order_date, user_id, order_amount, status, txn_id, responseText_securepay, distributor_businessName, customer_id) VALUES ";
 
     var rowArgs = [];
     var data = [];
     orderlist.forEach(function (order) {
       rowArgs.push("(?, ?, ?, ?, ?, ?, ?, ?, ?)");
       data.push(order.id);
-      data.push(order.order_amount);
       data.push(order.order_date);
       data.push(order.user_id);
+      data.push(order.order_amount);
       data.push(order.status);
       data.push(order.txn_id);
       data.push(order.responseText_securepay);
@@ -272,6 +276,7 @@ export class HomePage implements OnInit {
   
     });
     str_query += rowArgs.join(", ");
+    console.log(str_query);
     return this.db.addToSqlite(str_query, data);
   }
   async checkCustomerOfAgent(){  
