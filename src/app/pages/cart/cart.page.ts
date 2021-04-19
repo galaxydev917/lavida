@@ -153,35 +153,47 @@ export class CartPage implements OnInit {
     }
   }
 
-  saveOrderMaster(order_date) {
+  async saveOrderMaster(order_date) {
+    var str_maxIdQuery = "SELECT MAX(id) as maxId FROM saveordermaster LIMIT 1";
+    var obj_maxId = await this.db.getMaxId(str_maxIdQuery);
+    var insertId = obj_maxId.maxId+1;
     var str_query =
-      "INSERT INTO saveordermaster ( order_date, user_id, order_amount) VALUES ";
+      "INSERT INTO saveordermaster ( id, order_date, user_id, order_amount) VALUES ";
 
     var rowArgs = [];
     var data = [];
-    rowArgs.push("(?, ?, ?)");
-    data = [order_date, this.loginedUserInfo.id, this.order_all_amount];
-
+    rowArgs.push("(?, ?, ?, ?)");
+    data = [insertId, order_date, this.loginedUserInfo.id, this.order_all_amount];
+    console.log("maxId===", obj_maxId.maxId);
     str_query += rowArgs.join(", ");
-    return this.db.addToSqlite(str_query, data);
+    await this.db.addToSqlite(str_query, data);
+
+    this.saveOrderDetails(insertId);
   }
 
   async saveOrderDetails(insertedMasterId) {
+    var str_maxIdQuery = "SELECT MAX(id) as maxId FROM saveorderdetails LIMIT 1";
+    var obj_maxId = await this.db.getMaxId(str_maxIdQuery);
+    var insertId = obj_maxId.maxId + 1;
+
     var str_query =
-      "INSERT INTO saveorderdetails (order_id, product_id, qty, price, product_code, product_name) VALUES ";
+      "INSERT INTO saveorderdetails (id, order_id, product_id, qty, price, product_code, product_name) VALUES ";
     var rowArgs = [];
     var data = [];
+
     this.cartProductList.forEach(function (cartproduct) {
-      rowArgs.push("(?, ?, ?, ?, ?, ?)");
+      rowArgs.push("(?, ?, ?, ?, ?, ?, ?)");
+      data.push(insertId);
       data.push(insertedMasterId);
       data.push(cartproduct.productId);
       data.push(cartproduct.qty);
       data.push(cartproduct.bulkPrice);
       data.push(cartproduct.productCode);
       data.push(cartproduct.productName);
+      insertId = insertId + 1;
     });
     str_query += rowArgs.join(", ");
-    return await this.db.addToSqlite(str_query, data);
+    await this.db.addToSqlite(str_query, data);
   }
 
   async saveOrder() {
@@ -201,8 +213,7 @@ export class CartPage implements OnInit {
       .toString()
       .padStart(2, "0")}:${dt.getSeconds().toString().padStart(2, "0")}`;
 
-    var insertedMasterId = await this.saveOrderMaster(order_date);
-    await this.saveOrderDetails(insertedMasterId);
+    await this.saveOrderMaster(order_date);
     this.showToast("Your Order saved successfully.");
     this.exportSaveOrdersToOnline(order_date);
   }

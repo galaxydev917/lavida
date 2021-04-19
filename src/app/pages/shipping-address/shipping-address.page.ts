@@ -164,38 +164,49 @@ export class ShippingAddressPage implements OnInit {
       .toString()
       .padStart(2, "0")}:${dt.getSeconds().toString().padStart(2, "0")}`;
 
-    var insertedMasterId = await this.checkoutOrderMaster(order_date, value);
-    await this.checkoutOrderDetails(insertedMasterId);
+    await this.checkoutOrderMaster(order_date, value);
     this.showToast("Your Order submitted successfully");
     this.exportCheckoutOrdersToOnline(order_date, value);
   }
 
-  checkoutOrderMaster(order_date, value) {
+  async checkoutOrderMaster(order_date, value) {
+    var str_maxIdQuery = "SELECT MAX(id) as maxId FROM OrderMaster LIMIT 1";
+    var obj_maxId = await this.db.getMaxId(str_maxIdQuery);
+    var insertId = obj_maxId.maxId+1;
+
     var str_query =
-      "INSERT INTO OrderMaster ( order_date, user_id, order_amount, comments, ship_email, ship_first_name, ship_last_name, ship_phone, ship_address1, ship_address2, ship_city, ship_zip, ship_state, ship_country, ship_company) VALUES ";
+      "INSERT INTO OrderMaster ( id, order_date, user_id, order_amount, comments, ship_email, ship_first_name, ship_last_name, ship_phone, ship_address1, ship_address2, ship_city, ship_zip, ship_state, ship_country, ship_company) VALUES ";
 
     var rowArgs = [];
     var data = [];
-    rowArgs.push("(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    data = [order_date, this.loginedUser.id, this.totalAmount, this.comments, value.confirm_email, value.first_name, value.last_name, value.phone, value.address1, value.address2, value.city, value.zip, value.state, this.currentUserProfile.countrykey, value.company];
+    rowArgs.push("(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    data = [insertId, order_date, this.loginedUser.id, this.totalAmount, this.comments, value.confirm_email, value.first_name, value.last_name, value.phone, value.address1, value.address2, value.city, value.zip, value.state, this.currentUserProfile.countrykey, value.company];
 
     str_query += rowArgs.join(", ");
-    return this.db.addToSqlite(str_query, data);
+    await this.db.addToSqlite(str_query, data);
+
+    this.checkoutOrderDetails(insertId);
   } 
 
   async checkoutOrderDetails(insertedMasterId) {
+    var str_maxIdQuery = "SELECT MAX(id) as maxId FROM OrderDetails LIMIT 1";
+    var obj_maxId = await this.db.getMaxId(str_maxIdQuery);
+    var insertId = obj_maxId.maxId + 1;
+
     var str_query =
-      "INSERT INTO OrderDetails (order_id, product_id, qty, price, product_code, product_name) VALUES ";
+      "INSERT INTO OrderDetails (id, order_id, product_id, qty, price, product_code, product_name) VALUES ";
     var rowArgs = [];
     var data = [];
     this.cartProductList.forEach(function (cartproduct) {
-      rowArgs.push("(?, ?, ?, ?, ?, ?)");
+      rowArgs.push("(?, ?, ?, ?, ?, ?, ?)");
+      data.push(insertId);
       data.push(insertedMasterId);
       data.push(cartproduct.productId);
       data.push(cartproduct.qty);
       data.push(cartproduct.bulkPrice);
       data.push(cartproduct.productCode);
       data.push(cartproduct.productName);
+      insertId = insertId + 1;
     });
     str_query += rowArgs.join(", ");
     return await this.db.addToSqlite(str_query, data);

@@ -161,8 +161,6 @@ export class HomePage implements OnInit {
 
   }
 
-
-
   async updateOrderDataFromServer(){
     var query_saveOrderLastRegdate = "SELECT order_date as reg_date FROM saveordermaster ORDER BY order_date DESC LIMIT 1";
     var query_orderLastRegdate = "SELECT order_date as reg_date FROM OrderMaster ORDER BY datetime(order_date) DESC LIMIT 1";
@@ -170,22 +168,21 @@ export class HomePage implements OnInit {
     var saveOrderLastRegDate = await this.db.getLastRegDate(query_saveOrderLastRegdate);
     var OrderLastRegDate = await this.db.getLastRegDate(query_orderLastRegdate);
 
-    console.log("OrderLastRegDate====", OrderLastRegDate);
     this.orderService.getSaveOrderData(saveOrderLastRegDate.reg_date, OrderLastRegDate.reg_date, this.loginedUserInfo.id).subscribe( async (result) => {
 
       if(result.orderlist.length > 0){
         await this.addOrderMaster(result.orderlist);
 
-        console.log("222222222222", result.order_details)
         if(result.order_details.length > 0)
           await this.addOrderMasterDetail(result.order_details);
       }  
 
-      if(result.saveorderlist.length > 0)
+      if(result.saveorderlist.length > 0){
         await this.addSaveOrder(result.saveorderlist);
 
-      if(result.saveorder_details.length > 0)
-        await this.addSaveOrderDetail(result.saveorder_details);
+        if(result.saveorder_details.length > 0)
+          await this.addSaveOrderDetail(result.saveorder_details);
+      }
 
       this.loginedUserInfo =  await this.storageService.getObject("loginedUser"); 
 
