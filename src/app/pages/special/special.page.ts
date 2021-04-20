@@ -115,7 +115,20 @@ export class SpecialPage implements OnInit {
       product.bulkPrice = product.productPrice;
 
     product.amount = product.bulkPrice * product.qty;
-    this.cartProductList.push(product);
+
+    if(this.cartProductList.length > 0){
+      var alreadyProductObj = this.cartProductList.find(function(cartProduct, index) {
+        if(cartProduct.productId == product.productId){
+          cartProduct.qty = cartProduct.qty + product.qty;
+          cartProduct.amount = cartProduct.qty * cartProduct.bulkPrice;
+          return true;
+        }
+      });
+      if(alreadyProductObj == undefined)
+        this.cartProductList.push(product);
+    }else
+      this.cartProductList.push(product);
+      
     await this.storageService.setObject(config.cart_products, this.cartProductList);
     this.cartBadgeCount = this.cartProductList.length;  
 
