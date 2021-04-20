@@ -85,7 +85,7 @@ export class SavedordersPage implements OnInit {
 
   async mergeOrder(order){
     this.productsInOrderDetail = await this.db.getProductsInOrderDetail(order.orderId);
-
+    console.log(this.productsInOrderDetail);
     for(var i=0; i<this.productsInOrderDetail.length; i++){
       this.productsInOrderDetail[i].qty_dropdownList = this.getQtyList(this.productsInOrderDetail[i]);
       this.productsInOrderDetail[i].bulkPrice = this.productsInOrderDetail[i].productPrice;
@@ -111,7 +111,22 @@ export class SavedordersPage implements OnInit {
     this.cartBadgeCount = this.cartProductList.length;  
     this.router.navigate(['/cart']);
   }
-  
+
+  async regenerateOrder(order){
+    this.productsInOrderDetail = await this.db.getProductsInOrderDetail(order.orderId);
+
+    for(var i=0; i<this.productsInOrderDetail.length; i++){
+      this.productsInOrderDetail[i].qty_dropdownList = this.getQtyList(this.productsInOrderDetail[i]);
+      this.productsInOrderDetail[i].bulkPrice = this.productsInOrderDetail[i].productPrice;
+      this.productsInOrderDetail[i].amount = this.productsInOrderDetail[i].bulkPrice * this.productsInOrderDetail[i].qty;
+      this.productsInOrderDetail[i].image = await this.db.getProductImagesById(this.productsInOrderDetail[i].productId);
+    }  
+    this.cartProductList = this.productsInOrderDetail;
+    await this.storageService.setObject(config.cart_products, this.cartProductList);
+    this.cartBadgeCount = this.cartProductList.length;  
+    this.router.navigate(['/cart']);
+  }
+
   getQtyList(product){
     this.qty_dropdown = "";
     var minQty = product.productMinQty;

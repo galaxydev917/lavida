@@ -357,6 +357,7 @@ export class DbService {
             productQtySlab: data.rows.item(i).qty_slab1,
             productPriceSlab: data.rows.item(i).price_slab1,
             qty: data.rows.item(i).detailorder_qty,
+            remainQty: data.rows.item(i).quantity
           });
         }
       }
@@ -389,6 +390,7 @@ export class DbService {
             productImportantInfo: data.rows.item(i).important_information,
             productDescription: data.rows.item(i).description,
             productShortDescription: data.rows.item(i).short_description,
+            remainQty: data.rows.item(i).quantity
           });
         }
       }
@@ -423,6 +425,7 @@ export class DbService {
             productQtySlab: data.rows.item(i).qty_slab1,
             productPriceSlab: data.rows.item(i).price_slab1,
             productPreOrder: data.rows.item(i).pre_order,
+            remainQty: data.rows.item(i).quantity
           });
         }
       }
@@ -450,6 +453,7 @@ export class DbService {
             productShortDescription: data.rows.item(i).short_description,
             productQtySlab: data.rows.item(i).qty_slab1,
             productPriceSlab: data.rows.item(i).price_slab1,
+            remainQty: data.rows.item(i).quantity
           });
         }
       }
