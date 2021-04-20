@@ -110,17 +110,10 @@ export class CartPage implements OnInit {
   changeQty(e, productIndex) {
     var selectedQty = e.detail.value;
 
-    if (
-      selectedQty >= this.cartProductList[productIndex].productQtySlab &&
-      this.cartProductList[productIndex].productQtySlab > 0
-    ) {
-      this.cartProductList[productIndex].bulkPrice = this.cartProductList[
-        productIndex
-      ].productPriceSlab;
+    if (selectedQty >= this.cartProductList[productIndex].productQtySlab && this.cartProductList[productIndex].productQtySlab > 0) {
+      this.cartProductList[productIndex].bulkPrice = this.cartProductList[productIndex].productPriceSlab;
     } else
-      this.cartProductList[productIndex].bulkPrice = this.cartProductList[
-        productIndex
-      ].productPrice;
+      this.cartProductList[productIndex].bulkPrice = this.cartProductList[productIndex].productPrice;
 
     this.cartProductList[productIndex].amount =
       this.cartProductList[productIndex].bulkPrice * selectedQty;
