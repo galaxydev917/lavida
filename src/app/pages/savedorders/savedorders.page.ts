@@ -97,7 +97,7 @@ export class SavedordersPage implements OnInit {
         var alreadyProductObj = this.cartProductList.find(function(cartProduct, index) {
           if(cartProduct.productId == productIdInOrderDetail.productId){
             cartProduct.qty = cartProduct.qty + productIdInOrderDetail.qty;
-            cartProduct.amount = cartProduct.qty * productIdInOrderDetail.bulkPrice;
+            cartProduct.amount = cartProduct.qty * cartProduct.bulkPrice;
             return true;
           }
         });
@@ -111,6 +111,7 @@ export class SavedordersPage implements OnInit {
     this.cartBadgeCount = this.cartProductList.length;  
     this.router.navigate(['/cart']);
   }
+  
   getQtyList(product){
     this.qty_dropdown = "";
     var minQty = product.productMinQty;
