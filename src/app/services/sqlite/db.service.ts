@@ -319,7 +319,7 @@ export class DbService {
 
   //Category page start-----
   loadCategories(){
-    let query = "SELECT DISTINCT ProductCategory.category_id as categoryId, images.name, ProdCat.display_title, images.type FROM ProductCategory, ProdCat, images WHERE ProductCategory.category_id = ProdCat.id AND images.ref_id = ProdCat.id AND images.type = 4 AND images.name != 'NULL' ORDER BY ProdCat.display_title";
+    let query = "SELECT DISTINCT ProductCategory.category_id as categoryId, images.name, ProdCat.display_title, images.type FROM ProductCategory, ProdCat, images WHERE ProductCategory.category_id = ProdCat.id AND ProdCat.portal1 = 1 AND images.ref_id = ProdCat.id AND images.type = 4 AND images.name != 'NULL' ORDER BY ProdCat.display_title";
     
     return this.storage.executeSql(query, []).then(data => {
       let result = [];
@@ -364,6 +364,35 @@ export class DbService {
       return result;
     });
   }  
+  async getProductsInOrderMasterDetail(orderId){
+
+    let query = "SELECT Product.*, Product.id as dis_id, OrderDetails.qty as detailorder_qty, OrderDetails.price as detailorder_price FROM Product LEFT JOIN OrderDetails ON Product.id = OrderDetails.product_id WHERE OrderDetails.order_id = " + orderId;
+    return this.storage.executeSql(query, []).then(data => {
+      let result = [];
+      if (data.rows.length > 0) {
+        for (var i = 0; i < data.rows.length; i++) {
+          result.push({ 
+            productId: data.rows.item(i).dis_id,
+            productPrice: data.rows.item(i).detailorder_price,
+            productName: data.rows.item(i).name,
+            productDimension: data.rows.item(i).dimension,
+            productBarCode: data.rows.item(i).barcode,
+            productMaterials: data.rows.item(i).materials,
+            productMinQty: data.rows.item(i).minimum_qty,
+            productCode: data.rows.item(i).code,
+            productImportantInfo: data.rows.item(i).important_information,
+            productDescription: data.rows.item(i).description,
+            productShortDescription: data.rows.item(i).short_description,
+            productQtySlab: data.rows.item(i).qty_slab1,
+            productPriceSlab: data.rows.item(i).price_slab1,
+            qty: data.rows.item(i).detailorder_qty,
+            remainQty: data.rows.item(i).quantity
+          });
+        }
+      }
+      return result;
+    });
+  }    
   //Product page start------
   loadProducts(categoryId, group_id, from){
     let query = "SELECT DISTINCT Product.id AS productId, Product.group" + group_id + "_price as productPrice, images.name as productImg, Product.* FROM Product, ProdCat, ProductCategory, images WHERE ProductCategory.product_id = Product.id AND ProductCategory.category_id = ProdCat.id AND Product.parent_id <= 0 AND Product.web_ready = '1' AND ProductCategory.category_id = " +  categoryId + " AND Product.group2_price > 0 AND images.ref_id = Product.id ORDER BY due_date desc, new_product desc, new_date desc, id desc, code limit " + from + ", 6";
@@ -518,6 +547,7 @@ export class DbService {
             result.push({ 
               orderDate: data.rows.item(i).order_date,
               orderId: data.rows.item(i).id,
+              status: data.rows.item(i).status,
               userId: data.rows.item(i).user_id
             });
           }

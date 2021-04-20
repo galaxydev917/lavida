@@ -23,7 +23,7 @@ export class SavedordersPage implements OnInit {
   from_limitVal = 0;
   qty_dropdown = "";
 
-  expandHeight = 500 + "px";
+  expandHeight = 1200 + "px";
   constructor(
     public storageService: StorageService,
     public db: DbService,
@@ -80,7 +80,6 @@ export class SavedordersPage implements OnInit {
     }
     this.savedOrderDetails = await this.db.loadSavedOrderDetails(order.orderId);
     this.savedOrderList[saveorderIndex].details = this.savedOrderDetails;
-    console.log(this.savedOrderDetails);
   }
 
   async mergeOrder(order){
@@ -125,6 +124,19 @@ export class SavedordersPage implements OnInit {
     await this.storageService.setObject(config.cart_products, this.cartProductList);
     this.cartBadgeCount = this.cartProductList.length;  
     this.router.navigate(['/cart']);
+  }
+
+  async deleteSavedOrder(order, saveorderIndex){
+    var str_deleteorder = "DELETE FROM saveordermaster  WHERE id =" + order.orderId;
+    await this.db.delete(str_deleteorder);
+
+    var str_deleteorderdetail = "DELETE FROM saveorderdetails  WHERE order_id =" + order.orderId;
+    await this.db.delete(str_deleteorderdetail);    
+
+    if (saveorderIndex > -1) {
+      this.savedOrderList.splice(saveorderIndex, 1);
+    }
+
   }
 
   getQtyList(product){

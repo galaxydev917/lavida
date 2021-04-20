@@ -23,17 +23,9 @@
       </ion-list>  
     </ion-col>
   </ion-row>
-  <ion-item lines="none">
-    <fa-icon icon="clipboard-check" class="clipboardIcon"></fa-icon>
-    <p style="font-weight: bold;">You can submit this form and our office will contact you for payment details.</p>
-  </ion-item>
-  <ion-item>
-    <ion-label>My billing address is the same as my delivery address.</ion-label>
-    <ion-checkbox color="primary" checked slot="start" mode="md" style="margin-right: 10px; margin-left: 10px;" (ionChange)="onCheckboxChange($event)"></ion-checkbox>
-  </ion-item>
 
-  <form class="form" [formGroup]="validationsform" (ngSubmit)="submit(validationsform.value)">
-  <ion-grid *ngIf="isShowForm">
+  <form class="form" [formGroup]="validationsform" (ngSubmit)="gotoPayment(validationsform.value)">
+  <ion-grid >
     <ion-row class="ion-no-padding">
       <ion-col>
         <ion-list class="line-input" mode="md"> 
@@ -150,6 +142,11 @@
     </ion-row>              
   </ion-grid>
   <div class="button-div">
+    <ion-button  class="button-proceed" type="submit" mode="ios" fill="solid"  expand="block"  [disabled]="!validationsform.valid">
+      Process Payment Method&nbsp;&nbsp;<ion-icon name="arrow-forward-outline"></ion-icon>
+    </ion-button>
+  </div>
+  <!-- <div class="button-div">
     <ion-item lines="none">
       <ion-label style="font-size: 14px;">I accepted the <a (click)="openWithSystemBrowser()">terms & conditions</a> and if paying by credit, authorise payment for back ordered items.</ion-label>
       <ion-checkbox color="dark" slot="start" mode="md" style="margin-right: 10px; margin-left: 10px;" (ionChange)="onCheckTermsAccept($event)"></ion-checkbox>
@@ -164,6 +161,6 @@
         Submit this order for AU ${{totalAmount | number:'1.2-2'}}
       </ion-button>
     </div> 
-  </div>
+  </div> -->
   </form>
 </ion-content>

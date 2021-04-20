@@ -6,7 +6,7 @@
       </ion-header>
       <ion-content>
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appMenus" style="background: #cc0000;">
-            <ion-item [routerDirection]="'root'" [routerLink]="[ p.url]" style="background: #cc0000;">
+            <ion-item [routerDirection]="'root'" (click)="gotoPage(p.url);" style="background: #cc0000;">
               <ion-label>{{p.title}}</ion-label>
             </ion-item>
           </ion-menu-toggle>

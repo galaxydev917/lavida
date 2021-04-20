@@ -60,6 +60,7 @@ export class HomePage implements OnInit {
   async ionViewWillEnter(){
     this.img_dir = this.pathForImage(this.file.documentsDirectory + 'banner_img/');
     this.loginedUserInfo = await this.storageService.getObject("loginedUser");
+    
     if(this.loginedUserInfo)
       this.isLoggedIn = true;
     
@@ -162,14 +163,13 @@ export class HomePage implements OnInit {
   }
 
   async updateOrderDataFromServer(){
-    var query_saveOrderLastRegdate = "SELECT order_date as reg_date FROM saveordermaster ORDER BY order_date DESC LIMIT 1";
+    var query_saveOrderLastRegdate = "SELECT order_date as reg_date FROM saveordermaster ORDER BY datetime(order_date) DESC LIMIT 1";
     var query_orderLastRegdate = "SELECT order_date as reg_date FROM OrderMaster ORDER BY datetime(order_date) DESC LIMIT 1";
 
     var saveOrderLastRegDate = await this.db.getLastRegDate(query_saveOrderLastRegdate);
     var OrderLastRegDate = await this.db.getLastRegDate(query_orderLastRegdate);
 
     this.orderService.getSaveOrderData(saveOrderLastRegDate.reg_date, OrderLastRegDate.reg_date, this.loginedUserInfo.id).subscribe( async (result) => {
-
       if(result.orderlist.length > 0){
         await this.addOrderMaster(result.orderlist);
 

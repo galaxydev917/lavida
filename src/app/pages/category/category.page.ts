@@ -6,6 +6,7 @@ import {StorageService} from '../../services/storage/storage.service';
 import { File } from '@ionic-native/file/ngx';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
 import { Platform, LoadingController, AlertController, MenuController } from '@ionic/angular';
+import { config } from 'src/app/config/config';
 
 @Component({
   selector: 'app-category',
@@ -21,6 +22,11 @@ export class CategoryPage implements OnInit {
   customerIdList = [];
   categorylist = [];
   img_dir = '';
+  pageTitle = 'Shop Categories';
+  isLogined = false;
+  cartBadgeCount = 0;
+  cartProductList = [];
+  
   constructor(
     public alertController: AlertController,
     public loadingController: LoadingController,
@@ -39,6 +45,20 @@ export class CategoryPage implements OnInit {
 
   async ionViewWillEnter(){
     this.img_dir = this.pathForImage(this.file.documentsDirectory + 'prod_cat_img/');
+    this.loginedUser = await this.storageService.getObject('loginedUser');
+    this.cartProductList = await this.storageService.getObject(config.cart_products);
+
+    if(this.cartProductList == null){
+      this.cartProductList = [];
+      this.cartBadgeCount = 0;
+    }else
+      this.cartBadgeCount = this.cartProductList.length;  
+
+    if(!this.loginedUser){
+      this.isLogined = false;
+    }else
+      this.isLogined = true;
+
     this.db.getDatabaseState().subscribe(async (res) => {
       if(res){
         this.getCategoryList();
@@ -49,6 +69,7 @@ export class CategoryPage implements OnInit {
 
   async getCategoryList(){
     this.categorylist = await this.db.loadCategories();
+    console.log(this.categorylist);
   }
 
   pathForImage(img) {

@@ -2,7 +2,7 @@
   <app-header
     [pageTitle]="pageTitle"
     [cartBadgeCount]="cartBadgeCount"
-    [isLoggedIn]=true>
+    [isLoggedIn]="isLoggedIn">
   </app-header>
 </ion-header>
 
@@ -21,28 +21,33 @@
         </ion-item>
         <app-expandable [expandHeight]="expandHeight" [expanded]="item.expanded">
           <ion-grid class="ion-text-center">
-            <ion-row class="ion-padding  header-text">
-              <ion-col size="3">Date</ion-col>
-              <ion-col size="3">SKU</ion-col>
-              <ion-col size="4">Product Name</ion-col>
-              <ion-col size="2">Quantity</ion-col>
-            </ion-row>
-            <ion-row *ngFor="let details_Item of item.details" class="ion-padding">
-              <ion-col size="3">{{item.detail_orderdate }}</ion-col>
-              <ion-col size="3">{{details_Item.productCode}}</ion-col>
-              <ion-col size="4">{{details_Item.productName}}</ion-col>
-              <ion-col size="2">{{details_Item.productQty}}</ion-col>
+
+            <ion-row class="ion-justify-content-center ion-align-items-center">
+              <ion-col size="2">{{item.detail_orderdate }}</ion-col>
+              <ion-col size="10">
+                <ion-row class="header-text ">
+                  <ion-col size="3">SKU</ion-col>
+                  <ion-col size="7">Product Name</ion-col>
+                  <ion-col size="2">Quantity</ion-col>
+                </ion-row>
+                <ion-row *ngFor="let details_Item of item.details" class="ion-padding-vertical">
+                  <ion-col size="3">{{details_Item.productCode}}</ion-col>
+                  <ion-col size="7">{{details_Item.productName}}</ion-col>
+                  <ion-col size="2">{{details_Item.productQty}}</ion-col>
+                </ion-row>
+              </ion-col>
             </ion-row>
           </ion-grid>
           <div class="button-div">
             <ion-button  class="button-merge" mode="ios" fill="solid"  expand="block" (click)="mergeOrder(item)">Merge Order</ion-button>
             <ion-button  class="button-merge" mode="ios" fill="solid"  expand="block" (click)="regenerateOrder(item)">Regenerate Order</ion-button>
-            <ion-button  class="button-delete" mode="ios" fill="solid"  expand="block">Delete Saved Order</ion-button>
+            <ion-button  class="button-delete" mode="ios" fill="solid"  expand="block" (click)="deleteSavedOrder(item, saveorderIndex)">Delete Saved Order</ion-button>
           </div>
         </app-expandable>
       </ion-col>
     </ion-row>    
   </ion-grid>
+
   <ion-infinite-scroll (ionInfinite)="loadMore($event)">
     <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
     </ion-infinite-scroll-content>

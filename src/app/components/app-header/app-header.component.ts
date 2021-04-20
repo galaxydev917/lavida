@@ -36,7 +36,8 @@ export class AppHeaderComponent implements OnInit {
     });
 
     modal.onDidDismiss().then((dataReturned) => {
-      if (dataReturned !== null) {
+      console.log(dataReturned);
+      if (dataReturned.role !== 'backdrop') {
         this.isLoggedIn = true;
       }
     });
@@ -54,7 +55,6 @@ export class AppHeaderComponent implements OnInit {
   }
 
   async openMenu() {
-
     if(this.isLoggedIn){
       this.menuCtrl.enable(true, 'loggedin_customMenu');
       this.menuCtrl.open('loggedin_customMenu');

@@ -8,6 +8,7 @@ import { CheckoutlistPageRoutingModule } from './checkoutlist-routing.module';
 
 import { CheckoutlistPage } from './checkoutlist.page';
 import { ComponentsModule } from '../../components/components.module';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { ComponentsModule } from '../../components/components.module';
     FormsModule,
     IonicModule,
     CheckoutlistPageRoutingModule,
+    FontAwesomeModule,
     ComponentsModule
   ],
   declarations: [CheckoutlistPage]

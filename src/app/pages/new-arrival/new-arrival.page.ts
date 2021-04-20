@@ -61,13 +61,16 @@ export class NewArrivalPage implements OnInit {
       this.cartBadgeCount = this.cartProductList.length;  
 
     this.img_dir = this.pathForImage(this.file.documentsDirectory + 'product_img/');
-
     if(!this.loginedUser){
+      console.log("11111111111111");
       this.isLoggedIn = false;
     }else{
+      console.log("222222222222");
       this.isLoggedIn = true;
       this.getNewProducts(false, "");
     }
+    console.log("new product", this.isLoggedIn);
+
   }
   async getNewProducts(isFirstLoad, event){
     this.db.getDatabaseState().subscribe(async (res) => {
