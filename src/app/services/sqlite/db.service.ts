@@ -204,7 +204,7 @@ export class DbService {
         comment: res.rows.item(0).comment,
         trading_years: res.rows.item(0).trading_years,
         online_business: res.rows.item(0).online_business,
-        domain_name: res.rows.item(0).domain_name
+        domain_name: res.rows.item(0).domain_name,
       }
     });
   }

@@ -168,7 +168,102 @@
           </ion-item> 
         </ion-list>
       </ion-col>      
-    </ion-row>      
+    </ion-row>    
+    <ion-row class="ion-justify-content-center ion-align-items-center ion-padding-start ion-padding-end">
+      <ion-col size="6">
+        <ion-list class="line-input" mode="md"> 
+          <p>Payment Method</p>
+          <ion-item mode="md" lines="none">
+            <ion-select mode="md" style="width: 100%;" formControlName="payment_method">
+              <div *ngFor="let item of paymentMethod">
+                <div *ngIf="profileInfo && profileInfo.payment_method == item.value"> 
+                  <ion-select-option  [value]="item.value">{{item.value}}</ion-select-option>
+                </div>  
+                <div *ngIf="profileInfo && profileInfo.payment_method != item.value"> 
+                  <ion-select-option  [value]="item.value">{{item.value}}</ion-select-option>
+                </div>
+              </div>
+            </ion-select>  
+        </ion-item> 
+        </ion-list>
+      </ion-col>
+      <ion-col size="6">
+        <ion-list class="line-input" mode="md"> 
+          <p>Business Structure</p>
+          <ion-item mode="md" lines="none">
+            <ion-select mode="md" style="width: 100%;" formControlName="business_structure">
+              <div *ngFor="let item of businessStructure">
+                <div *ngIf="profileInfo && profileInfo.business_structure == item.value"> 
+                  <ion-select-option  [value]="item.value">{{item.value}}</ion-select-option>
+                </div>  
+                <div *ngIf="profileInfo && profileInfo.business_structure != item.value"> 
+                  <ion-select-option  [value]="item.value">{{item.value}}</ion-select-option>
+                </div>
+              </div>
+            </ion-select>  
+          </ion-item> 
+        </ion-list>
+      </ion-col>      
+    </ion-row>     
+    <ion-row class="ion-justify-content-center ion-align-items-center ion-padding-start ion-padding-end">
+      <ion-col size="12">
+        <ion-list class="line-input" mode="md"> 
+          <p>ABN</p>
+          <ion-item mode="md" lines="none">
+            <ion-input class="ion-text-left" type="text" placeholder="ABN" formControlName="abn"></ion-input>
+          </ion-item> 
+        </ion-list>
+      </ion-col>
+    </ion-row>       
+    <ion-row class="ion-justify-content-center ion-align-items-center ion-padding-start ion-padding-end">
+      <ion-col size="12">
+        <ion-list class="line-input" mode="md"> 
+          <p>Please tell us a little about your business</p>
+          <ion-item mode="md" lines="none">
+            <ion-textarea rows="6" cols="20" placeholder="Enter any notes here..." formControlName="comment"></ion-textarea>
+          </ion-item> 
+        </ion-list>
+      </ion-col>
+    </ion-row> 
+    <ion-row class="ion-justify-content-center ion-align-items-center ion-padding-start ion-padding-end">
+      <ion-col size="12">
+        <ion-list class="line-input" mode="md"> 
+          <p>Number of years trading or proposed date of opening</p>
+          <ion-item mode="md" lines="none">
+            <ion-input class="ion-text-left" type="text"  formControlName="trading_years"></ion-input>
+          </ion-item> 
+        </ion-list>
+      </ion-col>
+    </ion-row>    
+    <ion-row class="ion-justify-content-center ion-align-items-center ion-padding-start ion-padding-end">
+      <ion-col size="12">
+        <ion-list class="line-input" mode="md"> 
+          <p>Number of years trading or proposed date of opening</p>
+          <ion-item mode="md" lines="none">
+            <ion-select mode="md" style="width: 100%;" formControlName="online_business">
+              <div *ngFor="let item of onlineBusiness">
+                <div *ngIf="profileInfo && profileInfo.online_business == item.value"> 
+                  <ion-select-option  [value]="item.value">{{item.name}}</ion-select-option>
+                </div>  
+                <div *ngIf="profileInfo && profileInfo.online_business != item.value"> 
+                  <ion-select-option  [value]="item.value">{{item.name}}</ion-select-option>
+                </div>
+              </div>
+            </ion-select>  
+          </ion-item> 
+        </ion-list>
+      </ion-col>
+    </ion-row>    
+    <ion-row class="ion-justify-content-center ion-align-items-center ion-padding-start ion-padding-end">
+      <ion-col size="12">
+        <ion-list class="line-input" mode="md"> 
+          <p>If yes, what is your domain name?</p>
+          <ion-item mode="md" lines="none">
+            <ion-input class="ion-text-left" type="text"  formControlName="domain_name"></ion-input>
+          </ion-item> 
+        </ion-list>
+      </ion-col>
+    </ion-row>                
   </ion-grid>
 </form>
 </ion-content>

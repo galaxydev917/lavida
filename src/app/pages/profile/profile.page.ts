@@ -14,6 +14,24 @@ export class ProfilePage implements OnInit {
   profileInfo : any;
   validationsform: FormGroup;
 
+  paymentMethod = [
+    {name: "Credit Card", value: "Credit Card"},
+    {name: "Cheque", value: "Cheque"},
+    {name: "Bank Deposit", value: "Bank Deposit"},
+    {name: "Bank Deposit", value: "Bank Deposit"},
+  ];
+
+  businessStructure = [
+    {name: "Sole Trader", value: "Sole Trader"},
+    {name: "Partnership", value: "Partnership"},
+    {name: "Company", value: "Company"},
+    {name: "Family Trust", value: "Family Trust"},
+  ];
+
+  onlineBusiness = [
+    {name: "No", value: 0},
+    {name: "Yes", value: 1}
+  ];
   constructor(
     public formBuilder: FormBuilder,
 
@@ -70,6 +88,27 @@ export class ProfilePage implements OnInit {
       ])),   
       shop_phone: new FormControl('', Validators.compose([
       ])),   
+      payment_method: new FormControl('', Validators.compose([
+        
+      ])),   
+      business_structure: new FormControl('', Validators.compose([
+        
+      ])),   
+      abn: new FormControl('', Validators.compose([
+        
+      ])),     
+      comment: new FormControl('', Validators.compose([
+        
+      ])),       
+      trading_years: new FormControl('', Validators.compose([
+        
+      ])),  
+      online_business: new FormControl('', Validators.compose([
+        
+      ])),   
+      domain_name: new FormControl('', Validators.compose([
+        
+      ])),                       
     });
 
   }
@@ -86,6 +125,9 @@ export class ProfilePage implements OnInit {
   async getProfileInfo(){
     this.loginedUser = await this.storageService.getObject("loginedUser");
     this.profileInfo = await this.db.getProfileInfo(this.loginedUser);
+
+    if(this.profileInfo.abn == "'0'") this.profileInfo.abn = '';
+    console.log(this.profileInfo);
     this.validationsform.setValue({
       email: this.profileInfo.email,
       password: this.profileInfo.password,
@@ -102,7 +144,14 @@ export class ProfilePage implements OnInit {
       company: this.profileInfo.company,
       position: this.profileInfo.position,
       fax: this.profileInfo.fax,
-      shop_phone: this.profileInfo.shop_phone
+      shop_phone: this.profileInfo.shop_phone,
+      payment_method: this.profileInfo.payment_method,
+      business_structure: this.profileInfo.business_structure,
+      abn: this.profileInfo.abn,
+      comment: this.profileInfo.comment,
+      trading_years: this.profileInfo.trading_years,
+      online_business: this.profileInfo.online_business,
+      domain_name: this.profileInfo.domain_name,
    });
   }
 
