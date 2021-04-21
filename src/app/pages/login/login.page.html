@@ -31,13 +31,13 @@
         <form class="form" [formGroup]="validationsform" (ngSubmit)="trySignin(validationsform.value)">
 
         <ion-list class="line-input" mode="md"> 
-          <ion-item mode="md">
+          <ion-item mode="md" lines="none">
             <ion-icon name="mail-outline" size="small" slot="start"></ion-icon>
             <ion-input class="ion-text-left" placeholder="Email address" type="email" formControlName="email"></ion-input>
           </ion-item> 
         </ion-list>
         <ion-list class="line-input" mode="md"> 
-          <ion-item mode="md">
+          <ion-item mode="md" lines="none">
             <ion-icon name="lock-closed-outline" size="small" slot="start"></ion-icon>
             <ion-input class="ion-text-left" placeholder="Password" type="password" formControlName="password"></ion-input>
           </ion-item> 

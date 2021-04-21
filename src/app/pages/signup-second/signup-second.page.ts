@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { CartSettingService } from "../../services/global-carttsetting/cart-setting.service";
+import { Location } from "@angular/common";
+import { Router } from '@angular/router';
+import {StorageService} from '../../services/storage/storage.service';
+import { config } from 'src/app/config/config';
 
 @Component({
   selector: 'app-signup-second',
@@ -16,6 +20,9 @@ export class SignupSecondPage implements OnInit {
   constructor(
     public formBuilder: FormBuilder,
     public cartSettingService: CartSettingService,
+    public router: Router,
+    public location: Location,
+    public storageService: StorageService,
   ) { }
 
   ngOnInit() {
@@ -50,11 +57,21 @@ export class SignupSecondPage implements OnInit {
     this.countryList = this.cartSettingService.countryList;
     this.stateList = this.cartSettingService.states_au;
   }
+
   changeCountry(e){
     var countryVal = e.detail.value;
     if(countryVal == 463)
       this.isDropBoxForState = true;
     else
       this.isDropBoxForState = false;
+  }
+
+  submit(value){
+    this.storageService.setObject(config.profileInfo, value);
+    this.router.navigate(['/signup-third']);
+  }
+
+  back() {
+    this.location.back();
   }
 }

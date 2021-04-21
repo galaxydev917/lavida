@@ -84,6 +84,14 @@ const routes: Routes = [
   {
     path: 'signup-second',
     loadChildren: () => import('./pages/signup-second/signup-second.module').then( m => m.SignupSecondPageModule)
+  },
+  {
+    path: 'signup-third',
+    loadChildren: () => import('./pages/signup-third/signup-third.module').then( m => m.SignupThirdPageModule)
+  },
+  {
+    path: 'signup4',
+    loadChildren: () => import('./pages/signup4/signup4.module').then( m => m.Signup4PageModule)
   }
 ];
 
