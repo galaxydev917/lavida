@@ -3,9 +3,19 @@ ion-title{
     letter-spacing: 0.1em; 
     font-size: larger;
 }
+.toolbar{
+    height: 90px; 
+    align-items: center; 
+    justify-content: center; 
+    display: flex;
+}
+h1{
+    font-size: 32px;
+    color: #d34745;
+}
 .logo-img{
-    width: 150px;
-    height: 100px;
+    width: 250px;
+    height: 150px;
 }
 .line-input {
     margin-bottom: 0!important;
@@ -35,12 +45,13 @@ ion-title{
 }
 
 .button-login{
-    height: 50px;
-    font-size: 14px;
+    height: 60px;
+    font-size: 18px;
     font-weight: bold !important;
     margin: 0 !important;
     margin-top: 10px !important;
     text-transform: uppercase !important;
+    --border-radius: 10px;
     --background: #407084;
     --color: white;
     --color-activated: white;
@@ -53,8 +64,8 @@ ion-title{
     color: rgb(70, 69, 69); 
     font-size: 12pt;
 }
-.description_signup{
+.description{
     color: #313131;
-    font-size: 16px;
+    font-size: 20px;
     line-height: 1.5;
 }

@@ -5,10 +5,10 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   // { path: '', redirectTo: 'home', pathMatch: 'full' },
-  // {
-  //   path: 'login',
-  //   loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
-  // },
+  {
+    path: 'login',
+    loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
+  },
   {
     path: 'tablinks',
     loadChildren: () => import('./pages/tablinks/tablinks.module').then( m => m.TablinksPageModule)
@@ -76,6 +76,14 @@ const routes: Routes = [
   {
     path: 'thankyou',
     loadChildren: () => import('./pages/thankyou/thankyou.module').then( m => m.ThankyouPageModule)
+  },
+  {
+    path: 'signup-first',
+    loadChildren: () => import('./pages/signup-first/signup-first.module').then( m => m.SignupFirstPageModule)
+  },
+  {
+    path: 'signup-second',
+    loadChildren: () => import('./pages/signup-second/signup-second.module').then( m => m.SignupSecondPageModule)
   }
 ];
 

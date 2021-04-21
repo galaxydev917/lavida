@@ -1,11 +1,31 @@
 
+<ion-header mode="ios">
+  <ion-toolbar class="toolbar">
+    <ion-title>Login</ion-title>
+    <ion-buttons slot="start">
+      <ion-button (click)="openMenu()" slot="start">
+        <ion-icon name="menu" style="font-size: 38px;"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
 <ion-content>
-  <ion-grid fixed *ngIf="!isSignupAction">
-    <ion-row class="ion-justify-content-center ion-align-items-center" style="height: 250px;">
+  <ion-grid fixed >
+    <ion-row class="ion-justify-content-center ion-align-items-center" style="height: 200px;" >
       <ion-col size="12" class="ion-text-center">
         <img src="../assets/imgs/logo.png" class="logo-img"/>
       </ion-col>
     </ion-row>
+    <ion-row class="ion-justify-content-center ion-align-items-center" style="height: 200px;">
+      <ion-col size="12" class="ion-text-center">
+        <h1>This is a wholesale only site </h1>
+        <p class="description"> Access to pricing is strictly available to <br>
+          approved wholesale customers only. <br>
+          <a (click)="gotoSignup()"><span style="font-size: 22px;">Click here</span> </a>  to submit your registration request. 
+        </p>
+      </ion-col>
+    </ion-row>    
     <ion-row class="ion-justify-content-center ion-align-items-center">
       <ion-col size="10" class="ion-text-center">
         <form class="form" [formGroup]="validationsform" (ngSubmit)="trySignin(validationsform.value)">
@@ -23,30 +43,12 @@
           </ion-item> 
         </ion-list>   
         <app-loading *ngIf="isSigning"></app-loading>       
-        <ion-button  class="button-login" mode="ios" type="submit" fill="solid"  [disabled]="!validationsform.valid || isSigning"  size="default" shape="round" expand="block">
+        <ion-button  class="button-login" mode="ios" type="submit" fill="solid"  [disabled]="!validationsform.valid || isSigning"  size="default" expand="block">
           LOG IN
         </ion-button>
         </form>
-        <!-- <p style="color: #cc0000; font-size: 11pt; margin-top: 40px; margin-bottom: 40px;">Skip for Now</p> -->
       </ion-col>
     </ion-row>   
-    <ion-row class="ion-justify-content-center ion-align-items-center" style="height: 90px;">
-      <ion-col size="12" class="ion-text-center">
-        <a (click)="gotoSignup()"><span style="font-size: 14pt;">Click here</span> </a> <span class="footer-label"> to submit your registration rerquest.</span></ion-col>
-    </ion-row>     
   </ion-grid>
-  <ion-grid fixed *ngIf="isSignupAction && isSignupFirstStep">
-    <ion-row class="ion-justify-content-center ion-align-items-center ion-padding">
-      <ion-col size="12" class="ion-text-left">
-        <img src="../assets/imgs/logo.png" class="logo-img"/>
-      </ion-col>
-    </ion-row>
-    <ion-row class="ion-padding">
-      <ion-col size="11">
-        <p class="description_signup">Welcome to LaVida Trading wholesale access.</p>
-        <p class="description_signup">Please fill in the following details and you will be provided with unlimited access to all the great LaVida Trading products and pricing, all available online.</p>
-        <p class="description_signup">One of our team will review your application and we will endeavour to respond to you in the next 2-3 days. If you have any problems please call  (02) 4340 0411.</p>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+
 </ion-content>

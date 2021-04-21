@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormBuilder, FormGroup, FormControl } from '@angular/forms';
-import { Platform, LoadingController, AlertController, MenuController, ModalController } from '@ionic/angular';
+import { Platform, LoadingController, AlertController, MenuController } from '@ionic/angular';
 import { DbService } from '../../services/sqlite/db.service';
 import {StorageService} from '../../services/storage/storage.service';
 import { Router } from '@angular/router';
@@ -19,8 +19,6 @@ export class LoginPage implements OnInit {
   isLoadingFromOnline = false;
   isSigning = false;
   isUpdating = false;
-  isSignupAction = false;
-  isSignupFirstStep = false;
   loadingCtrl : any;
   prodcat_maxId : any;
   productCategory_maxId : any;
@@ -35,7 +33,6 @@ export class LoginPage implements OnInit {
     public storageService: StorageService,
     public alertController: AlertController,
     public categoryService: CategoryService,
-    public modalController: ModalController,
     public customerService: CustomerService
   ) { }
 
@@ -70,7 +67,7 @@ export class LoginPage implements OnInit {
         this.db.getAgentByEmailAndPwd(value).then(async (agentInfo) => {
           this.isSigning = false;
           this.storageService.setObject("loginedUser", agentInfo);
-          await this.modalController.dismiss();
+          this.router.navigate(["/home"]);
         },
         (err) => {
           console.log(err);
@@ -82,10 +79,13 @@ export class LoginPage implements OnInit {
   }
 
   gotoSignup(){
-    this.isSignupAction = true;
-    this.isSignupFirstStep = true;
+    this.router.navigate(["/signup-first"]);
   }
-
+  
+  async openMenu() {
+    this.menuCtrl.enable(true, 'customMenu');
+    this.menuCtrl.open('customMenu');
+  }
   async presentAlert(value) {
     const loading = await this.loadingController.create({
       spinner: null,

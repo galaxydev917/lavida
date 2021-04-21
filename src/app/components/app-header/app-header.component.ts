@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ModalController, MenuController,  } from '@ionic/angular';
+import {  MenuController,  } from '@ionic/angular';
 import {StorageService} from '../../services/storage/storage.service';
 import { Router} from '@angular/router';
 
@@ -17,7 +17,6 @@ export class AppHeaderComponent implements OnInit {
   @Input() cartBadgeCount: any;
 
   constructor(
-    public modalController: ModalController,
     public menuCtrl: MenuController,
     public storageService: StorageService,
     public router: Router,
@@ -27,22 +26,7 @@ export class AppHeaderComponent implements OnInit {
   ngOnInit() {}
 
   async openLoginModal() {
-    const modal = await this.modalController.create({
-      component: LoginPage,
-      componentProps: {
-        "paramID": 123,
-        "paramTitle": "Test Title"
-      }
-    });
-
-    modal.onDidDismiss().then((dataReturned) => {
-      console.log(dataReturned);
-      if (dataReturned.role !== 'backdrop') {
-        this.isLoggedIn = true;
-      }
-    });
-
-    return await modal.present();
+    this.router.navigate(['/login']);
   }
   gotoCart(){
     this.router.navigate(['/cart']);
