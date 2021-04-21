@@ -208,6 +208,15 @@ export class DbService {
       }
     });
   }
+  updateProfileInfo(update_query){
+
+    return this.storage.executeSql(update_query, [])
+    .then(res => {
+      console.log("update result====", res);
+    }).catch((error: any) =>{
+      console.log("update result====", error);
+    });
+  }
   getMaxId(str_query): Promise<any>{
     return this.storage.executeSql(str_query, []).then(res => {
       var  maxId = 0;

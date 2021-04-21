@@ -11,13 +11,13 @@
   <div *ngIf="isLoading" class="loading-div">
     <ion-spinner name="bubbles"></ion-spinner>
   </div>
-  <!-- <ion-grid *ngIf="!isLoggedIn && !isLoading" class="ion-padding">
+  <ion-grid *ngIf="!isLoggedIn && !isLoading" class="ion-padding">
     <ion-row class="ion-justify-content-center ion-align-items-center">
       <ion-col size="12" class="ion-text-center">
         This content only available to logged in, approved members.
       </ion-col>
     </ion-row>
-  </ion-grid> -->
+  </ion-grid>
   <ion-grid *ngIf="img_dir != '' && isLoggedIn && !isLoading">
     <ion-row>
       <ion-col *ngFor="let item of productList; let productIndex = index" size="4">

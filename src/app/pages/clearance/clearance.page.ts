@@ -55,6 +55,7 @@ export class ClearancePage implements OnInit {
 
     if(!this.loginedUser){
       this.isLoggedIn = false;
+      this.isLoading = false;
     }else{
       this.isLoggedIn = true;
       this.getProducts(false, "");

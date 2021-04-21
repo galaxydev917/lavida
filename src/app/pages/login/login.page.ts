@@ -19,6 +19,8 @@ export class LoginPage implements OnInit {
   isLoadingFromOnline = false;
   isSigning = false;
   isUpdating = false;
+  isSignupAction = false;
+  isSignupFirstStep = false;
   loadingCtrl : any;
   prodcat_maxId : any;
   productCategory_maxId : any;
@@ -78,6 +80,12 @@ export class LoginPage implements OnInit {
       }
     });
   }
+
+  gotoSignup(){
+    this.isSignupAction = true;
+    this.isSignupFirstStep = true;
+  }
+
   async presentAlert(value) {
     const loading = await this.loadingController.create({
       spinner: null,

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Platform, LoadingController, AlertController, MenuController } from '@ionic/angular';
+import { Platform, LoadingController, ToastController, MenuController } from '@ionic/angular';
 import {StorageService} from '../../services/storage/storage.service';
 import { DbService } from '../../services/sqlite/db.service';
 import { Validators, FormBuilder, FormGroup, FormControl } from '@angular/forms';
@@ -47,6 +47,7 @@ export class ProfilePage implements OnInit {
     public menuCtrl: MenuController,
     public storageService: StorageService,
     public db: DbService,
+    public toastController: ToastController,
   ) { }
 
   ngOnInit() {
@@ -195,8 +196,30 @@ export class ProfilePage implements OnInit {
     else
       this.isDropBoxForState = false;
   }
-  async openMenu() {
-    this.menuCtrl.enable(true, 'loggedin_customMenu');
-    this.menuCtrl.open('loggedin_customMenu');
+
+  async submit(value){
+    var update_query = "UPDATE Customer SET first_name = '" + value.first_name + "', last_name = '" + value.last_name + "', email = '" + value.email + "', zip = '" + value.post_code + "', ";
+    update_query+= "phone = '" + value.tel_phone + "', mobile = '" + value.mobile_phone + "', address1 = '" + value.address1 + "', address2 = '" + value.address2 + "', ";
+    update_query+= "city = '" + value.city + "', state = '" + value.state + "', company = '" + value.company + "', position = '" + value.position + "', ";
+    update_query+= "fax = '" + value.fax + "', shop_phone = '" + value.shop_phone + "', payment_method = '" + value.payment_method + "', business_structure = '" + value.business_structure + "', ";
+    update_query+= "abn = '" + value.abn + "', comment = '" + value.comment + "', trading_years = '" + value.trading_years + "', online_business = '" + value.online_business + "', ";
+    update_query+= "domain_name = '" + value.domain_name + "', country = '" + value.countrykey + "' WHERE id = " + this.loginedUser.id;
+
+    await this.db.updateProfileInfo(update_query);
+    this.showToast("Your profile updated successfully.");
+  }
+
+  showToast(msg) {
+    this.toastController
+      .create({
+        header: "",
+        message: msg,
+        position: "top",
+        color: "dark",
+        duration: 1500
+      })
+      .then(obj => {
+        obj.present();
+      });
   }
 }

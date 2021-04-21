@@ -10,7 +10,7 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <form class="form" [formGroup]="validationsform" (ngSubmit)="trySignin(validationsform.value)">
+  <form class="form" [formGroup]="validationsform" (ngSubmit)="submit(validationsform.value)">
   <ion-grid >
     <ion-row class="ion-justify-content-center ion-align-items-center">
       <ion-col size="6">

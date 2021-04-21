@@ -1,6 +1,6 @@
 
 <ion-content>
-  <ion-grid fixed>
+  <ion-grid fixed *ngIf="!isSignupAction">
     <ion-row class="ion-justify-content-center ion-align-items-center" style="height: 250px;">
       <ion-col size="12" class="ion-text-center">
         <img src="../assets/imgs/logo.png" class="logo-img"/>
@@ -30,10 +30,23 @@
         <!-- <p style="color: #cc0000; font-size: 11pt; margin-top: 40px; margin-bottom: 40px;">Skip for Now</p> -->
       </ion-col>
     </ion-row>   
-    <!-- <ion-row class="ion-justify-content-center ion-align-items-center" style="height: 90px;">
+    <ion-row class="ion-justify-content-center ion-align-items-center" style="height: 90px;">
       <ion-col size="12" class="ion-text-center">
-        <span class="footer-label" [routerLink]="['/signup']">Need an Account </span> <span class="footer-label"> &nbsp;&nbsp;| &nbsp;&nbsp;</span> <span class="footer-label" [routerLink]="['/forgotpwd']">Forgot Password</span>
+        <a (click)="gotoSignup()"><span style="font-size: 14pt;">Click here</span> </a> <span class="footer-label"> to submit your registration rerquest.</span></ion-col>
+    </ion-row>     
+  </ion-grid>
+  <ion-grid fixed *ngIf="isSignupAction && isSignupFirstStep">
+    <ion-row class="ion-justify-content-center ion-align-items-center ion-padding">
+      <ion-col size="12" class="ion-text-left">
+        <img src="../assets/imgs/logo.png" class="logo-img"/>
       </ion-col>
-    </ion-row>      -->
+    </ion-row>
+    <ion-row class="ion-padding">
+      <ion-col size="11">
+        <p class="description_signup">Welcome to LaVida Trading wholesale access.</p>
+        <p class="description_signup">Please fill in the following details and you will be provided with unlimited access to all the great LaVida Trading products and pricing, all available online.</p>
+        <p class="description_signup">One of our team will review your application and we will endeavour to respond to you in the next 2-3 days. If you have any problems please call  (02) 4340 0411.</p>
+      </ion-col>
+    </ion-row>
   </ion-grid>
 </ion-content>
