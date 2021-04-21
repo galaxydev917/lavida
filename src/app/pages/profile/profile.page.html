@@ -1,12 +1,11 @@
 <ion-header mode="ios">
-  <ion-toolbar style="height: 80px; align-items: center; justify-content: center; display: flex;">
-    <ion-title>Profile</ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="openMenu()" slot="start">
-        <ion-icon name="menu" style="font-size: 38px;"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
+  <ion-header mode="ios">
+    <app-header
+      [pageTitle]="pageTitle"
+      [cartBadgeCount]="cartBadgeCount"
+      [isLoggedIn]="isLoggedIn">
+    </app-header>
+  </ion-header>
   
 </ion-header>
 
@@ -71,16 +70,37 @@
       <ion-col size="6">
         <ion-list class="line-input" mode="md"> 
           <p>State</p>
-          <ion-item mode="md" lines="none">
-            <ion-input class="ion-text-left" type="text" formControlName="state"></ion-input>
+          <ion-item mode="md" lines="none" *ngIf="isDropBoxForState">
+            <ion-select mode="md" style="width: 100%;" formControlName="state">
+              <div *ngFor="let item of stateList">
+                <div *ngIf="profileInfo && profileInfo.state == item.value"> 
+                  <ion-select-option  [value]="item.value" selected>{{item.value}}</ion-select-option>
+                </div>
+                <div *ngIf="profileInfo && profileInfo.state != item.value"> 
+                  <ion-select-option  [value]="item.value">{{item.value}}</ion-select-option>
+                </div>
+              </div>
+            </ion-select>  
           </ion-item> 
+          <ion-item mode="md" lines="none" *ngIf="!isDropBoxForState">
+            <ion-input placeholder="State*" formControlName="state"></ion-input>
+          </ion-item>  
         </ion-list>
       </ion-col>
       <ion-col size="6">
         <ion-list class="line-input" mode="md"> 
           <p>Country</p>
           <ion-item mode="md" lines="none">
-            <ion-input class="ion-text-left" type="text"></ion-input>
+            <ion-select mode="md" style="width: 100%;" formControlName="countrykey" (ionChange)="changeCountry($event)">
+              <div *ngFor="let item of countryList">
+                <div *ngIf="profileInfo && profileInfo.countrykey == item.id"> 
+                  <ion-select-option  [value]="item.id" selected>{{item.name}}</ion-select-option>
+                </div>
+                <div *ngIf="profileInfo && profileInfo.countrykey != item.id"> 
+                  <ion-select-option  [value]="item.id">{{item.name}}</ion-select-option>
+                </div>
+              </div>
+            </ion-select>  
           </ion-item> 
         </ion-list>
       </ion-col>      
@@ -265,5 +285,10 @@
       </ion-col>
     </ion-row>                
   </ion-grid>
+  <div class="button-div">
+    <ion-button  class="button-proceed" type="submit" mode="ios" fill="solid"  expand="block"  [disabled]="!validationsform.valid">
+      Update My Details
+    </ion-button>
+  </div>
 </form>
 </ion-content>

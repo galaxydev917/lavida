@@ -23,7 +23,7 @@ export class CategoryPage implements OnInit {
   categorylist = [];
   img_dir = '';
   pageTitle = 'Shop Categories';
-  isLogined = false;
+  isLoggedIn = false;
   cartBadgeCount = 0;
   cartProductList = [];
   
@@ -55,9 +55,9 @@ export class CategoryPage implements OnInit {
       this.cartBadgeCount = this.cartProductList.length;  
 
     if(!this.loginedUser){
-      this.isLogined = false;
+      this.isLoggedIn = false;
     }else
-      this.isLogined = true;
+      this.isLoggedIn = true;
 
     this.db.getDatabaseState().subscribe(async (res) => {
       if(res){

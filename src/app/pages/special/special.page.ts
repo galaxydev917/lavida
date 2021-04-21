@@ -15,7 +15,7 @@ import { ToastController } from '@ionic/angular';
 })
 export class SpecialPage implements OnInit {
   loginedUser : any;
-  isLogined = false;
+  isLoggedIn = false;
   productList = [];
   loadMore_productList = [];
   img_dir = '';
@@ -58,9 +58,9 @@ export class SpecialPage implements OnInit {
       this.cartBadgeCount = this.cartProductList.length;  
 
     if(!this.loginedUser){
-      this.isLogined = false;
+      this.isLoggedIn = false;
     }else{
-      this.isLogined = true;
+      this.isLoggedIn = true;
       this.getProducts(false, "");
     }
   }

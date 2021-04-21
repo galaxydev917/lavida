@@ -3,6 +3,8 @@ import { Platform, LoadingController, AlertController, MenuController } from '@i
 import {StorageService} from '../../services/storage/storage.service';
 import { DbService } from '../../services/sqlite/db.service';
 import { Validators, FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import { CartSettingService } from "../../services/global-carttsetting/cart-setting.service";
+import { config } from 'src/app/config/config';
 
 @Component({
   selector: 'app-profile',
@@ -13,6 +15,13 @@ export class ProfilePage implements OnInit {
   loginedUser : any;
   profileInfo : any;
   validationsform: FormGroup;
+  countryList = [];
+  stateList = [];
+  isDropBoxForState = false;
+  pageTitle = 'Profile';
+  isLoggedIn = false;
+  cartBadgeCount = 0;
+  cartProductList = [];
 
   paymentMethod = [
     {name: "Credit Card", value: "Credit Card"},
@@ -34,7 +43,7 @@ export class ProfilePage implements OnInit {
   ];
   constructor(
     public formBuilder: FormBuilder,
-
+    public cartSettingService: CartSettingService,
     public menuCtrl: MenuController,
     public storageService: StorageService,
     public db: DbService,
@@ -69,7 +78,7 @@ export class ProfilePage implements OnInit {
       ])),    
     
       confirm_password: new FormControl('', Validators.compose([
-        
+        Validators.required
       ])),                                      
       email: new FormControl('', Validators.compose([
         Validators.required,
@@ -81,7 +90,6 @@ export class ProfilePage implements OnInit {
       company: new FormControl('', Validators.compose([
       ])),   
       position: new FormControl('', Validators.compose([
-        Validators.required
       ])),   
       fax: new FormControl('', Validators.compose([
         
@@ -108,12 +116,31 @@ export class ProfilePage implements OnInit {
       ])),   
       domain_name: new FormControl('', Validators.compose([
         
-      ])),                       
+      ])),  
+      countrykey: new FormControl('', Validators.compose([
+        
+      ])),                             
     });
 
   }
 
   async ionViewWillEnter(){
+    this.countryList = this.cartSettingService.countryList;
+    this.stateList = this.cartSettingService.states_au;
+    this.cartProductList = await this.storageService.getObject(config.cart_products);
+    this.loginedUser = await this.storageService.getObject('loginedUser');
+
+    if(this.cartProductList == null){
+      this.cartProductList = [];
+      this.cartBadgeCount = 0;
+    }else
+      this.cartBadgeCount = this.cartProductList.length;  
+
+    if(!this.loginedUser){
+      this.isLoggedIn = false;
+    }else
+      this.isLoggedIn = true;
+
     this.db.getDatabaseState().subscribe(async (res) => {
       if(res){
         this.getProfileInfo();
@@ -123,10 +150,16 @@ export class ProfilePage implements OnInit {
   }
 
   async getProfileInfo(){
-    this.loginedUser = await this.storageService.getObject("loginedUser");
     this.profileInfo = await this.db.getProfileInfo(this.loginedUser);
 
+    if(this.profileInfo.countrykey == 463)
+      this.isDropBoxForState = true;
+    else
+      this.isDropBoxForState = false;
+
     if(this.profileInfo.abn == "'0'") this.profileInfo.abn = '';
+    if(this.profileInfo.position == "NULL") this.profileInfo.position = '';
+
     console.log(this.profileInfo);
     this.validationsform.setValue({
       email: this.profileInfo.email,
@@ -152,9 +185,16 @@ export class ProfilePage implements OnInit {
       trading_years: this.profileInfo.trading_years,
       online_business: this.profileInfo.online_business,
       domain_name: this.profileInfo.domain_name,
+      countrykey: this.profileInfo.countrykey,
    });
   }
-
+  changeCountry(e){
+    var countryVal = e.detail.value;
+    if(countryVal == 463)
+      this.isDropBoxForState = true;
+    else
+      this.isDropBoxForState = false;
+  }
   async openMenu() {
     this.menuCtrl.enable(true, 'loggedin_customMenu');
     this.menuCtrl.open('loggedin_customMenu');

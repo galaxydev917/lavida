@@ -47,6 +47,11 @@ export class SavedordersPage implements OnInit {
       this.cartBadgeCount = 0;
     }else
       this.cartBadgeCount = this.cartProductList.length;  
+
+    if(!this.loginedUser){
+      this.isLoggedIn = false;
+    }else
+      this.isLoggedIn = true;
   }
 
   async getSavedOrders(isFirstLoad, event){

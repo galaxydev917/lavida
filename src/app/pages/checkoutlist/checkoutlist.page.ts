@@ -21,6 +21,8 @@ export class CheckoutlistPage implements OnInit {
   expandHeight = 1200 + "px";
   productsInOrderDetail = [];
   qty_dropdown = "";
+  isLoggedIn = false;
+  
   constructor(
     private storageService: StorageService,
     public db: DbService,
@@ -45,6 +47,11 @@ export class CheckoutlistPage implements OnInit {
       this.cartBadgeCount = 0;
     }else
       this.cartBadgeCount = this.cartProductList.length;  
+
+    if(!this.loginedUser){
+      this.isLoggedIn = false;
+    }else
+      this.isLoggedIn = true;  
   }
 
   async getCheckoutOrders(isFirstLoad, event){
