@@ -11,7 +11,7 @@
   <div *ngIf="isLoading" class="loading-div">
     <ion-spinner name="bubbles"></ion-spinner>
   </div>
-  <ion-grid *ngIf="!isLoggedIn">
+  <ion-grid *ngIf="!isLoggedIn && !isLoading">
     <ion-row class="ion-justify-content-center ion-align-items-center">
       <ion-col size="12" class="ion-text-center">
         This content only available to logged in, approved members.

@@ -63,6 +63,7 @@ export class HomePage implements OnInit {
     
     if(this.loginedUserInfo)
       this.isLoggedIn = true;
+      
     
     this.cartProductList = await this.storageService.getObject(config.cart_products);
 

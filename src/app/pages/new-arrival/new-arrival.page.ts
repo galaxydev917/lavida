@@ -62,10 +62,9 @@ export class NewArrivalPage implements OnInit {
 
     this.img_dir = this.pathForImage(this.file.documentsDirectory + 'product_img/');
     if(!this.loginedUser){
-      console.log("11111111111111");
       this.isLoggedIn = false;
+      this.isLoading = false;
     }else{
-      console.log("222222222222");
       this.isLoggedIn = true;
       this.getNewProducts(false, "");
     }

@@ -35,6 +35,11 @@ export class SavedordersPage implements OnInit {
   async ionViewWillEnter(){
 
     this.loginedUser = await this.storageService.getObject("loginedUser");
+    if(!this.loginedUser){
+      this.isLoggedIn = false;
+    }else
+      this.isLoggedIn = true;
+      
     this.from_limitVal = 0;
     this.savedOrderList = [];
 
@@ -48,10 +53,7 @@ export class SavedordersPage implements OnInit {
     }else
       this.cartBadgeCount = this.cartProductList.length;  
 
-    if(!this.loginedUser){
-      this.isLoggedIn = false;
-    }else
-      this.isLoggedIn = true;
+
   }
 
   async getSavedOrders(isFirstLoad, event){
