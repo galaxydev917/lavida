@@ -66,7 +66,7 @@ export class SignupThirdPage implements OnInit {
     this.profileInfo.business_name = value.business_name;
 
     this.storageService.setObject(config.profileInfo, this.profileInfo);
-    this.router.navigate(['/signup4']);
+    this.router.navigate(['/login']);
   }
 
   back() {

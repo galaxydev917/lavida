@@ -16,7 +16,7 @@ import { OrderService } from '../../services/online/order/order.service';
 })
 export class HomePage implements OnInit {
   rowHeight : any;
-
+  rowButtonSectionHeight : any;
   isUpdating = false;
   loadingCtrl : any;
   prodcat_maxId : any;
@@ -52,6 +52,7 @@ export class HomePage implements OnInit {
 
   ngOnInit() {
     this.rowHeight = this.plt.height() / 2 + 'px';
+    this.rowButtonSectionHeight = this.plt.height() / 6 + 'px';
     this.isUpdating = true; 
     this.syncConfirmAlert();
 
@@ -74,7 +75,9 @@ export class HomePage implements OnInit {
       this.cartBadgeCount = this.cartProductList.length;    
   }
 
+  async getCurrentUser(){
 
+  }
   //Start synced ProdCat table from server.
   async checkExistNewCategory(){
     this.loadingCtrl = await this.loadingController.create({
@@ -335,31 +338,40 @@ export class HomePage implements OnInit {
     str_query += rowArgs.join(", ");
     return this.db.addToSqlite(str_query, data);  
   }
-  syncConfirmAlert() {
-    this.alertController.create({
-      header: 'Sync Data',
-      message: 'Sync local data from server',
-      buttons: [
-        {
-          text: 'Cancel',
-          handler: (data: any) => {
-            this.isUpdating = false; 
-            this.getSliders();
-          }
-        },
-        {
-          text: 'Update',
-          handler: (data: any) => {
-            console.log('Saved Information', data);
-            this.checkExistNewCategory();
-          }
-        }
-      ],
-      backdropDismiss: false
 
-    }).then(res => {
-      res.present();
-    });
+  async syncConfirmAlert() {
+
+    this.loginedUserInfo = await this.storageService.getObject("loginedUser");
+    if(this.loginedUserInfo){
+      this.alertController.create({
+        header: 'Sync Data',
+        message: 'Sync local data from server',
+        buttons: [
+          {
+            text: 'Cancel',
+            handler: (data: any) => {
+              this.isUpdating = false; 
+              this.getSliders();
+            }
+          },
+          {
+            text: 'Update',
+            handler: (data: any) => {
+              console.log('Saved Information', data);
+              this.checkExistNewCategory();
+            }
+          }
+        ],
+        backdropDismiss: false
+  
+      }).then(res => {
+        res.present();
+      });
+    }else{
+      this.isUpdating = false; 
+      this.getSliders();
+
+    }
   }
 
   pathForImage(img) {

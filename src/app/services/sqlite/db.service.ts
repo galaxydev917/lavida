@@ -63,6 +63,7 @@ export class DbService {
   }
 
   async downloadAndCopyLocalDB(){
+    
 
     await this.file.copyFile(this.file.applicationDirectory + 'www/assets/', 'lavida.db', this.file.documentsDirectory + 'lavida/', 'lavida.db');
     console.log("copyDbFromStorage");
