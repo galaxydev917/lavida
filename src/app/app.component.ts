@@ -129,8 +129,8 @@ export class AppComponent {
   async initialLocalDatabase() {
     this.db.getDatabaseState().subscribe(async res => {
       if (res) {
-        // this.bannerImageList = await this.db.loadHomeSlider();
-        // await this.downloadBannerImages(this.bannerImageList);
+        this.bannerImageList = await this.db.loadHomeSlider();
+        await this.downloadBannerImages(this.bannerImageList);
 
         // this.productImageList = await this.db.loadProductImages();
         // await this.downloadProductImages(this.productImageList);

@@ -67,12 +67,12 @@ export class Signup4Page implements OnInit {
     var insertdata = this.profileInfo;
     console.log(this.profileInfo);
     var str_query =
-      "INSERT INTO Customer ( abn, address1, address2, business_structure, city, email, password, country, domain_name, first_name, last_name, payment_method, phone, position, zip, shop_phone, state, trading_years, distributor_businessName, is_sales_rep, parent_id) VALUES ";
+      "INSERT INTO Customer ( abn, address1, address2, business_structure, city, email, password, country, domain_name, first_name, last_name, payment_method, phone, position, zip, shop_phone, state, trading_years, distributor_businessName, is_sales_rep, parent_id, status) VALUES ";
 
     var rowArgs = [];
     var data = [];
-    rowArgs.push("(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    data = [insertdata.abn, insertdata.address1, insertdata.address2, insertdata.business_structure, insertdata.city, insertdata.confirm_email, insertdata.confirm_password, insertdata.countrykey, insertdata.domain_name, insertdata.first_name, insertdata.last_name, insertdata.payment_method, insertdata.phone, insertdata.position, insertdata.post_code, insertdata.shop_phone, insertdata.state, insertdata.trading_years, insertdata.business_name, 1, 0];
+    rowArgs.push("(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    data = [insertdata.abn, insertdata.address1, insertdata.address2, insertdata.business_structure, insertdata.city, insertdata.confirm_email, insertdata.confirm_password, insertdata.countrykey, insertdata.domain_name, insertdata.first_name, insertdata.last_name, insertdata.payment_method, insertdata.phone, insertdata.position, insertdata.post_code, insertdata.shop_phone, insertdata.state, insertdata.trading_years, insertdata.business_name, 1, 0, 2];
 
     str_query += rowArgs.join(", ");
     var insertId = await this.db.addToSqlite(str_query, data);    
