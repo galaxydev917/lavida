@@ -78,7 +78,6 @@ export class AppComponent {
       url: "/about-us"
     }
   ];
-
   public account_subMenus = [
     {
       title: "Profile",
@@ -99,6 +98,16 @@ export class AppComponent {
       title: "Order History",
       icon: "alarm",
       url: "/checkoutlist"
+    },
+    {
+      title: "Sync to Online",
+      icon: "cloud-upload",
+      url: "/toserver"
+    },
+    {
+      title: "Sync from Online",
+      icon: "cloud-download",
+      url: "/fromserver"
     }
   ];
   constructor(
