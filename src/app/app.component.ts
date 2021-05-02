@@ -102,12 +102,12 @@ export class AppComponent {
       url: "/checkoutlist"
     },
     {
-      title: "Sync to Online",
+      title: "Sync To Online",
       icon: "cloud-upload",
       url: "/toserver"
     },
     {
-      title: "Sync from Online",
+      title: "Sync From Online",
       icon: "cloud-download",
       url: "/fromserver"
     }

@@ -28,7 +28,7 @@ export class ImportService {
    this.loginedUserInfo = await this.storageService.getObject("loginedUser");
 
     this.loadingCtrl = await this.loadingController.create({
-      message: 'Syncing data...',
+      message: 'Syncing From Server...',
     });
     await this.loadingCtrl.present();
     
