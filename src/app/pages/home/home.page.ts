@@ -75,9 +75,7 @@ export class HomePage implements OnInit {
       this.cartBadgeCount = this.cartProductList.length;    
   }
 
-  async getCurrentUser(){
 
-  }
   //Start synced ProdCat table from server.
   async checkExistNewCategory(){
     this.loadingCtrl = await this.loadingController.create({
@@ -355,9 +353,8 @@ export class HomePage implements OnInit {
             }
           },
           {
-            text: 'Update',
+            text: 'Sync',
             handler: (data: any) => {
-              console.log('Saved Information', data);
               this.checkExistNewCategory();
             }
           }

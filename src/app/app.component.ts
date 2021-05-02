@@ -6,6 +6,8 @@ import { StatusBar } from "@ionic-native/status-bar/ngx";
 import { DbService } from "./services/sqlite/db.service";
 import { CustomerService } from "./services/online/customer/customer.service";
 import { StorageService } from "./services/storage/storage.service";
+import { ImportService } from "./services/online/import/import.service";
+
 import {
   FileTransfer,
   FileTransferObject
@@ -118,6 +120,7 @@ export class AppComponent {
     public loadingController: LoadingController,
     private storageService: StorageService,
     public customerService: CustomerService,
+    public importService: ImportService,
     private file: File,
     private transfer: FileTransfer,
     private router: Router,
@@ -141,11 +144,11 @@ export class AppComponent {
         this.bannerImageList = await this.db.loadHomeSlider();
         await this.downloadBannerImages(this.bannerImageList);
 
-        // this.productImageList = await this.db.loadProductImages();
-        // await this.downloadProductImages(this.productImageList);
+        this.productImageList = await this.db.loadProductImages();
+        await this.downloadProductImages(this.productImageList);
 
-        // this.categoryImageList = await this.db.loadCategoryImages();
-        // await this.downloadCategoryImages(this.categoryImageList);
+        this.categoryImageList = await this.db.loadCategoryImages();
+        await this.downloadCategoryImages(this.categoryImageList);
 
         this.cartSettingList = await this.db.getAllGlobalCartSetting();
         this.cartSettingService.setGlobalInfo(this.cartSettingList);
@@ -240,8 +243,36 @@ export class AppComponent {
   gotoPage(url) {
     this.router.navigate([url]);
   }
+
   gotoAccountSubPage(url) {
-    this.router.navigate([url]);
+    if(url == "/fromserver")
+      this.syncConfirmAlert();
+    else  
+      this.router.navigate([url]);
+  }
+
+  async syncConfirmAlert() {
+    this.alertController.create({
+      header: 'Sync Data',
+      message: 'Sync local data from server',
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: (data: any) => {
+          }
+        },
+        {
+          text: 'Sync',
+          handler: (data: any) => {
+            this.importService.checkExistNewCategory();
+          }
+        }
+      ],
+      backdropDismiss: false
+
+    }).then(res => {
+      res.present();
+    });
   }
 }
 //ionic cordova run ios --target="A2686E38-C7E4-44EF-9E96-B7C4C3DD4DB7" --livereload
