@@ -68,7 +68,6 @@ export class NewArrivalPage implements OnInit {
       this.isLoggedIn = true;
       this.getNewProducts(false, "");
     }
-    console.log("new product", this.isLoggedIn);
 
   }
   async getNewProducts(isFirstLoad, event){

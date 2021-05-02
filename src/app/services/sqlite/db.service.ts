@@ -278,6 +278,19 @@ export class DbService {
       return result;
     });
   }
+
+  getCategoryImagesById(categoryId){
+    let query = "SELECT * FROM images WHERE type = 4 AND ref_id = " + categoryId;
+    return this.storage.executeSql(query, []).then(data => {
+      let result = {};
+      if (data.rows.length > 0) {
+          result = { 
+            name: data.rows.item(0).name
+          }
+      }
+      return result;
+    });
+  }  
   getProdCatId(productId){
     let query = "SELECT ProdCat.id FROM ProdCat, ProductCategory WHERE ProdCat.id = ProductCategory.category_id AND ProductCategory.product_id = " +  productId + " AND ProductCategory.category_id > 0 AND ProdCat.portal1 = 1 ORDER BY ProdCat.display_order asc, ProdCat.name asc";
     return this.storage.executeSql(query, []).then(data => {
@@ -328,17 +341,16 @@ export class DbService {
   }
 
   //Category page start-----
-  loadCategories(){
-    let query = "SELECT DISTINCT ProductCategory.category_id as categoryId, images.name, ProdCat.display_title, images.type FROM ProductCategory, ProdCat, images WHERE ProductCategory.category_id = ProdCat.id AND ProdCat.portal1 = 1 AND images.ref_id = ProdCat.id AND images.type = 4 AND images.name != 'NULL' ORDER BY ProdCat.display_title";
+  getCategories(from){
+    let query = "SELECT DISTINCT a.* FROM ProdCat as a LEFT JOIN ProductCategory as b ON a.id = b.category_id LEFT JOIN Product as c ON b.product_id = c.id WHERE a.type = 1 AND a.portal1 = 1 AND a.image != 'NULL' ORDER BY a.name, a.display_order LIMIT " + from + ", 6";
     
     return this.storage.executeSql(query, []).then(data => {
       let result = [];
       if (data.rows.length > 0) {
         for (var i = 0; i < data.rows.length; i++) {
           result.push({ 
-            category_id: data.rows.item(i).categoryId,
-            display_title: data.rows.item(i).display_title,
-            categoryimg: data.rows.item(i).name
+            id: data.rows.item(i).id,
+            name: data.rows.item(i).name
           });
         }
       }
@@ -404,18 +416,16 @@ export class DbService {
     });
   }    
   //Product page start------
-  loadProducts(categoryId, group_id, from){
-    let query = "SELECT DISTINCT Product.id AS productId, Product.group" + group_id + "_price as productPrice, images.name as productImg, Product.* FROM Product, ProdCat, ProductCategory, images WHERE ProductCategory.product_id = Product.id AND ProductCategory.category_id = ProdCat.id AND Product.parent_id <= 0 AND Product.web_ready = '1' AND ProductCategory.category_id = " +  categoryId + " AND Product.group2_price > 0 AND images.ref_id = Product.id ORDER BY due_date desc, new_product desc, new_date desc, id desc, code limit " + from + ", 6";
-    
+  getProducts(categoryId, group_id, from){
+    let query = "SELECT DISTINCT Product.id AS productId, Product.group" + group_id + "_price as productPrice,  Product.* FROM Product, ProdCat, ProductCategory WHERE ProductCategory.product_id = Product.id AND ProductCategory.category_id = ProdCat.id AND Product.parent_id <= 0 AND Product.web_ready = '1' AND ProductCategory.category_id = " +  categoryId + " AND Product.group2_price > 0 ORDER BY datetime(due_date) DESC, new_product DESC, datetime(new_date) DESC, id DESC, code LIMIT " + from + ", 15";
     return this.storage.executeSql(query, []).then(data => {
       let result = [];
       if (data.rows.length > 0) {
         for (var i = 0; i < data.rows.length; i++) {
           result.push({ 
-            productId: data.rows.item(i).dis_id,
+            productId: data.rows.item(i).productId,
             productPrice: data.rows.item(i).productPrice,
             productName: data.rows.item(i).name,
-            productImg: data.rows.item(i).productImg,
             productDimension: data.rows.item(i).dimension,
             productBarCode: data.rows.item(i).barcode,
             productMaterials: data.rows.item(i).materials,
@@ -429,6 +439,9 @@ export class DbService {
             productImportantInfo: data.rows.item(i).important_information,
             productDescription: data.rows.item(i).description,
             productShortDescription: data.rows.item(i).short_description,
+            productQtySlab: data.rows.item(i).qty_slab1,
+            productPriceSlab: data.rows.item(i).price_slab1,
+            productPreOrder: data.rows.item(i).pre_order,
             remainQty: data.rows.item(i).quantity
           });
         }

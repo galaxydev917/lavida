@@ -9,12 +9,12 @@
 <ion-content>
   <ion-grid *ngIf="img_dir != ''">
     <ion-row>
-      <ion-col *ngFor="let item of categorylist" size="6" [routerLink]="['/product', item.category_id]">
+      <ion-col *ngFor="let item of categorylist" size="6" [routerLink]="['/product', item.id]">
         <ion-card>
-          <div class="card-center-image" [ngStyle]="{'background-image':'url('+ img_dir + item.categoryimg +')'}">
+          <div class="card-center-image" [ngStyle]="{'background-image':'url('+ img_dir + item.image.name +')'}">
             <div class="card-center-bg">
               <div class="card-center-text">
-                <p class="title">{{item.display_title}}</p>
+                <p class="title">{{item.name}}</p>
               </div>
             </div>
             
@@ -23,5 +23,11 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-
+  <ion-infinite-scroll (ionInfinite)="loadMore($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Loading more data..."
+    >
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>
