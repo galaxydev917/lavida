@@ -7,6 +7,7 @@ import { DbService } from "./services/sqlite/db.service";
 import { CustomerService } from "./services/online/customer/customer.service";
 import { StorageService } from "./services/storage/storage.service";
 import { ImportService } from "./services/online/import/import.service";
+import { ExportService } from "./services/online/export/export.service";
 
 import {
   FileTransfer,
@@ -121,6 +122,7 @@ export class AppComponent {
     private storageService: StorageService,
     public customerService: CustomerService,
     public importService: ImportService,
+    public exportService: ExportService,
     private file: File,
     private transfer: FileTransfer,
     private router: Router,
@@ -246,12 +248,15 @@ export class AppComponent {
 
   gotoAccountSubPage(url) {
     if(url == "/fromserver")
-      this.syncConfirmAlert();
+      this.syncFromServerConfirm();
+    else if(url == '/toserver')  
+      this.syncToServerConfirm();
     else  
       this.router.navigate([url]);
   }
 
-  async syncConfirmAlert() {
+
+  async syncFromServerConfirm() {
     this.alertController.create({
       header: 'Sync Data',
       message: 'Sync local data from server',
@@ -265,6 +270,29 @@ export class AppComponent {
           text: 'Sync',
           handler: (data: any) => {
             this.importService.checkExistNewCategory();
+          }
+        }
+      ],
+      backdropDismiss: false
+
+    }).then(res => {
+      res.present();
+    });
+  }
+  async syncToServerConfirm() {
+    this.alertController.create({
+      header: 'Sync Data',
+      message: 'Sync local data to server',
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: (data: any) => {
+          }
+        },
+        {
+          text: 'Sync',
+          handler: (data: any) => {
+            this.exportService.exportToServer();
           }
         }
       ],

@@ -3,6 +3,7 @@ import { config } from '../../../config/config';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import {  throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
+import { DbService } from '../../sqlite/db.service';
 
 const api_baseUrl = config.api_baseUrl;
 
@@ -16,7 +17,9 @@ export class ExportService {
       'Content-Type': 'application/json'
     })
   }
-  constructor(private http: HttpClient) { }
+  constructor(
+    public http: HttpClient,
+    public db: DbService) { }
 
   handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
@@ -65,5 +68,18 @@ export class ExportService {
         retry(2),
         catchError(this.handleError)
       )
-  }    
+  }  
+  
+  getLastRegDateFromServer(){
+    return this.http.get<any>(api_baseUrl + `/getlastregdate`);
+
+  }
+  
+  exportToServer(){
+    this.getLastRegDateFromServer().subscribe(async result => {
+      console.log(result);
+    },err => {
+      alert("Error: Couldn't get last reg_date of order.");
+    });
+  }
 }
