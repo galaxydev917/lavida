@@ -230,7 +230,106 @@ export class DbService {
       }
     });
   }
+  getOrderMasterByRegDate(reg_date) {
+    let query = "SELECT * FROM OrderMaster WHERE datetime(order_date) > datetime('"+ reg_date + "')";
+    return this.storage.executeSql(query, []).then(data => {
+      let result = [];
+      if (data.rows.length > 0) {
+        for (var i = 0; i < data.rows.length; i++) {
+          result.push({ 
+            order_date: data.rows.item(i).order_date,
+            user_id: data.rows.item(i).user_id,
+            order_amount: data.rows.item(i).order_amount,
+            comments: data.rows.item(i).comments,
+            ship_first_name: data.rows.item(i).ship_first_name,
+            ship_last_name: data.rows.item(i).ship_last_name,
+            ship_email: data.rows.item(i).ship_email,
+            ship_address1: data.rows.item(i).ship_address1,
+            ship_address2: data.rows.item(i).ship_address2,
+            ship_city: data.rows.item(i).ship_city,
+            ship_state: data.rows.item(i).ship_state,
+            ship_country: data.rows.item(i).ship_country,
+            ship_phone: data.rows.item(i).ship_phone,
+            ship_zip: data.rows.item(i).ship_zip,
+            ship_company: data.rows.item(i).ship_company
+          });
+        }
+      }
+      return result;
+    });
+  }
+  getOrderDetailList(reg_date){
+    let query = "SELECT * FROM OrderDetails WHERE order_id IN (SELECT id FROM OrderMaster WHERE datetime(order_date) > datetime('"+ reg_date + "'))";
+    return this.storage.executeSql(query, []).then(data => {
+      let result = [];
+      if (data.rows.length > 0) {
+        for (var i = 0; i < data.rows.length; i++) {
+          result.push({ 
+            order_id: data.rows.item(i).order_id,
+            product_id: data.rows.item(i).product_id,
+            qty: data.rows.item(i).qty,
+            price: data.rows.item(i).price,
+            product_code: data.rows.item(i).product_code,
+            product_name: data.rows.item(i).product_name,
+            backorder_qty: data.rows.item(i).backorder_qty,
+          });
+        }
+      }
+      return result;
+    });
 
+  }
+
+  getSavedOrderMasterByRegDate(reg_date) {
+    let query = "SELECT * FROM saveordermaster WHERE datetime(order_date) > datetime('"+ reg_date + "')";
+    return this.storage.executeSql(query, []).then(data => {
+      let result = [];
+      if (data.rows.length > 0) {
+        for (var i = 0; i < data.rows.length; i++) {
+          result.push({ 
+            order_date: data.rows.item(i).order_date,
+            user_id: data.rows.item(i).user_id,
+            order_amount: data.rows.item(i).order_amount,
+            comments: data.rows.item(i).comments,
+            ship_first_name: data.rows.item(i).ship_first_name,
+            ship_last_name: data.rows.item(i).ship_last_name,
+            ship_email: data.rows.item(i).ship_email,
+            ship_address1: data.rows.item(i).ship_address1,
+            ship_address2: data.rows.item(i).ship_address2,
+            ship_city: data.rows.item(i).ship_city,
+            ship_state: data.rows.item(i).ship_state,
+            ship_country: data.rows.item(i).ship_country,
+            ship_phone: data.rows.item(i).ship_phone,
+            ship_zip: data.rows.item(i).ship_zip,
+            ship_company: data.rows.item(i).ship_company
+          });
+        }
+      }
+      return result;
+    });
+  }
+  getSavedOrderDetailList(reg_date){
+    let query = "SELECT * FROM saveorderdetails WHERE order_id IN (SELECT id FROM saveordermaster WHERE datetime(order_date) > datetime('"+ reg_date + "'))";
+    return this.storage.executeSql(query, []).then(data => {
+      let result = [];
+      if (data.rows.length > 0) {
+        for (var i = 0; i < data.rows.length; i++) {
+          result.push({ 
+            order_id: data.rows.item(i).order_id,
+            product_id: data.rows.item(i).product_id,
+            qty: data.rows.item(i).qty,
+            price: data.rows.item(i).price,
+            product_code: data.rows.item(i).product_code,
+            product_name: data.rows.item(i).product_name,
+            backorder_qty: data.rows.item(i).backorder_qty,
+
+          });
+        }
+      }
+      return result;
+    });
+
+  }
   addToSqlite(insert_query, data){
     return this.storage.executeSql(insert_query, data)
     .then(res => {

@@ -17,6 +17,11 @@ export class ExportService {
       'Content-Type': 'application/json'
     })
   }
+  exportOrderMasterList = [];
+  exportOrderDetailList = [];
+  exportsavedOrderMasterList = [];
+  exportsavedOrderDetailList = [];
+
   constructor(
     public http: HttpClient,
     public db: DbService) { }
@@ -72,12 +77,44 @@ export class ExportService {
   
   getLastRegDateFromServer(){
     return this.http.get<any>(api_baseUrl + `/getlastregdate`);
-
   }
   
+  updateOnlineFromLocal(param){
+    return this.http
+    .post<any>(api_baseUrl + '/updatefromlocal', JSON.stringify(param))
+    .pipe(
+      retry(2),
+      catchError(this.handleError)
+    )
+  }
+
   exportToServer(){
     this.getLastRegDateFromServer().subscribe(async result => {
-      console.log(result);
+          console.log("exportOrderMasterList====", this.exportOrderMasterList);
+          console.log("exportOrderDetailList====", this.exportOrderDetailList);
+
+      // this.db.getDatabaseState().subscribe(async (res) => {
+      //   if(res){
+      //     this.exportOrderMasterList = await this.db.getOrderMasterByRegDate(result.orderRegDate);
+      //     this.exportOrderDetailList = await this.db.getOrderDetailList(result.orderRegDate);
+      //     this.exportsavedOrderMasterList = await this.db.getSavedOrderMasterByRegDate(result.savedOrderRegDate);
+      //     this.exportsavedOrderDetailList = await this.db.getSavedOrderDetailList(result.savedOrderRegDate);
+
+      //     var param = {
+      //       orderMasterList: this.exportOrderMasterList,
+      //       orderDetailList: this.exportOrderDetailList,
+      //       savedOrderMaster: this.exportsavedOrderMasterList,
+      //       savedOrderDetail: this.exportsavedOrderDetailList
+      //     };
+      //     this.updateOnlineFromLocal(param).subscribe(async result => {
+      //       console.log(result);
+      //     }
+      //     ,err => {
+      //       alert("Error: Couldn't update to online.");
+      //     });
+      //   }
+      // });  
+  
     },err => {
       alert("Error: Couldn't get last reg_date of order.");
     });
