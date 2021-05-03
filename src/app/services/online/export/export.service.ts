@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 import {  throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
 import { DbService } from '../../sqlite/db.service';
+import { LoadingController} from '@ionic/angular';
 
 const api_baseUrl = config.api_baseUrl;
 
@@ -21,9 +22,11 @@ export class ExportService {
   exportOrderDetailList = [];
   exportsavedOrderMasterList = [];
   exportsavedOrderDetailList = [];
+  loadingCtrl : any;
 
   constructor(
     public http: HttpClient,
+    public loadingController: LoadingController,
     public db: DbService) { }
 
   handleError(error: HttpErrorResponse) {
@@ -88,34 +91,39 @@ export class ExportService {
     )
   }
 
-  exportToServer(){
+  async exportToServer(){
+    this.loadingCtrl = await this.loadingController.create({
+      message: 'Syncing To Server...',
+    });
+    await this.loadingCtrl.present();
+
     this.getLastRegDateFromServer().subscribe(async result => {
-          console.log("exportOrderMasterList====", this.exportOrderMasterList);
-          console.log("exportOrderDetailList====", this.exportOrderDetailList);
 
-      // this.db.getDatabaseState().subscribe(async (res) => {
-      //   if(res){
-      //     this.exportOrderMasterList = await this.db.getOrderMasterByRegDate(result.orderRegDate);
-      //     this.exportOrderDetailList = await this.db.getOrderDetailList(result.orderRegDate);
-      //     this.exportsavedOrderMasterList = await this.db.getSavedOrderMasterByRegDate(result.savedOrderRegDate);
-      //     this.exportsavedOrderDetailList = await this.db.getSavedOrderDetailList(result.savedOrderRegDate);
+      this.db.getDatabaseState().subscribe(async (res) => {
+        if(res){
+          this.exportOrderMasterList = await this.db.getOrderMasterByRegDate(result.orderRegDate);
+          this.exportOrderDetailList = await this.db.getOrderDetailList(result.orderRegDate);
+          this.exportsavedOrderMasterList = await this.db.getSavedOrderMasterByRegDate(result.savedOrderRegDate);
+          this.exportsavedOrderDetailList = await this.db.getSavedOrderDetailList(result.savedOrderRegDate);
 
-      //     var param = {
-      //       orderMasterList: this.exportOrderMasterList,
-      //       orderDetailList: this.exportOrderDetailList,
-      //       savedOrderMaster: this.exportsavedOrderMasterList,
-      //       savedOrderDetail: this.exportsavedOrderDetailList
-      //     };
-      //     this.updateOnlineFromLocal(param).subscribe(async result => {
-      //       console.log(result);
-      //     }
-      //     ,err => {
-      //       alert("Error: Couldn't update to online.");
-      //     });
-      //   }
-      // });  
+          var param = {
+            orderMasterList: this.exportOrderMasterList,
+            orderDetailList: this.exportOrderDetailList,
+            savedOrderMaster: this.exportsavedOrderMasterList,
+            savedOrderDetail: this.exportsavedOrderDetailList
+          };
+          this.updateOnlineFromLocal(param).subscribe(async result => {
+            this.loadingCtrl.dismiss();
+          }
+          ,err => {
+            this.loadingCtrl.dismiss();
+            alert("Error: Couldn't update to online.");
+          });
+        }
+      });  
   
     },err => {
+      this.loadingCtrl.dismiss();
       alert("Error: Couldn't get last reg_date of order.");
     });
   }
