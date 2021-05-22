@@ -29,9 +29,10 @@
             <div class="product-image-div"
             (click)="gotoDetail(item)">
                <ion-img  [src]="img_dir + item.image[0].name" class="product-image"></ion-img>
-              <img *ngIf="item.ribbonStatus == 'new'" src="../assets/imgs/new.png" class="ribbon-img" />
+               <img src="../assets/imgs/clearance.png" class="ribbon-img" />
+              <!-- <img *ngIf="item.ribbonStatus == 'new'" src="../assets/imgs/new.png" class="ribbon-img" />
               <img *ngIf="item.ribbonStatus == 'sale'" src="../assets/imgs/sale.png" class="ribbon-img" />
-              <img *ngIf="item.ribbonStatus == 'pre_order'" src="../assets/imgs/preorder.png" class="ribbon-img" />
+              <img *ngIf="item.ribbonStatus == 'pre_order'" src="../assets/imgs/preorder.png" class="ribbon-img" /> -->
 
             </div>   
           </div>
@@ -42,9 +43,10 @@
                 (click)="gotoDetail(item)">
                 <ion-img  [src]="img_dir + item.image[0].name" class="product-image"></ion-img>
                 <div *ngIf="i == 0">
-                  <img *ngIf="item.ribbonStatus == 'new'" src="../assets/imgs/new.png" class="ribbon-img" />
+                  <img src="../assets/imgs/clearance.png" class="ribbon-img" />
+                  <!-- <img *ngIf="item.ribbonStatus == 'new'" src="../assets/imgs/new.png" class="ribbon-img" />
                   <img *ngIf="item.ribbonStatus == 'sale'" src="../assets/imgs/sale.png" class="ribbon-img" />
-                  <img *ngIf="item.ribbonStatus == 'pre_order'" src="../assets/imgs/preorder.png" class="ribbon-img" />
+                  <img *ngIf="item.ribbonStatus == 'pre_order'" src="../assets/imgs/preorder.png" class="ribbon-img" /> -->
                 </div>
               </div>
             </ion-slide>

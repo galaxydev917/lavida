@@ -104,14 +104,14 @@ export class NewArrivalPage implements OnInit {
     this.placeholder_qty = minQty;
     var qtyList = [];
     for(var i= minQty; i<100; i++){
-      if(product.productCartonQty == i)
-        this.placeholder_qty = i;
+      // if(product.productCartonQty == i)
+      //   this.placeholder_qty = i;
 
       qtyList.push(i);
       if(i >= product.productCartonQty && product.productCartonQty > 1)
-        i += product.productCartonQty;
+        i = i + product.productCartonQty -1;
       else
-        i += minQty  
+        i = i + minQty -1;  
     }
    return qtyList;
   }

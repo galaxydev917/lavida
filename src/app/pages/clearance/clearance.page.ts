@@ -65,23 +65,23 @@ export class ClearancePage implements OnInit {
     this.db.getDatabaseState().subscribe(async (res) => {
       if(res){
 
-        this.loadMore_productList = await this.db.loadClearanceProducts(this.loginedUser.group_id, this.from_limitVal);
+        this.loadMore_productList = await this.db.getClearanceProducts(this.loginedUser.group_id, this.from_limitVal);
         for(var i=0; i<this.loadMore_productList.length; i++){
           this.loadMore_productList[i].qty_dropdownList = this.getQtyList(this.loadMore_productList[i]);
           this.loadMore_productList[i].placeholder_qty = this.placeholder_qty;
           this.loadMore_productList[i].bulkPrice = this.loadMore_productList[i].productPrice;
           this.loadMore_productList[i].image = await this.db.getProductImagesById(this.loadMore_productList[i].productId);
 
-          var ribbonData = await this.db.getDataForRibbon(this.loadMore_productList[i].productId);
+          // var ribbonData = await this.db.getDataForRibbon(this.loadMore_productList[i].productId);
           
-          if(ribbonData[0].new_product == 1)
-            this.loadMore_productList[i].ribbonStatus = "new";
-          else if(ribbonData[0].group2_special_price > 0 || ribbonData[0].group2_special_discount > 0)
-            this.loadMore_productList[i].ribbonStatus = "sale";
-          else if(ribbonData[0].pre_order > 0 || ribbonData[0].pre_order > 0)
-            this.loadMore_productList[i].ribbonStatus = "pre_order";
-          else
-            this.loadMore_productList[i].ribbonStatus = "";
+          // if(ribbonData[0].new_product == 1)
+          //   this.loadMore_productList[i].ribbonStatus = "new";
+          // else if(ribbonData[0].group2_special_price > 0 || ribbonData[0].group2_special_discount > 0)
+          //   this.loadMore_productList[i].ribbonStatus = "sale";
+          // else if(ribbonData[0].pre_order > 0 || ribbonData[0].pre_order > 0)
+          //   this.loadMore_productList[i].ribbonStatus = "pre_order";
+          // else
+          //   this.loadMore_productList[i].ribbonStatus = "";
 
           this.productList.push(this.loadMore_productList[i]);
         }
@@ -154,18 +154,17 @@ export class ClearancePage implements OnInit {
     this.placeholder_qty = minQty;
     var qtyList = [];
     for(var i= minQty; i<100; i++){
-      if(product.productCartonQty == i)
-        this.placeholder_qty = i;
+      // if(product.productCartonQty == i)
+      //   this.placeholder_qty = i;
 
       qtyList.push(i);
       if(i >= product.productCartonQty && product.productCartonQty > 1)
-        i += product.productCartonQty;
+        i = i + product.productCartonQty -1;
       else
-        i += minQty  
+        i = i + minQty -1;  
     }
    return qtyList;
   }
-
   pathForImage(img) {
     if (img === null) {
       return '';

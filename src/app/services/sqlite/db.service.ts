@@ -583,7 +583,7 @@ export class DbService {
       return result;
     });
   }
-  async loadClearanceProducts(group_id, from){
+  async getClearanceProducts(group_id, from){
 
     let query = "SELECT DISTINCT `Product`.`id` AS `dis_id`, `Product`.*, Product.group" + group_id + "_price as productPrice FROM `Product`, `ProdCat`, `ProductCategory` WHERE `ProductCategory`.`product_id` = `Product`.`id` AND `ProductCategory`.`category_id` = `ProdCat`.`id` AND Product.parent_id <= 0 AND Product.web_ready = '1' AND ProductCategory.category_id = 47 AND Product.group2_price > 0 ORDER BY datetime(due_date) DESC, new_product desc, datetime(new_date) DESC, id desc, code limit " + from + ", 30";
     return this.storage.executeSql(query, []).then(data => {
@@ -604,14 +604,20 @@ export class DbService {
             productShortDescription: data.rows.item(i).short_description,
             productQtySlab: data.rows.item(i).qty_slab1,
             productPriceSlab: data.rows.item(i).price_slab1,
-            remainQty: data.rows.item(i).quantity
+            remainQty: data.rows.item(i).quantity,
+            productCartonQty: data.rows.item(i).FT_CARTON_QTY,
+            productWeight: data.rows.item(i).FT_WEIGHT,
+            productLength: data.rows.item(i).FT_LENGTH,
+            productWidth: data.rows.item(i).FT_WIDTH,
+            productHeight: data.rows.item(i).FT_HEIGHT,
+
           });
         }
       }
       return result;
     });
   }  
-  async loadSpecialProducts(group_id, from){
+  async getSpecialProducts(group_id, from){
 
     let query = "SELECT DISTINCT `Product`.`id` AS `dis_id`, `Product`.*, Product.group" + group_id + "_price as productPrice FROM `Product`, `ProdCat`, `ProductCategory` WHERE `ProductCategory`.`product_id` = `Product`.`id` AND `ProductCategory`.`category_id` = `ProdCat`.`id` AND Product.web_ready='1' AND Product.parent_id <= '0' AND ProdCat.portal1='1' AND (Product.group" + group_id + "_special_price > 0 || Product.group"+ group_id +"_special_discount > 0) AND ProdCat.id!='47' ORDER BY datetime(due_date) DESC, new_product DESC, datetime(new_date) DESC, id DESC, code LIMIT " + from + ", 30";
     return this.storage.executeSql(query, []).then(data => {
@@ -632,6 +638,12 @@ export class DbService {
             productShortDescription: data.rows.item(i).short_description,
             productQtySlab: data.rows.item(i).qty_slab1,
             productPriceSlab: data.rows.item(i).price_slab1,
+            productCartonQty: data.rows.item(i).FT_CARTON_QTY,
+            productWeight: data.rows.item(i).FT_WEIGHT,
+            productLength: data.rows.item(i).FT_LENGTH,
+            productWidth: data.rows.item(i).FT_WIDTH,
+            productHeight: data.rows.item(i).FT_HEIGHT,
+
 
           });
         }

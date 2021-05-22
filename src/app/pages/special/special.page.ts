@@ -69,7 +69,7 @@ export class SpecialPage implements OnInit {
     this.db.getDatabaseState().subscribe(async (res) => {
       if(res){
 
-        this.loadMore_productList = await this.db.loadSpecialProducts(this.loginedUser.group_id, this.from_limitVal);
+        this.loadMore_productList = await this.db.getSpecialProducts(this.loginedUser.group_id, this.from_limitVal);
         for(var i=0; i<this.loadMore_productList.length; i++){
           this.loadMore_productList[i].qty_dropdownList = this.getQtyList(this.loadMore_productList[i]);
           this.loadMore_productList[i].placeholder_qty = this.placeholder_qty;
@@ -137,6 +137,7 @@ export class SpecialPage implements OnInit {
   }
 
   changePrice(e, productIndex){
+    console.log(this.productList[productIndex].productId);
     this.selectedQty = e.detail.value;
     if(this.selectedQty >= this.productList[productIndex].productQtySlab && this.productList[productIndex].productQtySlab > 0)
       this.productList[productIndex].bulkPrice = this.productList[productIndex].productPriceSlab;
@@ -151,14 +152,14 @@ export class SpecialPage implements OnInit {
     this.placeholder_qty = minQty;
     var qtyList = [];
     for(var i= minQty; i<100; i++){
-      if(product.productCartonQty == i)
-        this.placeholder_qty = i;
+      // if(product.productCartonQty == i)
+      //   this.placeholder_qty = i;
 
       qtyList.push(i);
       if(i >= product.productCartonQty && product.productCartonQty > 1)
-        i += product.productCartonQty;
+        i = i + product.productCartonQty -1;
       else
-        i += minQty  
+        i = i + minQty -1;  
     }
    return qtyList;
   }
