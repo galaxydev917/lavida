@@ -45,11 +45,7 @@ export class NewArrivalPage implements OnInit {
     public toastController: ToastController
   ) { }
 
-  ngOnInit() {
-
-  }
-
-  async ionViewWillEnter(){
+  async ngOnInit() {
     this.loginedUser = await this.storageService.getObject('loginedUser');
     this.cartProductList = await this.storageService.getObject(config.cart_products);
     this.isLoading = true;
@@ -68,6 +64,10 @@ export class NewArrivalPage implements OnInit {
       this.isLoggedIn = true;
       this.getNewProducts(false, "");
     }
+  }
+
+  async ionViewWillEnter(){
+
 
   }
   async getNewProducts(isFirstLoad, event){

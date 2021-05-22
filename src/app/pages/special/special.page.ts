@@ -40,11 +40,7 @@ export class SpecialPage implements OnInit {
 
   ) { }
 
-  ngOnInit() {
-
-  }
-
-  async ionViewWillEnter(){
+  async ngOnInit() {
     this.loginedUser = await this.storageService.getObject('loginedUser');
     this.img_dir = this.pathForImage(this.file.documentsDirectory + 'product_img/');
     this.cartProductList = await this.storageService.getObject(config.cart_products);
@@ -64,6 +60,10 @@ export class SpecialPage implements OnInit {
       this.isLoggedIn = true;
       this.getProducts(false, "");
     }
+
+  }
+
+  async ionViewWillEnter(){
   }
   async getProducts(isFirstLoad, event){
     this.db.getDatabaseState().subscribe(async (res) => {

@@ -42,11 +42,7 @@ export class CategoryPage implements OnInit {
     public customerService: CustomerService
   ) { }
 
-  ngOnInit() {
-
-  }
-
-  async ionViewWillEnter(){
+  async ngOnInit() {
     this.img_dir = this.pathForImage(this.file.documentsDirectory + 'prod_cat_img/');
     this.loginedUser = await this.storageService.getObject('loginedUser');
     this.cartProductList = await this.storageService.getObject(config.cart_products);
@@ -65,6 +61,10 @@ export class CategoryPage implements OnInit {
       this.isLoggedIn = true;
       this.getCategoryList(false, "");
     }
+  }
+
+  async ionViewWillEnter(){
+
 
   }
 
