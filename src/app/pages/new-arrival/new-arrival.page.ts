@@ -74,7 +74,7 @@ export class NewArrivalPage implements OnInit {
     this.db.getDatabaseState().subscribe(async (res) => {
       if(res){
 
-        this.loadMore_productList = await this.db.loadNewProducts(this.loginedUser.group_id, this.from_limitVal);
+        this.loadMore_productList = await this.db.getNewProducts(this.loginedUser.group_id, this.from_limitVal);
         for(var i=0; i<this.loadMore_productList.length; i++){
           this.loadMore_productList[i].qty_dropdownList = this.getQtyList(this.loadMore_productList[i]);
           this.loadMore_productList[i].placeholder_qty = this.placeholder_qty;
