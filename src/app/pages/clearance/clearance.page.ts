@@ -40,15 +40,8 @@ export class ClearancePage implements OnInit {
   async ngOnInit() {
     this.loginedUser = await this.storageService.getObject('loginedUser');
     this.img_dir = this.pathForImage(this.file.documentsDirectory + 'product_img/');
-    this.cartProductList = await this.storageService.getObject(config.cart_products);
 
     this.isLoading = true;
-
-    if(this.cartProductList == null){
-      this.cartProductList = [];
-      this.cartBadgeCount = 0;
-    }else
-      this.cartBadgeCount = this.cartProductList.length;  
 
     if(!this.loginedUser){
       this.isLoggedIn = false;
@@ -60,8 +53,15 @@ export class ClearancePage implements OnInit {
   }
 
   async ionViewWillEnter(){
+    this.cartProductList = await this.storageService.getObject(config.cart_products);
 
+    if(this.cartProductList == null){
+      this.cartProductList = [];
+      this.cartBadgeCount = 0;
+    }else
+      this.cartBadgeCount = this.cartProductList.length;  
   }
+
   async getProducts(isFirstLoad, event){
     this.db.getDatabaseState().subscribe(async (res) => {
       if(res){

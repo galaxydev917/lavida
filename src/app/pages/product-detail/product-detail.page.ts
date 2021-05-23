@@ -46,7 +46,6 @@ export class ProductDetailPage implements OnInit {
         this.product = this.router.getCurrentNavigation().extras.state.product;
         this.product.bulkPrice = this.product.productPrice;
         this.cartProductList = await this.storageService.getObject(config.cart_products);
-        console.log(this.product);
       }
     });
 

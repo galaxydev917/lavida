@@ -46,8 +46,6 @@ export class SpecialPage implements OnInit {
 
     this.isLoading = true;
 
-
-
     if(!this.loginedUser){
       this.isLoggedIn = false;
       this.isLoading = false;
@@ -67,7 +65,7 @@ export class SpecialPage implements OnInit {
     }else
       this.cartBadgeCount = this.cartProductList.length;  
   }
-  
+
   async getProducts(isFirstLoad, event){
     this.db.getDatabaseState().subscribe(async (res) => {
       if(res){

@@ -47,14 +47,7 @@ export class NewArrivalPage implements OnInit {
 
   async ngOnInit() {
     this.loginedUser = await this.storageService.getObject('loginedUser');
-    this.cartProductList = await this.storageService.getObject(config.cart_products);
     this.isLoading = true;
-
-    if(this.cartProductList == null){
-      this.cartProductList = [];
-      this.cartBadgeCount = 0;
-    }else
-      this.cartBadgeCount = this.cartProductList.length;  
 
     this.img_dir = this.pathForImage(this.file.documentsDirectory + 'product_img/');
     if(!this.loginedUser){
@@ -67,9 +60,15 @@ export class NewArrivalPage implements OnInit {
   }
 
   async ionViewWillEnter(){
+    this.cartProductList = await this.storageService.getObject(config.cart_products);
 
-
+    if(this.cartProductList == null){
+      this.cartProductList = [];
+      this.cartBadgeCount = 0;
+    }else
+      this.cartBadgeCount = this.cartProductList.length;  
   }
+  
   async getNewProducts(isFirstLoad, event){
     this.db.getDatabaseState().subscribe(async (res) => {
       if(res){
