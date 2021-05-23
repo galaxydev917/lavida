@@ -12,8 +12,12 @@ import { Router} from '@angular/router';
 export class CustomerPage implements OnInit {
   customerlist = [];
   customer_sectionlist = [];
+  loadMore_customerList = [];
   loginedUser : any;
   maxId = 0;
+  isLoading = false;
+  from_limitVal = 0;
+
   constructor(
     private router: Router,
     public db: DbService,
@@ -25,24 +29,31 @@ export class CustomerPage implements OnInit {
   }
 
   async ionViewWillEnter(){
+    this.loginedUser = await this.storageService.getObject('loginedUser');
+
+    this.isLoading = true;
+    this.getCustomerList(false, "");
+  }
+
+  async loadMore(event){
+    this.getCustomerList(true, event);
+  }
+
+  async getCustomerList(isFirstLoad, event){
     this.db.getDatabaseState().subscribe(async (res) => {
       if(res){
-        this.getCustomerList();
+
+        this.loadMore_customerList = await this.db.getCustomers(this.loginedUser.id, this.from_limitVal);
+        for(var i=0; i<this.loadMore_customerList.length; i++){
+          this.customerlist.push(this.loadMore_customerList[i]);
+        }
+        this.isLoading = false;
+        if (isFirstLoad)
+          event.target.complete();
+          
+        this.from_limitVal = this.from_limitVal + 30;  
       }
     });  
-  }
-  loadMore(){
-    this.maxId = this.customerlist[this.customerlist.length - 1].customerId;
-    this.getCustomerList();
-  }
-  async getCustomerList(){
-    this.loginedUser = await this.storageService.getObject("loginedUser");
-
-    this.customerlist = await this.db.loadCustomers(this.loginedUser.id, this.maxId);
-    for( var i=0; i<this.customerlist.length; i++){
-      this.customer_sectionlist.push(this.customerlist[i]);
-    }
-    console.log(this.customer_sectionlist);
   }
 
   async login(customerId){

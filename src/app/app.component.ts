@@ -48,10 +48,6 @@ export class AppComponent {
     {
       title: "Shop All Categories",
       url: "/category"
-    },
-    {
-      title: "About US",
-      url: "/about-us"
     }
   ];
 
@@ -75,10 +71,6 @@ export class AppComponent {
     {
       title: "Clearance",
       url: "/clearance"
-    },
-    {
-      title: "About US",
-      url: "/about-us"
     }
   ];
   public account_subMenus = [

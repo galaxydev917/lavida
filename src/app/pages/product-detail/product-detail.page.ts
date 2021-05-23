@@ -46,6 +46,8 @@ export class ProductDetailPage implements OnInit {
         this.product = this.router.getCurrentNavigation().extras.state.product;
         this.product.bulkPrice = this.product.productPrice;
         this.cartProductList = await this.storageService.getObject(config.cart_products);
+        if(this.cartProductList == null)
+          this.cartProductList = [];
       }
     });
 
@@ -56,8 +58,7 @@ export class ProductDetailPage implements OnInit {
 
   //   }, 1000);
   // }
-  ionViewWillEnter(){
-
+  async ionViewWillEnter(){
   }
   changePrice(e){
     this.selectedQty = e.detail.value;
