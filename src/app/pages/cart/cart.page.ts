@@ -219,7 +219,7 @@ export class CartPage implements OnInit {
     if (this.isEmptyCart) return;
     this.alertController
       .create({
-        header: "Confrim",
+        header: "Confirm",
         message: "Are you sure clear cart?",
         buttons: [
           {
@@ -275,7 +275,7 @@ export class CartPage implements OnInit {
     };
     this.exportService.saveOrderMaster({ orderMasterInfo: orderMasterInfo }).subscribe(async result => {
       this.exportService.saveOrderDetail({ orderMasterId: result.insertedId, orderDetailInfo: this.cartProductList }).subscribe(async result => {
-        console.log(result);
+        this.router.navigate(["/savedorders"]);
         loading.dismiss();
       },err => {
         loading.dismiss();

@@ -14,7 +14,7 @@
   <ion-list >
     <ion-item *ngFor="let item of customerlist">
       <ion-label>{{item.company}}</ion-label>
-      <ion-button *ngIf="this.loginedUser.id != item.customerId" slot="end" (click)="login(item.customerId)">Login</ion-button>
+      <ion-button *ngIf="this.loginedUser.id != item.customerId" slot="end" (click)="login(item)">Login</ion-button>
     </ion-item>
   </ion-list>
   <ion-infinite-scroll (ionInfinite)="loadMore($event)">

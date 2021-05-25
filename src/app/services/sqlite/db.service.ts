@@ -171,6 +171,32 @@ export class DbService {
         group_id: res.rows.item(0).group_id,
         ship_state: res.rows.item(0).ship_state,
         state: res.rows.item(0).state,
+
+        first_name: res.rows.item(0).first_name,
+        last_name: res.rows.item(0).last_name,
+        email: res.rows.item(0).email,
+        phone: res.rows.item(0).phone,
+        unit: res.rows.item(0).unit,
+        address1: res.rows.item(0).address1,
+        address2: res.rows.item(0).address2,
+        city: res.rows.item(0).city,
+        country: res.rows.item(0).countryname,
+        countrykey: res.rows.item(0).countrykey,
+        tel_phone: res.rows.item(0).phone,
+        mobile_phone: res.rows.item(0).mobile,
+        zip: res.rows.item(0).zip,
+        password: res.rows.item(0).password,
+        post_code: res.rows.item(0).zip,
+        position: res.rows.item(0).position,
+        fax: res.rows.item(0).fax,
+        shop_phone: res.rows.item(0).shop_phone,
+        payment_method: res.rows.item(0).payment_method,
+        business_structure: res.rows.item(0).business_structure,
+        abn: res.rows.item(0).abn,
+        comment: res.rows.item(0).comment,
+        trading_years: res.rows.item(0).trading_years,
+        online_business: res.rows.item(0).online_business,
+        domain_name: res.rows.item(0).domain_name,           
       }
     });
   }
@@ -206,6 +232,9 @@ export class DbService {
         trading_years: res.rows.item(0).trading_years,
         online_business: res.rows.item(0).online_business,
         domain_name: res.rows.item(0).domain_name,
+        group_id: res.rows.item(0).group_id,
+        ship_state: res.rows.item(0).ship_state,
+
       }
     });
   }
@@ -655,14 +684,43 @@ export class DbService {
   getCustomers(parentId, from){
     let query = "SELECT * FROM Customer WHERE status = 2 AND parent_id = " + parentId + " ORDER BY company ASC LIMIT " + from +  ", 30";
     console.log(query);
-    return this.storage.executeSql(query, []).then(data => {
+    return this.storage.executeSql(query, []).then(res => {
       let result = [];
-      if (data.rows.length > 0) {
-        for (var i = 0; i < data.rows.length; i++) {
+      if (res.rows.length > 0) {
+        for (var i = 0; i < res.rows.length; i++) {
           result.push({ 
-            customerId: data.rows.item(i).id,
-            customerParentId: data.rows.item(i).parent_id,
-            company: data.rows.item(i).company
+            customerId: res.rows.item(i).id,
+            customerParentId: res.rows.item(i).parent_id,
+            company: res.rows.item(i).company,
+            group_id: res.rows.item(0).group_id,
+            ship_state: res.rows.item(0).ship_state,
+            id: res.rows.item(0).id,
+            first_name: res.rows.item(0).first_name,
+            last_name: res.rows.item(0).last_name,
+            email: res.rows.item(0).email,
+            phone: res.rows.item(0).phone,
+            unit: res.rows.item(0).unit,
+            address1: res.rows.item(0).address1,
+            address2: res.rows.item(0).address2,
+            city: res.rows.item(0).city,
+            country: res.rows.item(0).countryname,
+            countrykey: res.rows.item(0).countrykey,
+            tel_phone: res.rows.item(0).phone,
+            mobile_phone: res.rows.item(0).mobile,
+            state: res.rows.item(0).state,
+            zip: res.rows.item(0).zip,
+            password: res.rows.item(0).password,
+            post_code: res.rows.item(0).zip,
+            position: res.rows.item(0).position,
+            fax: res.rows.item(0).fax,
+            shop_phone: res.rows.item(0).shop_phone,
+            payment_method: res.rows.item(0).payment_method,
+            business_structure: res.rows.item(0).business_structure,
+            abn: res.rows.item(0).abn,
+            comment: res.rows.item(0).comment,
+            trading_years: res.rows.item(0).trading_years,
+            online_business: res.rows.item(0).online_business,
+            domain_name: res.rows.item(0).domain_name,            
           });
         }
       }

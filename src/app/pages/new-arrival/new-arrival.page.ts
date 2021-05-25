@@ -47,6 +47,7 @@ export class NewArrivalPage implements OnInit {
 
   async ngOnInit() {
     this.loginedUser = await this.storageService.getObject('loginedUser');
+    console.log(this.loginedUser);
     this.isLoading = true;
 
     this.img_dir = this.pathForImage(this.file.documentsDirectory + 'product_img/');

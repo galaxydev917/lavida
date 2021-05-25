@@ -56,9 +56,8 @@ export class CustomerPage implements OnInit {
     });  
   }
 
-  async login(customerId){
-    this.storageService.setObject("loginedUser", {id : customerId});
-    this.loginedUser = await this.storageService.getObject("loginedUser");
+  async login(customer){
+    this.storageService.setObject("loginedUser", customer);
     this.router.navigate(['/profile']);
   }
 
