@@ -79,6 +79,7 @@ export class NewArrivalPage implements OnInit {
           this.loadMore_productList[i].qty_dropdownList = this.getQtyList(this.loadMore_productList[i]);
           this.loadMore_productList[i].placeholder_qty = this.placeholder_qty;
           this.loadMore_productList[i].bulkPrice = this.loadMore_productList[i].productPrice;
+          console.log(this.loadMore_productList[i].productId);
           this.loadMore_productList[i].image = await this.db.getProductImagesById(this.loadMore_productList[i].productId);
           
           this.productList.push(this.loadMore_productList[i]);

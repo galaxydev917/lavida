@@ -1,8 +1,8 @@
 export const config = {
     // backend url
-    Url: 'http://aligtesting.com',
+    Url: 'https://www.lavida.com.au',
     // api enpoint base url
-    api_baseUrl: 'http://aligtesting.com/api/api_offlineapp',
+    api_baseUrl: 'https://www.lavida.com.au/api/api_offlineapp',
 
     cart_products: 'cart_products',
     delivery_addressInfo: 'delivery_addressInfo',

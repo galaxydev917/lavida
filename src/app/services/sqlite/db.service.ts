@@ -450,7 +450,7 @@ export class DbService {
     });
   }   
   //Home page start---------
-  loadHomeSlider(){
+  getHomeSlider(){
     let query = "SELECT * FROM images WHERE type = 14 AND ref_id = 1 AND curr_page='index'";
     
     return this.storage.executeSql(query, []).then(data => {

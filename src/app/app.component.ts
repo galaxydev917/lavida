@@ -135,7 +135,7 @@ export class AppComponent {
   async initialLocalDatabase() {
     this.db.getDatabaseState().subscribe(async res => {
       if (res) {
-        this.bannerImageList = await this.db.loadHomeSlider();
+        this.bannerImageList = await this.db.getHomeSlider();
         await this.downloadBannerImages(this.bannerImageList);
 
         this.productImageList = await this.db.loadProductImages();
@@ -182,7 +182,6 @@ export class AppComponent {
     this.storageService.setObject("bannerimg_initialized", true);
     loading.dismiss();
   }
-
   //get and download products and categories images
   async downloadProductImages(imageData) {
     var img_initialized = await this.storageService.getObject("prodimg_initialized");
@@ -195,7 +194,7 @@ export class AppComponent {
     const fileTransfer: FileTransferObject = this.transfer.create();
 
     for (var i = 0; i < imageData.length; i++) {
-      let url = siteurl + "/upload/product_img/resized/" + imageData[i].name;
+      let url = siteurl + "/upload/product_img/" + imageData[i].name;
 
       await this.file.checkFile(this.file.documentsDirectory + "product_img/", imageData[i].name + "/").then(async result => {
       }).catch(async err => {

@@ -69,7 +69,7 @@ export class HomePage implements OnInit {
   async getSliders(){
     this.db.getDatabaseState().subscribe(async (res) => {
       if(res){
-        this.homeSliders = await this.db.loadHomeSlider();
+        this.homeSliders = await this.db.getHomeSlider();
       }
     });  
   }
