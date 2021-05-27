@@ -136,7 +136,7 @@ export class DbService {
     });
   }
 
-  loadCategoryImages() {
+  getCategoryImages() {
    let query = 'SELECT DISTINCT images.name as name FROM images WHERE images.type = 4';
 
     return this.storage.executeSql(query, []).then(data => {

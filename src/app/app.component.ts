@@ -141,7 +141,7 @@ export class AppComponent {
         this.productImageList = await this.db.getProductImages();
         await this.downloadProductImages(this.productImageList);
 
-        this.categoryImageList = await this.db.loadCategoryImages();
+        this.categoryImageList = await this.db.getCategoryImages();
         await this.downloadCategoryImages(this.categoryImageList);
 
         this.cartSettingList = await this.db.getAllGlobalCartSetting();
