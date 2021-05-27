@@ -119,7 +119,7 @@ export class DbService {
     });
   }
 
-  loadProductImages() {
+  getProductImages() {
    let query = 'SELECT DISTINCT images.name, Product.id FROM images, Product WHERE images.ref_id = Product.id AND images.type = 1 AND Product.web_ready = 1';
 
     return this.storage.executeSql(query, []).then(data => {

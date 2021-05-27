@@ -138,7 +138,7 @@ export class AppComponent {
         this.bannerImageList = await this.db.getHomeSlider();
         await this.downloadBannerImages(this.bannerImageList);
 
-        this.productImageList = await this.db.loadProductImages();
+        this.productImageList = await this.db.getProductImages();
         await this.downloadProductImages(this.productImageList);
 
         this.categoryImageList = await this.db.loadCategoryImages();
@@ -149,10 +149,10 @@ export class AppComponent {
 
         this.loginedUser = await this.storageService.getObject("loginedUser");
 
-        if (this.loginedUser) this.loginState = true;
-        else this.loginState = false;
-
-        this.router.navigate(["/home"]);
+        if (this.loginedUser) 
+          this.router.navigate(["/home"]);
+        else 
+          this.router.navigate(["/login"]);
       }
     });
   }
