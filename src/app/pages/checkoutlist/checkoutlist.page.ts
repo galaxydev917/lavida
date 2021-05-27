@@ -58,7 +58,7 @@ export class CheckoutlistPage implements OnInit {
     this.db.getDatabaseState().subscribe(async (res) => {
       if(res){
 
-        this.loadMore_OrderList = await this.db.loadCheckoutOrders(this.loginedUser.id, this.from_limitVal);
+        this.loadMore_OrderList = await this.db.getCheckoutOrders(this.loginedUser.id, this.from_limitVal);
         for(var i=0; i<this.loadMore_OrderList.length; i++){
           this.loadMore_OrderList[i].expanded = false;
           this.loadMore_OrderList[i].details = [];

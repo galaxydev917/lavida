@@ -729,7 +729,7 @@ export class DbService {
   }
 
   //Order page start-----------
-    loadCheckoutOrders(userId, from){
+  getCheckoutOrders(userId, from){
       let query = "SELECT * FROM OrderMaster WHERE user_id = " + userId + " AND date(order_date) > date('now','-1 years') ORDER BY order_date DESC LIMIT " + from +  ", 30";
       console.log(query);
       return this.storage.executeSql(query, []).then(data => {
