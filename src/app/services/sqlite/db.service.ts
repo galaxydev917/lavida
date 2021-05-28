@@ -164,7 +164,7 @@ export class DbService {
     });
   }
   getAgentByEmailAndPwd(param): Promise<any> {
-    const query = "SELECT * FROM Customer  WHERE email = ? AND password = ? ";
+    const query = "SELECT * FROM Customer  WHERE email = ? AND password = ? AND is_sales_rep = 1";
     return this.storage.executeSql(query, [param.email, param.password]).then(res => { 
       return {
         id: res.rows.item(0).id,

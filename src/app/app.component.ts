@@ -18,7 +18,7 @@ import { config } from "./config/config";
 import { Router } from "@angular/router";
 import { CartSettingService } from "./services/global-carttsetting/cart-setting.service";
 
-const siteurl = config.Url;
+const siteurl = "https://cdn.lavida.com.au";
 
 @Component({
   selector: "app-root",
@@ -48,6 +48,10 @@ export class AppComponent {
     {
       title: "Shop All Categories",
       url: "/category"
+    },
+    {
+      title: "Login",
+      url: "/login"
     }
   ];
 
@@ -144,13 +148,15 @@ export class AppComponent {
         this.categoryImageList = await this.db.getCategoryImages();
         await this.downloadCategoryImages(this.categoryImageList);
 
-        this.cartSettingList = await this.db.getAllGlobalCartSetting();
-        this.cartSettingService.setGlobalInfo(this.cartSettingList);
 
         this.loginedUser = await this.storageService.getObject("loginedUser");
 
-        if (this.loginedUser) 
+        if (this.loginedUser){
+          this.cartSettingList = await this.db.getAllGlobalCartSetting();
+          this.cartSettingService.setGlobalInfo(this.cartSettingList);
           this.router.navigate(["/home"]);
+  
+        }
         else 
           this.router.navigate(["/login"]);
       }
@@ -186,7 +192,6 @@ export class AppComponent {
   async downloadProductImages(imageData) {
     var img_initialized = await this.storageService.getObject("prodimg_initialized");
     if(img_initialized) return;
-
     const loading = await this.loadingController.create({
       message: "Downloading Product Images..."
     });
@@ -194,7 +199,7 @@ export class AppComponent {
     const fileTransfer: FileTransferObject = this.transfer.create();
 
     for (var i = 0; i < imageData.length; i++) {
-      let url = siteurl + "/upload/product_img/" + imageData[i].name;
+      let url = siteurl + "/upload/product_img/app/" + imageData[i].name;
 
       await this.file.checkFile(this.file.documentsDirectory + "product_img/", imageData[i].name + "/").then(async result => {
       }).catch(async err => {
@@ -292,6 +297,11 @@ export class AppComponent {
     }).then(res => {
       res.present();
     });
+  }
+
+  logout(){
+    this.storageService.removeItem("loginedUser");
+    this.router.navigate(["/login"]);
   }
 }
 //ionic cordova run ios --target="A2686E38-C7E4-44EF-9E96-B7C4C3DD4DB7" --livereload
