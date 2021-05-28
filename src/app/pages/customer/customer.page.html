@@ -2,10 +2,16 @@
   <ion-toolbar style="height: 80px; align-items: center; justify-content: center; display: flex;">
     <ion-title>My Customers</ion-title>
     <ion-buttons slot="start">
-      <ion-button (click)="openMenu()" slot="start">
+      <ion-button (click)="openMenu()" >
         <ion-icon name="menu" style="font-size: 38px;"></ion-icon>
       </ion-button>
     </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="gotoSignup()">
+        <ion-icon name="add-outline" style="font-size: 38px;"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
   </ion-toolbar>
   
 </ion-header>

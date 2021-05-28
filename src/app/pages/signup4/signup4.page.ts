@@ -27,7 +27,7 @@ export class Signup4Page implements OnInit {
     {name: "Family Trust", value: "Family Trust"},
   ];
   profileInfo: any;
-
+  loginedUser : any;
   constructor(
     public formBuilder: FormBuilder,
     public router: Router,
@@ -58,6 +58,8 @@ export class Signup4Page implements OnInit {
   }
 
   async submit(value){
+    this.loginedUser = await this.storageService.getObject('loginedUser');
+
     this.profileInfo = await this.storageService.getObject(config.profileInfo);
     this.profileInfo.payment_method = value.payment_method;
     this.profileInfo.business_structure = value.business_structure;
@@ -72,7 +74,7 @@ export class Signup4Page implements OnInit {
     var rowArgs = [];
     var data = [];
     rowArgs.push("(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    data = [insertdata.abn, insertdata.address1, insertdata.address2, insertdata.business_structure, insertdata.city, insertdata.confirm_email, insertdata.confirm_password, insertdata.countrykey, insertdata.domain_name, insertdata.first_name, insertdata.last_name, insertdata.payment_method, insertdata.phone, insertdata.position, insertdata.post_code, insertdata.shop_phone, insertdata.state, insertdata.trading_years, insertdata.business_name, 1, 0, 2];
+    data = [insertdata.abn, insertdata.address1, insertdata.address2, insertdata.business_structure, insertdata.city, insertdata.confirm_email, insertdata.confirm_password, insertdata.countrykey, insertdata.domain_name, insertdata.first_name, insertdata.last_name, insertdata.payment_method, insertdata.phone, insertdata.position, insertdata.post_code, insertdata.shop_phone, insertdata.state, insertdata.trading_years, insertdata.business_name, 1, this.loginedUser.id, 2];
 
     str_query += rowArgs.join(", ");
     var insertId = await this.db.addToSqlite(str_query, data);    

@@ -683,7 +683,6 @@ export class DbService {
   //Customer page start----
   getCustomers(parentId, from){
     let query = "SELECT * FROM Customer WHERE status = 2 AND parent_id = " + parentId + " ORDER BY company ASC LIMIT " + from +  ", 30";
-    console.log(query);
     return this.storage.executeSql(query, []).then(res => {
       let result = [];
       if (res.rows.length > 0) {

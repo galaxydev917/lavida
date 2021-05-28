@@ -14,3 +14,14 @@ ion-title{
     letter-spacing: 0.1em; 
     font-size: larger;
 }
+.button-plus{
+    width: 40px;
+    height: 40px;
+    --background: transparent;
+    --color: black;
+    --border-color : #808080;
+    --border-style: solid;
+    --border-width: 1px;
+    --border-radius: 50%;
+
+}

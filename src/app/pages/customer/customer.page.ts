@@ -55,7 +55,9 @@ export class CustomerPage implements OnInit {
       }
     });  
   }
-
+  gotoSignup(){
+    this.router.navigate(["/signup-first"]);
+  }
   async login(customer){
     this.storageService.setObject("loginedUser", customer);
     this.router.navigate(['/profile']);

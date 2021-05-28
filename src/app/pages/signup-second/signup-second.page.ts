@@ -37,7 +37,7 @@ export class SignupSecondPage implements OnInit {
         Validators.required
       ])),
       address2: new FormControl('', Validators.compose([
-        Validators.required
+        // Validators.required
       ])),
       city: new FormControl('', Validators.compose([
         Validators.required
