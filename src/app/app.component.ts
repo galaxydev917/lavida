@@ -198,7 +198,9 @@ export class AppComponent {
     await loading.present();
     const fileTransfer: FileTransferObject = this.transfer.create();
 
-    for (var i = 0; i < imageData.length; i++) {
+    // for (var i = 0; i < imageData.length; i++) {
+     for (var i = 0; i < 10; i++) {
+
       let url = siteurl + "/upload/product_img/app/" + imageData[i].name;
 
       await this.file.checkFile(this.file.documentsDirectory + "product_img/", imageData[i].name + "/").then(async result => {
